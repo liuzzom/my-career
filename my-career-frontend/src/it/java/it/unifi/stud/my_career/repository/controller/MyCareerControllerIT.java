@@ -24,9 +24,8 @@ import it.unifi.stud.my_career.repository.mongo.TransactionManagerMongo;
 import it.unifi.stud.my_career.service.MyCareerService;
 import it.unifi.stud.my_career.view.MyCareerView;
 
-
 public class MyCareerControllerIT {
-	
+
 	private static final String COURSE_NAME = "APT";
 	private static final String COURSE_ID = "123";
 	private static final String STUDENT_NAME = "test1";
@@ -39,40 +38,40 @@ public class MyCareerControllerIT {
 	private static final String CAREER_DB_NAME = "career";
 	private static final String COURSES_COLLECTION_NAME = "courses";
 	private static final String STUDENTS_COLLECTION_NAME = "students";
-	
+
 	@Mock
 	private MyCareerView myCareerView;
-	
+
 	private MyCareerController myCareerController;
-	
+
 	private MyCareerService myCareerService;
 	private TransactionManager transactionManager;
 	private CourseRepository courseRepository;
 	private StudentRepository studentRepository;
 	private MongoClient mongoClient;
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		
+
 		mongoClient = new MongoClient(new ServerAddress(mongo.getContainerIpAddress(), mongo.getMappedPort(27017)));
 		studentRepository = new StudentRepositoryMongo(mongoClient, CAREER_DB_NAME, STUDENTS_COLLECTION_NAME);
 		courseRepository = new CourseRepositoryMongo(mongoClient, CAREER_DB_NAME, COURSES_COLLECTION_NAME);
-		
+
 		// explicitly empty the database through the repository
-		for(Student student : studentRepository.findAll()) {
+		for (Student student : studentRepository.findAll()) {
 			studentRepository.delete(student.getId());
 		}
-		for(Course coursee : courseRepository.findAll()) {
+		for (Course coursee : courseRepository.findAll()) {
 			courseRepository.delete(coursee.getId());
 		}
-		
+
 		transactionManager = new TransactionManagerMongo(mongoClient, studentRepository, courseRepository);
 		myCareerService = new MyCareerService(transactionManager);
-		
+
 		myCareerController = new MyCareerController(myCareerView, myCareerService);
 	}
-	
+
 	@Test
 	public void testGetAllStudents() {
 		// Setup
@@ -83,7 +82,7 @@ public class MyCareerControllerIT {
 		// Verify
 		verify(myCareerView).showAllStudents(asList(student));
 	}
-	
+
 	@Test
 	public void testAddStudent() {
 		// Setup
@@ -93,7 +92,7 @@ public class MyCareerControllerIT {
 		// Verify
 		myCareerView.studentAdded("Student account created", student);
 	}
-	
+
 	@Test
 	public void testDeleteStudent() {
 		// Setup
@@ -104,7 +103,7 @@ public class MyCareerControllerIT {
 		// Verify
 		myCareerView.studentRemoved("Student account deleted", studentToDelete);
 	}
-	
+
 	@Test
 	public void testGetCoursesByStudent() {
 		// Setup
@@ -119,7 +118,7 @@ public class MyCareerControllerIT {
 		// Verify
 		myCareerView.showAllCourses(asList(course));
 	}
-	
+
 	@Test
 	public void testAddCourse() {
 		// Setup
@@ -130,7 +129,7 @@ public class MyCareerControllerIT {
 		// Verify
 		myCareerView.courseAdded("Added a new course", course);
 	}
-	
+
 	@Test
 	public void testDeleteCourse() {
 		// Setup
@@ -141,7 +140,7 @@ public class MyCareerControllerIT {
 		// Verify
 		myCareerView.courseRemoved("The course has been removed", course);
 	}
-	
+
 	@Test
 	public void testGetStudentsByCourse() {
 		// Setup

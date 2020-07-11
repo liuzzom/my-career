@@ -180,10 +180,6 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 					studentsList.getSelectedIndex() != -1 &&
 					coursesList.getSelectedIndex() != -1
 				);
-				
-				// to avoid double trigger (click and release)
-				if(!e.getValueIsAdjusting())
-					myCareerController.getStudentsByCourse(coursesList.getSelectedValue());
 			}
 		};
 		

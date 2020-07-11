@@ -496,15 +496,4 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase{
 		verify(myCareerController).getCoursesByStudent(student);
 	}
 	
-	// Test click on a course
-	@Test
-	public void testSelectACourseInListShouldDelegateToControllerGetStudentsByCourse() {
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		GuiActionRunner.execute(() ->
-			myCareerSwingView.getCoursesListModel().addElement(course));
-
-		window.list("coursesList").selectItem(0);
-		
-		verify(myCareerController).getStudentsByCourse(course);
-	}
 }
