@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>it.unifi.stud</groupId>
@@ -7,8 +9,11 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>my-career-app</artifactId>
- 
- <dependencies>
+
+  <dependencies>
+
+    <!-- Module Dependencies -->
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>my-career-backend</artifactId>
@@ -19,5 +24,20 @@
       <artifactId>my-career-frontend</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- Compile Dependencies -->
+
+    <!-- Mongo DB -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+    </dependency>
+
+    <!-- Picocli -->
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+    </dependency>
+
   </dependencies>
 </project>
