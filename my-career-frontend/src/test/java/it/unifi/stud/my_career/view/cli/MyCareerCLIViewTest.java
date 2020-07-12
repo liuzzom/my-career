@@ -19,7 +19,7 @@ import it.unifi.stud.my_career.model.Course;
 import it.unifi.stud.my_career.model.Student;
 
 public class MyCareerCLIViewTest {
-	
+
 	private static final String COURSE4_NAME = "HCI";
 	private static final String COURSE4_ID = "101";
 	private static final String COURSE3_NAME = "ML";
@@ -40,7 +40,7 @@ public class MyCareerCLIViewTest {
 
 	@Mock
 	private MyCareerController myCareerController;
-	
+
 	// SUT
 	@InjectMocks
 	private MyCareerCLIView myCareerCLIView;
@@ -48,7 +48,6 @@ public class MyCareerCLIViewTest {
 	private ByteArrayOutputStream testOut;
 	private ByteArrayInputStream testin;
 
-	
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -56,26 +55,18 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView = new MyCareerCLIView(System.in, new PrintStream(testOut));
 		myCareerCLIView.setMyCareerController(myCareerController);
 	}
-	
+
 	@Test
 	public void testShowMenuShouldPrintMenu() {
 		// Exercise
 		myCareerCLIView.showMenu();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(""
-			+ "Student Section\n"
-			+ "1) Add a student\n"
-			+ "2) Get all students\n"
-			+ "3) Delete a student\n"
-			+ "4) Get courses (by student)\n"
-			+ "Course Section\n"
-			+ "5) Add a course subscription\n"
-			+ "6) Remove a course subscription\n"
-			+ "7) Get students (by course)\n"
-			+ "8) Exit\n"
-		);
+		assertThat(testOut.toString()).isEqualTo(
+				"" + "Student Section\n" + "1) Add a student\n" + "2) Get all students\n" + "3) Delete a student\n"
+						+ "4) Get courses (by student)\n" + "Course Section\n" + "5) Add a course subscription\n"
+						+ "6) Remove a course subscription\n" + "7) Get students (by course)\n" + "8) Exit\n");
 	}
-	
+
 	@Test
 	public void testShowStudentErrorShouldShowAMessageInOutputStream() {
 		// Setup
@@ -86,7 +77,7 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).isEqualTo("ERROR! error message : " + student + "\n");
 	}
-	
+
 	@Test
 	public void testShowAllStudentWithEmptyInitialListShouldAddStudentDescriptionsToTheList() {
 		// Setup
@@ -98,7 +89,7 @@ public class MyCareerCLIViewTest {
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student1, student2);
 		assertThat(testOut.toString()).isEqualTo("Student [id=1, name=test1]\nStudent [id=2, name=test2]\n");
 	}
-	
+
 	@Test
 	public void testShowAllStudentWithNonEmptyListShouldRefreshTheList() {
 		// Setup
@@ -111,9 +102,9 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.showAllStudents(asList(student3, student4));
 		// Verify
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student3, student4);
-		assertThat(testOut.toString()).isEqualTo("Student [id=3, name=test3]\nStudent [id=4, name=test4]\n");		
+		assertThat(testOut.toString()).isEqualTo("Student [id=3, name=test3]\nStudent [id=4, name=test4]\n");
 	}
-	
+
 	@Test
 	public void testStudentAddedShouldAddTheStudentToTheListAndShowAMessage() {
 		// Setup
@@ -126,7 +117,7 @@ public class MyCareerCLIViewTest {
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student1, student2);
 		assertThat(testOut.toString()).isEqualTo("Student added : " + student2 + "\n");
 	}
-	
+
 	@Test
 	public void testStudentRemovedShouldRemoveTheStudentFromTheListAndShowAMessage() {
 		// Setup
@@ -148,9 +139,9 @@ public class MyCareerCLIViewTest {
 		// Exercise
 		myCareerCLIView.showCourseError(errorMessage, course);
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("ERROR! error message : " + course + "\n");		
+		assertThat(testOut.toString()).isEqualTo("ERROR! error message : " + course + "\n");
 	}
-	
+
 	@Test
 	public void testShowAllCoursesWithInitialEmptyListShouldAddCourseDescriptionsToTheList() {
 		// Setup
@@ -160,9 +151,10 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.showAllCourses(asList(course1, course2));
 		// Verify
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course1, course2);
-		assertThat(testOut.toString()).isEqualTo("Course [id=123, name=APT, cfu=6]\nCourse [id=456, name=BDA, cfu=9]\n");
+		assertThat(testOut.toString())
+				.isEqualTo("Course [id=123, name=APT, cfu=6]\nCourse [id=456, name=BDA, cfu=9]\n");
 	}
-	
+
 	@Test
 	public void testShowAllCoursesWithNonEmptyListShouldRefreshTheList() {
 		// Setup
@@ -177,7 +169,7 @@ public class MyCareerCLIViewTest {
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course3, course4);
 		assertThat(testOut.toString()).isEqualTo("Course [id=789, name=ML, cfu=9]\nCourse [id=101, name=HCI, cfu=6]\n");
 	}
-	
+
 	@Test
 	public void testCourseAddedShouldAddTheCourseToTheListAndShowAMessage() {
 		// Setup
@@ -190,7 +182,7 @@ public class MyCareerCLIViewTest {
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course1, course2);
 		assertThat(testOut.toString()).isEqualTo("Course added : " + course2 + "\n");
 	}
-	
+
 	@Test
 	public void testCourseRemovedShouldRemoveTheCourseFromTheListAndShowAMessage() {
 		// Setup
@@ -203,7 +195,7 @@ public class MyCareerCLIViewTest {
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course1);
 		assertThat(testOut.toString()).isEqualTo("Course removed : " + course2 + "\n");
 	}
-	
+
 	@Test
 	public void testAddStudentShouldTakeInputsAndDelegateToControllerNewStudent() {
 		// Setup
@@ -215,9 +207,9 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: ");
 		verify(myCareerController).addStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
-		
+
 	}
-	
+
 	@Test
 	public void testGetAllStudentsShouldDelegateToControllerGeAllStudents() {
 		// Exercise
@@ -225,7 +217,7 @@ public class MyCareerCLIViewTest {
 		// Verify
 		verify(myCareerController).getAllStudents();
 	}
-	
+
 	@Test
 	public void testDeleteStudentShouldTakeInpustAndDelegateToControllerDeleteStudent() {
 		// Setup
@@ -238,7 +230,7 @@ public class MyCareerCLIViewTest {
 		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: ");
 		verify(myCareerController).deleteStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
 	}
-	
+
 	@Test
 	public void testGetCoursesByStudentShouldTakeInputsAndDelegateToControllerGetCoursesByStudent() {
 		// Setup
@@ -251,7 +243,7 @@ public class MyCareerCLIViewTest {
 		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: ");
 		verify(myCareerController).getCoursesByStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
 	}
-	
+
 	@Test
 	public void testAddCourseShouldTakeInputsAndDelegateToControllerAddCourse() {
 		// Setup
@@ -261,10 +253,12 @@ public class MyCareerCLIViewTest {
 		// Exercise
 		myCareerCLIView.addCourse();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
-		verify(myCareerController).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME), new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(testOut.toString()).isEqualTo(
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
+		verify(myCareerController).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
+				new Course(COURSE1_ID, COURSE1_NAME, 6));
 	}
-	
+
 	@Test
 	public void testAddCourseWhenCFUIsNotANumberShouldNotCallController() {
 		// Setup
@@ -275,10 +269,11 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.addCourse();
 		// Verify
 		assertThat(testOut.toString()).isEqualTo(
-			"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
-		verify(myCareerController, never()).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME), new Course(COURSE1_ID, COURSE1_NAME, 6));
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
+		verify(myCareerController, never()).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
+				new Course(COURSE1_ID, COURSE1_NAME, 6));
 	}
-	
+
 	@Test
 	public void testRemoveCourseShouldDelegateToControllerRemoveController() {
 		// Setup
@@ -288,8 +283,10 @@ public class MyCareerCLIViewTest {
 		// Exercise
 		myCareerCLIView.removeCourse();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
-		verify(myCareerController).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME), new Course(COURSE1_ID, COURSE1_NAME, 6));		
+		assertThat(testOut.toString()).isEqualTo(
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
+		verify(myCareerController).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
+				new Course(COURSE1_ID, COURSE1_NAME, 6));
 	}
 
 	@Test
@@ -302,23 +299,24 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.removeCourse();
 		// Verify
 		assertThat(testOut.toString()).isEqualTo(
-			"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
-		verify(myCareerController, never()).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME), new Course(COURSE1_ID, COURSE1_NAME, 6));
-	}	
-	
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
+		verify(myCareerController, never()).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
+				new Course(COURSE1_ID, COURSE1_NAME, 6));
+	}
+
 	@Test
 	public void testGetStudentsByCourseShouldTakeInputsAndDelegateToControllerGetStudentsByCourse() {
 		// Setup
 		String userInput = "123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
-		myCareerCLIView.setInputStream(testin);	
+		myCareerCLIView.setInputStream(testin);
 		// Exercise
 		myCareerCLIView.getStudentsByCourse();
 		// Verify
 		assertThat(testOut.toString()).isEqualTo("Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
 	}
-	
+
 	@Test
 	public void testGetStudentsByCourseWhenCFUIsNotANumberShouldNotCallController() {
 		// Setup
@@ -329,7 +327,8 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.getStudentsByCourse();
 		// Verify
 		System.out.println(testOut.toString());
-		assertThat(testOut.toString()).isEqualTo("Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
+		assertThat(testOut.toString())
+				.isEqualTo("Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
-	}	
+	}
 }

@@ -221,8 +221,9 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 		// Verify
 		assertThat(window.list("coursesList").contents()).containsExactly(course.toString());
 	}
-	
-	@Test @GUITest
+
+	@Test
+	@GUITest
 	public void testGetCoursesByStudentErrorStudentDoesNotExist() {
 		// Setup
 		Student student = new Student("1", "test1");
@@ -253,7 +254,7 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 		assertThat(window.list("coursesList").contents()).isEmpty();
 		window.label("courseInfoErrorMessageLabel").requireText("The course has been removed: " + course);
 	}
-	
+
 	@Test
 	@GUITest
 	public void testDeleteButtonErrorCourseDoesNotExist() {
@@ -274,8 +275,9 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 		window.label("courseInfoErrorMessageLabel").requireText("The course does not exist: " + course);
 
 	}
-	
-	@Test @GUITest
+
+	@Test
+	@GUITest
 	public void testDeleteButtonErrorStudentDoesNotExist() {
 		// Setup
 		Student student = new Student("1", "test1");
@@ -291,7 +293,7 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 		// Exercise
 		window.button("deleteCourseButton").click();
 		// Verify
-		window.label("courseInfoErrorMessageLabel").requireText("The student does not exist: " + course);		
+		window.label("courseInfoErrorMessageLabel").requireText("The student does not exist: " + course);
 	}
-	
+
 }
