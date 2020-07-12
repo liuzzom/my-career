@@ -28,6 +28,14 @@ import it.unifi.stud.my_career.service.MyCareerService;
 @RunWith(GUITestRunner.class)
 public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 
+	private static final String COURSE1_NAME = "APT";
+	private static final String COURSE1_ID = "123";
+
+	private static final String STUDENT2_NAME = "test2";
+	private static final String STUDENT2_ID = "2";
+	private static final String STUDENT1_NAME = "test1";
+	private static final String STUDENT1_ID = "1";
+
 	@SuppressWarnings("rawtypes")
 	@ClassRule
 	public static final GenericContainer mongo = new GenericContainer("krnbr/mongo:4.2.6").withExposedPorts(27017);
@@ -84,11 +92,11 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testGetAllStudents() {
 		// Setup
-		Student student1 = new Student("1", "test1");
-		Student student2 = new Student("2", "test2");
+		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
 		myCareerService.saveStudent(student1);
 		myCareerService.saveStudent(student2);
-		// Execute
+		// Exercise
 		GuiActionRunner.execute(() -> myCareerController.getAllStudents());
 		// Verify
 		assertThat(window.list("studentsList").contents()).containsExactly(student1.toString(), student2.toString());
@@ -98,50 +106,50 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testAddStudentButtonSuccess() {
 		// Setup
-		window.textBox("studentIDTextField").enterText("1");
-		window.textBox("studentNameTextField").enterText("test1");
+		window.textBox("studentIDTextField").enterText(STUDENT1_ID);
+		window.textBox("studentNameTextField").enterText(STUDENT1_NAME);
 		// Exercise
 		window.button("addStudentButton").click();
 		// Verify
-		assertThat(window.list("studentsList").contents()).containsExactly(new Student("1", "test1").toString());
+		assertThat(window.list("studentsList").contents()).containsExactly(new Student(STUDENT1_ID, STUDENT1_NAME).toString());
 		window.label("studentInfoErrorMessageLabel")
-				.requireText("Student account created: " + new Student("1", "test1").toString());
+				.requireText("Student account created: " + new Student(STUDENT1_ID, STUDENT1_NAME).toString());
 	}
 
 	@Test
 	@GUITest
 	public void testAddStudentButtonError() {
 		// Setup
-		Student student = new Student("1", "test1");
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		studentRepository.save(student);
-		window.textBox("studentIDTextField").enterText("1");
-		window.textBox("studentNameTextField").enterText("test2");
+		window.textBox("studentIDTextField").enterText(STUDENT1_ID);
+		window.textBox("studentNameTextField").enterText(STUDENT2_NAME);
 		// Exercise
 		window.button("addStudentButton").click();
 		// Verify
 		window.label("studentInfoErrorMessageLabel")
-				.requireText("Already exists a student with id 1: " + new Student("1", "test1").toString());
+				.requireText("Already exists a student with id 1: " + new Student(STUDENT1_ID, STUDENT1_NAME).toString());
 	}
 
 	@Test
 	@GUITest
 	public void testDeleteStudentButtonSuccess() {
 		// Setup
-		GuiActionRunner.execute(() -> myCareerController.addStudent(new Student("1", "test1")));
+		GuiActionRunner.execute(() -> myCareerController.addStudent(new Student(STUDENT1_ID, STUDENT1_NAME)));
 		window.list("studentsList").selectItem(0);
 		// Exercise
 		window.button("deleteStudentButton").click();
 		// Verify
 		assertThat(window.list("studentsList").contents()).isEmpty();
 		window.label("studentInfoErrorMessageLabel")
-				.requireText("Student account deleted: " + new Student("1", "test1"));
+				.requireText("Student account deleted: " + new Student(STUDENT1_ID, STUDENT1_NAME));
 	}
 
 	@Test
 	@GUITest
 	public void testDeleteStudentButtonError() {
 		// Setup
-		Student student = new Student("1", "test1");
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		GuiActionRunner.execute(() -> myCareerView.getStudentsListModel().addElement(student));
 		window.list("studentsList").selectItem(0);
 		// Exercise
@@ -155,12 +163,12 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testAddCourseButtonSuccess() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> myCareerController.addStudent(student));
 		window.list("studentsList").selectItem(0);
-		window.textBox("courseIDTextField").enterText("123");
-		window.textBox("courseNameTextField").enterText("APT");
+		window.textBox("courseIDTextField").enterText(COURSE1_ID);
+		window.textBox("courseNameTextField").enterText(COURSE1_NAME);
 		window.textBox("courseCFUsTextField").enterText("6");
 		// Exercise
 		window.button("addCourseButton").click();
@@ -173,15 +181,15 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testAddCourseButtonErrorCourseAlreadyExist() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> {
 			myCareerController.addStudent(student);
 			myCareerController.addCourse(student, course);
 		});
 		window.list("studentsList").selectItem(0);
-		window.textBox("courseIDTextField").enterText("123");
-		window.textBox("courseNameTextField").enterText("APT");
+		window.textBox("courseIDTextField").enterText(COURSE1_ID);
+		window.textBox("courseNameTextField").enterText(COURSE1_NAME);
 		window.textBox("courseCFUsTextField").enterText("6");
 		// Exercise
 		window.button("addCourseButton").click();
@@ -193,12 +201,12 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testAddButtonErrorStudentDoesNotExist() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> myCareerView.getStudentsListModel().addElement(student));
 		window.list("studentsList").selectItem(0);
-		window.textBox("courseIDTextField").enterText("123");
-		window.textBox("courseNameTextField").enterText("APT");
+		window.textBox("courseIDTextField").enterText(COURSE1_ID);
+		window.textBox("courseNameTextField").enterText(COURSE1_NAME);
 		window.textBox("courseCFUsTextField").enterText("6");
 		// Exercise
 		window.button("addCourseButton").click();
@@ -210,8 +218,8 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testGetCoursesByStudentSuccess() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> {
 			myCareerController.addStudent(student);
 			myCareerService.saveCourse(student, course);
@@ -226,7 +234,7 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testGetCoursesByStudentErrorStudentDoesNotExist() {
 		// Setup
-		Student student = new Student("1", "test1");
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		GuiActionRunner.execute(() -> {
 			myCareerView.getStudentsListModel().addElement(student);
 		});
@@ -240,8 +248,8 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testDeleteCourseButtonSuccess() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> {
 			myCareerController.addStudent(student);
 			myCareerService.saveCourse(student, course);
@@ -259,8 +267,8 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testDeleteButtonErrorCourseDoesNotExist() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> {
 			myCareerController.addStudent(student);
 			myCareerService.saveCourse(student, course);
@@ -280,8 +288,8 @@ public class MyCareerSwingViewIT extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testDeleteButtonErrorStudentDoesNotExist() {
 		// Setup
-		Student student = new Student("1", "test1");
-		Course course = new Course("123", "APT", 6);
+		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		GuiActionRunner.execute(() -> {
 			myCareerController.addStudent(student);
 			myCareerService.saveCourse(student, course);

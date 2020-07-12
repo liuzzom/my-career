@@ -14,11 +14,11 @@ public interface StudentRepository {
 	public void save(Student student);
 
 	public void delete(String id);
-	
+
 	public List<String> getParticipatedCoursesIdByStudentId(String id);
-	
+
 	public void deleteStudentParticipation(String studentId, Course course);
-	
+
 	public void addStudentParticipation(String studentId, Course course);
 
 }
