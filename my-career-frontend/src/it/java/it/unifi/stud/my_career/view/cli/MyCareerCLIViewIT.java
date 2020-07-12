@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -77,6 +78,11 @@ public class MyCareerCLIViewIT {
 		myCareerCLIView.setMyCareerController(myCareerController);
 
 	}
+	
+	@After
+	public void onTearDown() {
+		mongoClient.close();
+	}	
 
 	@Test
 	public void testAllStudents() {
