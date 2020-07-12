@@ -100,13 +100,16 @@ public class MyCareerAppCLIE2E {
 		};
 		*/
 		
+
+		
 		application("it.unifi.stud.my_career.app.MyCareerApp")
 		.withArgs("--user-interface=" + "cli", "--mongo-host=" + mongoContainerIpAddress,
 				"--mongo-port=" + mongoContainerMappedPort.toString(), "--db-name=" + CAREER_DB_NAME,
 				"--db-student-collection=" + STUDENTS_COLLECTION_NAME,
 				"--db-course-collection=" + COURSES_COLLECTION_NAME)
 		.start();
-
+		
+		
 
 	}
 
@@ -114,6 +117,13 @@ public class MyCareerAppCLIE2E {
 	public void onTearDown() {
 		client.close();
 	}
+	
+	@Test
+	public void pippo() {
+		
+	}
+	
+	
 
 	private void addTestStudentToDatabaseWithParticipations(String studentId, String studentName,
 			List<String> participations) {
