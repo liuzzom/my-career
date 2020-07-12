@@ -29,14 +29,14 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MyCareerSwingView extends JFrame implements MyCareerView{
+public class MyCareerSwingView extends JFrame implements MyCareerView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
+
 	private JPanel studentPanel;
 	private JLabel studentSectionTitle;
 	private JLabel studentIDLabel;
@@ -48,7 +48,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 	private JList<Student> studentsList;
 	private JButton deleteStudentButton;
 	private JLabel studentInfoErrorMessageLabel;
-	
+
 	private JPanel coursePanel;
 	private JLabel courseSectionTitle;
 	private JLabel courseIDLabel;
@@ -66,7 +66,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 	private DefaultListModel<Student> studentsListModel;
 	private DefaultListModel<Course> coursesListModel;
 	private MyCareerController myCareerController;
-	
+
 	DefaultListModel<Student> getStudentsListModel() {
 		return studentsListModel;
 	}
@@ -83,41 +83,32 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 	 * Create the frame.
 	 */
 	public MyCareerSwingView() {
-		
+
 		/**
-		 * Event listeners
-		 * Created during refactoring
+		 * Event listeners Created during refactoring
 		 */
 		KeyAdapter addStudentButtonEnabler = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				addStudentButton.setEnabled(
-					!studentIDTextField.getText().trim().isEmpty() &&
-					!studentNameTextField.getText().trim().isEmpty()
-				);
+				addStudentButton.setEnabled(!studentIDTextField.getText().trim().isEmpty()
+						&& !studentNameTextField.getText().trim().isEmpty());
 			}
 		};
 
 		ListSelectionListener studentsListListener = new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				deleteStudentButton.setEnabled(
-					studentsList.getSelectedIndex() != -1
-				);
+				deleteStudentButton.setEnabled(studentsList.getSelectedIndex() != -1);
 				addCourseButton.setEnabled(
-					!courseIDTextField.getText().trim().isEmpty() &&
-					!courseNameTextField.getText().trim().isEmpty() &&
-					!courseCFUsTextField.getText().trim().isEmpty()	&&
-					courseCFUsTextField.getText().trim().matches("\\b([1-9]|[12][0-9]|3[01])\\b") &&
-					studentsList.getSelectedIndex() != -1
-				);
-				deleteCourseButton.setEnabled(
-					studentsList.getSelectedIndex() != -1 &&
-					coursesList.getSelectedIndex() != -1
-				);
-				
+						!courseIDTextField.getText().trim().isEmpty() && !courseNameTextField.getText().trim().isEmpty()
+								&& !courseCFUsTextField.getText().trim().isEmpty()
+								&& courseCFUsTextField.getText().trim().matches("\\b([1-9]|[12][0-9]|3[01])\\b")
+								&& studentsList.getSelectedIndex() != -1);
+				deleteCourseButton
+						.setEnabled(studentsList.getSelectedIndex() != -1 && coursesList.getSelectedIndex() != -1);
+
 				// to avoid double trigger (click and release)
-				if(!e.getValueIsAdjusting())
+				if (!e.getValueIsAdjusting())
 					myCareerController.getCoursesByStudent(studentsList.getSelectedValue());
 			}
 		};
@@ -126,22 +117,21 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				addCourseButton.setEnabled(
-					!courseIDTextField.getText().trim().isEmpty() &&
-					!courseNameTextField.getText().trim().isEmpty() &&
-					!courseCFUsTextField.getText().trim().isEmpty()	&&
-					courseCFUsTextField.getText().trim().matches("\\b([1-9]|[12][0-9]|3[01])\\b") &&
-					studentsList.getSelectedIndex() != -1
-				);
+						!courseIDTextField.getText().trim().isEmpty() && !courseNameTextField.getText().trim().isEmpty()
+								&& !courseCFUsTextField.getText().trim().isEmpty()
+								&& courseCFUsTextField.getText().trim().matches("\\b([1-9]|[12][0-9]|3[01])\\b")
+								&& studentsList.getSelectedIndex() != -1);
 			}
-		};		
+		};
 
 		ActionListener addStudentButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				myCareerController.addStudent(new Student(studentIDTextField.getText(), studentNameTextField.getText()));
+				myCareerController
+						.addStudent(new Student(studentIDTextField.getText(), studentNameTextField.getText()));
 			}
-		};		
-		
+		};
+
 		ActionListener deleteStudentButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -152,37 +142,26 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		ActionListener addCourseButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				myCareerController.addCourse(
-					studentsList.getSelectedValue(),
-					new Course(
-						courseIDTextField.getText(),
-						courseNameTextField.getText(),
-						Integer.parseInt(courseCFUsTextField.getText())
-					)
-				);
+				myCareerController.addCourse(studentsList.getSelectedValue(), new Course(courseIDTextField.getText(),
+						courseNameTextField.getText(), Integer.parseInt(courseCFUsTextField.getText())));
 			}
 		};
 
 		ActionListener removeCourseButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				myCareerController.removeCourse(
-					studentsList.getSelectedValue(),
-					coursesList.getSelectedValue()
-				);
+				myCareerController.removeCourse(studentsList.getSelectedValue(), coursesList.getSelectedValue());
 			}
 		};
 
 		ListSelectionListener coursesListListener = new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				deleteCourseButton.setEnabled(
-					studentsList.getSelectedIndex() != -1 &&
-					coursesList.getSelectedIndex() != -1
-				);
+				deleteCourseButton
+						.setEnabled(studentsList.getSelectedIndex() != -1 && coursesList.getSelectedIndex() != -1);
 			}
 		};
-		
+
 		// Frame Elements
 		setTitle("My Career");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -191,12 +170,12 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{450, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 450, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		studentPanel = new JPanel();
 		GridBagConstraints gbc_studentPanel = new GridBagConstraints();
 		gbc_studentPanel.insets = new Insets(0, 0, 0, 5);
@@ -205,12 +184,12 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentPanel.gridy = 0;
 		contentPane.add(studentPanel, gbc_studentPanel);
 		GridBagLayout gbl_studentPanel = new GridBagLayout();
-		gbl_studentPanel.columnWidths = new int[]{0, 0, 0};
-		gbl_studentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_studentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_studentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_studentPanel.columnWidths = new int[] { 0, 0, 0 };
+		gbl_studentPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_studentPanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_studentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		studentPanel.setLayout(gbl_studentPanel);
-		
+
 		studentSectionTitle = new JLabel("Student Section");
 		studentSectionTitle.setName("studentSectionTitle");
 		GridBagConstraints gbc_studentSectionTitle = new GridBagConstraints();
@@ -219,7 +198,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentSectionTitle.gridx = 0;
 		gbc_studentSectionTitle.gridy = 0;
 		studentPanel.add(studentSectionTitle, gbc_studentSectionTitle);
-		
+
 		studentIDLabel = new JLabel("ID");
 		studentIDLabel.setName("studentIDLabel");
 		GridBagConstraints gbc_studentIDLabel = new GridBagConstraints();
@@ -228,7 +207,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentIDLabel.gridx = 0;
 		gbc_studentIDLabel.gridy = 1;
 		studentPanel.add(studentIDLabel, gbc_studentIDLabel);
-		
+
 		studentIDTextField = new JTextField();
 		studentIDTextField.addKeyListener(addStudentButtonEnabler);
 		studentIDTextField.setName("studentIDTextField");
@@ -239,7 +218,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentIDTextField.gridy = 1;
 		studentPanel.add(studentIDTextField, gbc_studentIDTextField);
 		studentIDTextField.setColumns(10);
-		
+
 		studentNameLabel = new JLabel("Name");
 		studentNameLabel.setName("studentNameLabel");
 		GridBagConstraints gbc_studentNameLabel = new GridBagConstraints();
@@ -248,7 +227,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentNameLabel.gridx = 0;
 		gbc_studentNameLabel.gridy = 2;
 		studentPanel.add(studentNameLabel, gbc_studentNameLabel);
-		
+
 		studentNameTextField = new JTextField();
 		studentNameTextField.addKeyListener(addStudentButtonEnabler);
 		studentNameTextField.setName("studentNameTextField");
@@ -259,7 +238,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentNameTextField.gridy = 2;
 		studentPanel.add(studentNameTextField, gbc_studentNameTextField);
 		studentNameTextField.setColumns(10);
-		
+
 		addStudentButton = new JButton("Add Student");
 		addStudentButton.addActionListener(addStudentButtonListener);
 		addStudentButton.setEnabled(false);
@@ -270,7 +249,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_addStudentButton.gridx = 0;
 		gbc_addStudentButton.gridy = 3;
 		studentPanel.add(addStudentButton, gbc_addStudentButton);
-		
+
 		studentScrollPane = new JScrollPane();
 		GridBagConstraints gbc_studentScrollPane = new GridBagConstraints();
 		gbc_studentScrollPane.fill = GridBagConstraints.BOTH;
@@ -279,14 +258,14 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentScrollPane.gridx = 0;
 		gbc_studentScrollPane.gridy = 4;
 		studentPanel.add(studentScrollPane, gbc_studentScrollPane);
-		
+
 		studentsListModel = new DefaultListModel<Student>();
 		studentsList = new JList<Student>(studentsListModel);
 		studentsList.addListSelectionListener(studentsListListener);
 		studentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentsList.setName("studentsList");
 		studentScrollPane.setViewportView(studentsList);
-		
+
 		deleteStudentButton = new JButton("Delete Student");
 		deleteStudentButton.addActionListener(deleteStudentButtonListener);
 		deleteStudentButton.setEnabled(false);
@@ -297,7 +276,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_deleteStudentButton.gridx = 0;
 		gbc_deleteStudentButton.gridy = 5;
 		studentPanel.add(deleteStudentButton, gbc_deleteStudentButton);
-		
+
 		studentInfoErrorMessageLabel = new JLabel("");
 		studentInfoErrorMessageLabel.setName("studentInfoErrorMessageLabel");
 		GridBagConstraints gbc_studentInfoErrorMessageLabel = new GridBagConstraints();
@@ -306,7 +285,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_studentInfoErrorMessageLabel.gridx = 0;
 		gbc_studentInfoErrorMessageLabel.gridy = 6;
 		studentPanel.add(studentInfoErrorMessageLabel, gbc_studentInfoErrorMessageLabel);
-		
+
 		coursePanel = new JPanel();
 		GridBagConstraints gbc_coursePanel = new GridBagConstraints();
 		gbc_coursePanel.fill = GridBagConstraints.BOTH;
@@ -314,12 +293,12 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_coursePanel.gridy = 0;
 		contentPane.add(coursePanel, gbc_coursePanel);
 		GridBagLayout gbl_coursePanel = new GridBagLayout();
-		gbl_coursePanel.columnWidths = new int[]{0, 0, 0};
-		gbl_coursePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_coursePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_coursePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_coursePanel.columnWidths = new int[] { 0, 0, 0 };
+		gbl_coursePanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_coursePanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_coursePanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		coursePanel.setLayout(gbl_coursePanel);
-		
+
 		courseSectionTitle = new JLabel("Course Section");
 		courseSectionTitle.setName("courseSectionTitle");
 		GridBagConstraints gbc_courseSectionTitle = new GridBagConstraints();
@@ -328,7 +307,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseSectionTitle.gridx = 0;
 		gbc_courseSectionTitle.gridy = 0;
 		coursePanel.add(courseSectionTitle, gbc_courseSectionTitle);
-		
+
 		courseIDLabel = new JLabel("ID");
 		courseIDLabel.setName("courseIDLabel");
 		GridBagConstraints gbc_courseIDLabel = new GridBagConstraints();
@@ -337,7 +316,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseIDLabel.gridx = 0;
 		gbc_courseIDLabel.gridy = 1;
 		coursePanel.add(courseIDLabel, gbc_courseIDLabel);
-		
+
 		courseIDTextField = new JTextField();
 		courseIDTextField.addKeyListener(addCourseButtonEnabler);
 		courseIDTextField.setName("courseIDTextField");
@@ -348,7 +327,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseIDTextField.gridy = 1;
 		coursePanel.add(courseIDTextField, gbc_courseIDTextField);
 		courseIDTextField.setColumns(10);
-		
+
 		courseNameLabel = new JLabel("Name");
 		courseNameLabel.setName("courseNameLabel");
 		GridBagConstraints gbc_courseNameLabel = new GridBagConstraints();
@@ -357,7 +336,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseNameLabel.gridx = 0;
 		gbc_courseNameLabel.gridy = 2;
 		coursePanel.add(courseNameLabel, gbc_courseNameLabel);
-		
+
 		courseNameTextField = new JTextField();
 		courseNameTextField.addKeyListener(addCourseButtonEnabler);
 		courseNameTextField.setName("courseNameTextField");
@@ -368,7 +347,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseNameTextField.gridy = 2;
 		coursePanel.add(courseNameTextField, gbc_courseNameTextField);
 		courseNameTextField.setColumns(10);
-		
+
 		courseCFUsLabel = new JLabel("CFU");
 		courseCFUsLabel.setName("courseCFUsLabel");
 		GridBagConstraints gbc_courseCFUsLabel = new GridBagConstraints();
@@ -377,7 +356,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseCFUsLabel.gridx = 0;
 		gbc_courseCFUsLabel.gridy = 3;
 		coursePanel.add(courseCFUsLabel, gbc_courseCFUsLabel);
-		
+
 		courseCFUsTextField = new JTextField();
 		courseCFUsTextField.addKeyListener(addCourseButtonEnabler);
 		courseCFUsTextField.setName("courseCFUsTextField");
@@ -388,7 +367,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_courseCFUsTextField.gridy = 3;
 		coursePanel.add(courseCFUsTextField, gbc_courseCFUsTextField);
 		courseCFUsTextField.setColumns(10);
-		
+
 		addCourseButton = new JButton("Add Course");
 		addCourseButton.addActionListener(addCourseButtonListener);
 		addCourseButton.setEnabled(false);
@@ -399,7 +378,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_addCourseButton.gridx = 0;
 		gbc_addCourseButton.gridy = 4;
 		coursePanel.add(addCourseButton, gbc_addCourseButton);
-		
+
 		coursesScrollPane = new JScrollPane();
 		GridBagConstraints gbc_coursesScrollPane = new GridBagConstraints();
 		gbc_coursesScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -408,14 +387,14 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_coursesScrollPane.gridx = 0;
 		gbc_coursesScrollPane.gridy = 5;
 		coursePanel.add(coursesScrollPane, gbc_coursesScrollPane);
-		
+
 		coursesListModel = new DefaultListModel<Course>();
 		coursesList = new JList<Course>(coursesListModel);
 		coursesList.addListSelectionListener(coursesListListener);
 		coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		coursesList.setName("coursesList");
 		coursesScrollPane.setViewportView(coursesList);
-		
+
 		deleteCourseButton = new JButton("Delete Course");
 		deleteCourseButton.addActionListener(removeCourseButtonListener);
 		deleteCourseButton.setEnabled(false);
@@ -426,7 +405,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 		gbc_deleteCourseButton.gridx = 0;
 		gbc_deleteCourseButton.gridy = 6;
 		coursePanel.add(deleteCourseButton, gbc_deleteCourseButton);
-		
+
 		courseInfoErrorMessageLabel = new JLabel("");
 		courseInfoErrorMessageLabel.setName("courseInfoErrorMessageLabel");
 		GridBagConstraints gbc_courseInfoErrorMessageLabel = new GridBagConstraints();
@@ -446,21 +425,21 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 	@Override
 	public void showAllStudents(List<Student> students) {
 		studentsListModel.clear();
-		students.stream().forEach(studentsListModel::addElement);		
+		students.stream().forEach(studentsListModel::addElement);
 	}
 
 	@Override
 	public void studentAdded(String message, Student student) {
 		studentsListModel.addElement(student);
 		studentInfoErrorMessageLabel.setForeground(Color.black);
-		studentInfoErrorMessageLabel.setText(message + ": " + student);		
+		studentInfoErrorMessageLabel.setText(message + ": " + student);
 	}
 
 	@Override
 	public void studentRemoved(String message, Student student) {
 		studentsListModel.removeElement(student);
 		studentInfoErrorMessageLabel.setForeground(Color.black);
-		studentInfoErrorMessageLabel.setText(message + ": " + student);						
+		studentInfoErrorMessageLabel.setText(message + ": " + student);
 	}
 
 	@Override
@@ -479,15 +458,14 @@ public class MyCareerSwingView extends JFrame implements MyCareerView{
 	public void courseAdded(String message, Course course) {
 		coursesListModel.addElement(course);
 		courseInfoErrorMessageLabel.setForeground(Color.black);
-		courseInfoErrorMessageLabel.setText(message + ": " + course); 
+		courseInfoErrorMessageLabel.setText(message + ": " + course);
 	}
 
 	@Override
 	public void courseRemoved(String message, Course course) {
 		coursesListModel.removeElement(course);
 		courseInfoErrorMessageLabel.setForeground(Color.black);
-		courseInfoErrorMessageLabel.setText(message + ": " + course); 
+		courseInfoErrorMessageLabel.setText(message + ": " + course);
 	}
-
 
 }

@@ -65,12 +65,12 @@ public class StudentRepositoryMongo implements StudentRepository {
 
 	@Override
 	public void deleteStudentParticipation(String studentId, Course course) {
-	    collectionStudents.updateOne(Filters.eq(ID, studentId), Updates.pull("participations", course.getId()));
+		collectionStudents.updateOne(Filters.eq(ID, studentId), Updates.pull("participations", course.getId()));
 	}
 
 	@Override
 	public void addStudentParticipation(String studentId, Course course) {
-	    collectionStudents.updateOne(Filters.eq(ID, studentId), Updates.push("participations", course.getId()));
+		collectionStudents.updateOne(Filters.eq(ID, studentId), Updates.push("participations", course.getId()));
 	}
 
 }

@@ -41,46 +41,42 @@ public class MyCareerServiceTest {
 
 	// SUT
 	private MyCareerService myCareerService;
-	
+
 	// Mocks
 	@Mock
 	private TransactionManager transactionManager;
-	
+
 	@Mock
 	private StudentRepository studentRepository;
-	
+
 	@Mock
 	private CourseRepository courseRepository;
-	
+
 	// Setup
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		
-		when(transactionManager.careerTransaction(any())).
-			thenAnswer(
-				answer((TransactionCode<?> code) -> code.apply(studentRepository, courseRepository)));
-		
-		when(transactionManager.studentTransaction(any())).
-			thenAnswer(
-				answer((StudentTransactionCode<?> code) -> code.apply(studentRepository)));
 
-		when(transactionManager.courseTransaction(any())).
-			thenAnswer(
-				answer((CourseTransactionCode<?> code) -> code.apply(courseRepository)));
-		
+		when(transactionManager.careerTransaction(any()))
+				.thenAnswer(answer((TransactionCode<?> code) -> code.apply(studentRepository, courseRepository)));
+
+		when(transactionManager.studentTransaction(any()))
+				.thenAnswer(answer((StudentTransactionCode<?> code) -> code.apply(studentRepository)));
+
+		when(transactionManager.courseTransaction(any()))
+				.thenAnswer(answer((CourseTransactionCode<?> code) -> code.apply(courseRepository)));
+
 		myCareerService = new MyCareerService(transactionManager);
 	}
 
 	// getAllStudents tests
-	
+
 	@Test
 	public void testGetAllStudentsWithSomeStudent() {
 		// Setup
 		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
 		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
-		when(studentRepository.findAll()).
-			thenReturn(asList(student1, student2));
+		when(studentRepository.findAll()).thenReturn(asList(student1, student2));
 		// Exercise
 		List<Student> students = myCareerService.getAllStudents();
 		// Verify
@@ -91,42 +87,39 @@ public class MyCareerServiceTest {
 	@Test
 	public void testGetAllStudentsWithAnEmptyList() {
 		// Setup
-		when(studentRepository.findAll()).
-			thenReturn(null);
-		// Exercise		
+		when(studentRepository.findAll()).thenReturn(null);
+		// Exercise
 		assertThat(myCareerService.getAllStudents()).isNull();
 		// Verify
 		verify(transactionManager).studentTransaction(any());
 	}
-	
+
 	// findStudent tests
-	
+
 	@Test
 	public void testFindStudentWhenStudentDoesExist() {
 		// Setup
 		Student existingStudent = new Student(STUDENT1_ID, STUDENT1_NAME);
-		when(studentRepository.findById(STUDENT1_ID)).
-			thenReturn(existingStudent);
+		when(studentRepository.findById(STUDENT1_ID)).thenReturn(existingStudent);
 		// Exercise
 		Student student = myCareerService.findStudent(existingStudent);
 		// Verify
 		assertThat(student).isEqualTo(existingStudent);
 		verify(transactionManager).studentTransaction(any());
 	}
-	
+
 	@Test
 	public void testFindStudentWhenStudentDoesNotExist() {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		when(studentRepository.findById(STUDENT1_ID)).
-			thenReturn(null);
+		when(studentRepository.findById(STUDENT1_ID)).thenReturn(null);
 		// Exercise and Verify
 		assertThat(myCareerService.findStudent(student)).isNull();
 		verify(transactionManager).studentTransaction(any());
 	}
-	
+
 	// saveStudent tests
-	
+
 	@Test
 	public void testSaveStudent() {
 		// Setup
@@ -137,9 +130,9 @@ public class MyCareerServiceTest {
 		verify(studentRepository).save(student);
 		verify(transactionManager).studentTransaction(any());
 	}
-	
+
 	// deleteStudent test
-	
+
 	@Test
 	public void testDeleteStudent() {
 		// Setup
@@ -150,17 +143,17 @@ public class MyCareerServiceTest {
 		verify(studentRepository).delete(STUDENT1_ID);
 		verify(transactionManager).studentTransaction(any());
 	}
-	
+
 	// getCoursesByStudent test
-	
+
 	@Test
 	public void testGetCoursesByStudentWithNonEmptyCoursesList() {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, COURSE_CFUS);
 		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, COURSE_CFUS);
-		when(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT1_ID)).
-			thenReturn(asList(COURSE1_ID, COURSE2_ID));
+		when(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT1_ID))
+				.thenReturn(asList(COURSE1_ID, COURSE2_ID));
 		when(courseRepository.findById(COURSE1_ID)).thenReturn(course1);
 		when(courseRepository.findById(COURSE2_ID)).thenReturn(course2);
 		// Exercise
@@ -169,7 +162,7 @@ public class MyCareerServiceTest {
 		assertThat(courses).containsExactly(course1, course2);
 		verify(transactionManager).careerTransaction(any());
 	}
-	
+
 	@Test
 	public void testGetCoursesByStudentWithEmptyCoursesList() {
 		// Setup
@@ -179,11 +172,11 @@ public class MyCareerServiceTest {
 		List<Course> courses = myCareerService.getCoursesByStudent(student);
 		// Verify
 		assertThat(courses).isEmpty();
-		verify(transactionManager).careerTransaction(any());		
+		verify(transactionManager).careerTransaction(any());
 	}
-	
+
 	// findCourse test
-	
+
 	@Test
 	public void testFindCourseWhenCourseDoesExist() {
 		// Setup
@@ -195,7 +188,7 @@ public class MyCareerServiceTest {
 		assertThat(course).isEqualTo(existingCourse);
 		verify(transactionManager).courseTransaction(any());
 	}
-	
+
 	@Test
 	public void testFindCourseWhenCourseDoesNotExist() {
 		// Setup
@@ -205,17 +198,17 @@ public class MyCareerServiceTest {
 		assertThat(myCareerService.findCourse(course)).isNull();
 		verify(transactionManager).courseTransaction(any());
 	}
-	
+
 	// findSingleCourseByStudent test
-	
+
 	@Test
 	public void testFindSingleCourseByStudentWhenCourseDoesExist() {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		Course courseNotToFind = new Course(COURSE1_ID, COURSE1_NAME, COURSE_CFUS);
 		Course courseToFind = new Course(COURSE2_ID, COURSE2_NAME, COURSE_CFUS);
-		when(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT1_ID)).
-			thenReturn(asList(COURSE1_ID, COURSE2_ID));
+		when(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT1_ID))
+				.thenReturn(asList(COURSE1_ID, COURSE2_ID));
 		when(courseRepository.findById(COURSE1_ID)).thenReturn(courseNotToFind);
 		when(courseRepository.findById(COURSE2_ID)).thenReturn(courseToFind);
 		// Exercise
@@ -231,8 +224,7 @@ public class MyCareerServiceTest {
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		Course courseNotToFind = new Course(COURSE1_ID, COURSE1_NAME, COURSE_CFUS);
 		Course courseToFind = new Course(COURSE2_ID, COURSE2_NAME, COURSE_CFUS);
-		when(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT1_ID)).
-			thenReturn(asList(COURSE2_ID));
+		when(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT1_ID)).thenReturn(asList(COURSE2_ID));
 		when(courseRepository.findById(COURSE1_ID)).thenReturn(null);
 		when(courseRepository.findById(COURSE2_ID)).thenReturn(courseToFind);
 		// Exercise
@@ -241,10 +233,9 @@ public class MyCareerServiceTest {
 		assertThat(courseFound).isNull();
 		verify(transactionManager).careerTransaction(any());
 	}
-	
-	
+
 	// saveCourse tests
-	
+
 	@Test
 	public void testSaveCourseWhenCourseDoesNotExist() {
 		// Setup
@@ -260,7 +251,7 @@ public class MyCareerServiceTest {
 		inOrder.verify(studentRepository).addStudentParticipation(STUDENT1_ID, course);
 		verify(transactionManager).careerTransaction(any());
 	}
-	
+
 	@Test
 	public void testSaveCourseWhenCourseDoesExist() {
 		// Setup
@@ -274,11 +265,11 @@ public class MyCareerServiceTest {
 		verify(courseRepository, never()).save(course);
 		inOrder.verify(courseRepository).addCourseParticipant(COURSE1_ID, student);
 		inOrder.verify(studentRepository).addStudentParticipation(STUDENT1_ID, course);
-		verify(transactionManager).careerTransaction(any());		
+		verify(transactionManager).careerTransaction(any());
 	}
-	
+
 	// removeCourse tests
-	
+
 	@Test
 	public void testRemoveCourseWhenCourseIsFollowedOnlyByStudent() {
 		// Setup
@@ -292,15 +283,16 @@ public class MyCareerServiceTest {
 		inOrder.verify(courseRepository).deleteCourseParticipant(COURSE1_ID, student);
 		inOrder.verify(studentRepository).deleteStudentParticipation(STUDENT1_ID, course);
 		inOrder.verify(courseRepository).delete(COURSE1_ID);
-		verify(transactionManager).careerTransaction(any());		
+		verify(transactionManager).careerTransaction(any());
 	}
-	
+
 	@Test
 	public void testRemoveCourseWhenCourseIsFollowedByManyStudents() {
 		// Setup
 		Student student = new Student(STUDENT2_ID, STUDENT2_NAME);
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, COURSE_CFUS);
-		when(courseRepository.getParticipantsStudentsIdByCourseId(COURSE1_ID)).thenReturn(asList(STUDENT1_ID, STUDENT2_ID));
+		when(courseRepository.getParticipantsStudentsIdByCourseId(COURSE1_ID))
+				.thenReturn(asList(STUDENT1_ID, STUDENT2_ID));
 		// Exercise
 		myCareerService.removeCourse(student, course);
 		// Verify
@@ -310,17 +302,17 @@ public class MyCareerServiceTest {
 		verify(courseRepository, never()).delete(COURSE1_ID);
 		verify(transactionManager).careerTransaction(any());
 	}
-	
+
 	// getStudentsByCourse tests
-	
+
 	@Test
 	public void testGetStudentsByCourse() {
 		// Setup
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, COURSE_CFUS);
 		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
 		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
-		when(courseRepository.getParticipantsStudentsIdByCourseId(COURSE1_ID)).
-			thenReturn(asList(STUDENT1_ID, STUDENT2_ID));
+		when(courseRepository.getParticipantsStudentsIdByCourseId(COURSE1_ID))
+				.thenReturn(asList(STUDENT1_ID, STUDENT2_ID));
 		when(studentRepository.findById(STUDENT1_ID)).thenReturn(student1);
 		when(studentRepository.findById(STUDENT2_ID)).thenReturn(student2);
 		// Exercise

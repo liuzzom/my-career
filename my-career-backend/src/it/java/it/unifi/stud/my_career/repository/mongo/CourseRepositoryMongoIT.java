@@ -31,7 +31,7 @@ public class CourseRepositoryMongoIT {
 
 	private static final String CAREER_DB_NAME = "career";
 	private static final String COURSES_COLLECTION_NAME = "courses";
-	
+
 	private static final String CFU = "cfu";
 	private static final String NAME = "name";
 	private static final String ID = "id";
