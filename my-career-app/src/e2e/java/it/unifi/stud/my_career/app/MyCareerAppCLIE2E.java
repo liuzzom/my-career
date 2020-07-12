@@ -1,5 +1,5 @@
 package it.unifi.stud.my_career.app;
 
-public class MyCareerCLIE2E {
+public class MyCareerAppCLIE2E {
 
 }

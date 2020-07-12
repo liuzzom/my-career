@@ -4,6 +4,14 @@ import java.awt.EventQueue;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
+import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
+
+import it.unifi.stud.my_career.controller.MyCareerController;
+import it.unifi.stud.my_career.repository.mongo.CourseRepositoryMongo;
+import it.unifi.stud.my_career.repository.mongo.StudentRepositoryMongo;
+import it.unifi.stud.my_career.repository.mongo.TransactionManagerMongo;
+import it.unifi.stud.my_career.service.MyCareerService;
 import it.unifi.stud.my_career.view.cli.MyCareerCLIView;
 import it.unifi.stud.my_career.view.swing.MyCareerSwingView;
 import picocli.CommandLine;
@@ -11,14 +19,12 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(mixinStandardHelpOptions = true)
-public class MyCareerApp implements Callable<Void>{
-	
-	// TODO usare i parametri per il db
-	
+public class MyCareerApp implements Callable<Void> {
+
 	// Command Line argument for UI
-	@Option(names = {"--ui", "--user-interface"}, description = "User Interface type (allowable values: gui, cli)")
+	@Option(names = { "--ui", "--user-interface" }, description = "User Interface type (allowable values: gui, cli)")
 	private String userInterface = "gui";
-	
+
 	@Option(names = { "--mongo-host" }, description = "MongoDB host address")
 	private String mongoHost = "localhost";
 
@@ -30,10 +36,10 @@ public class MyCareerApp implements Callable<Void>{
 
 	@Option(names = { "--db-student-collection" }, description = "Students collection name")
 	private String studentCollectionName = "students";
-	
+
 	@Option(names = { "--db-course-collection" }, description = "Coruses collection name")
 	private String courseCollectionName = "courses";
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -47,27 +53,37 @@ public class MyCareerApp implements Callable<Void>{
 			@Override
 			public void run() {
 				try {
+
 					
-					// TODO inserire creazione DB/Repository
-					
-					if(!userInterface.equals("gui") && !userInterface.equals("cli")) {
-						System.err.println("Invalid value for option '--ui/--user-interface'\nUse --ui=gui or --ui=cli");
+					MongoClient mongoClient = new MongoClient(new ServerAddress(mongoHost, mongoPort));
+					StudentRepositoryMongo studentRepo = new StudentRepositoryMongo(mongoClient, databaseName,
+							studentCollectionName);
+					CourseRepositoryMongo courseRepo = new CourseRepositoryMongo(mongoClient, databaseName,
+							courseCollectionName);
+
+					if (!userInterface.equals("gui") && !userInterface.equals("cli")) {
+						System.err
+								.println("Invalid value for option '--ui/--user-interface'\nUse --ui=gui or --ui=cli");
 						System.exit(1);
 					}
-					
-					if(userInterface.equals("gui")) {
+
+					if (userInterface.equals("gui")) {
 						MyCareerSwingView frame = new MyCareerSwingView();
-						// TODO inserire creazione controller e setMyCareerController
+						TransactionManagerMongo txManager = new TransactionManagerMongo(mongoClient, studentRepo, courseRepo);
+						MyCareerService service = new MyCareerService(txManager);
+						MyCareerController controller = new MyCareerController(frame,service);
+						frame.setMyCareerController(controller);
 						frame.setVisible(true);
+						controller.getAllStudents();
 					}
-					
-					if(userInterface.equals("cli")) {
+
+					if (userInterface.equals("cli")) {
 						MyCareerCLIView cli = new MyCareerCLIView(System.in, System.out);
 						// TODO inserire creazione controller e setMyCareerController
-						
+
 						String choice;
 						Scanner scanner = new Scanner(System.in);
-						
+
 						do {
 							cli.showMenu();
 							System.out.print("Enter a valid digit: ");
@@ -102,7 +118,7 @@ public class MyCareerApp implements Callable<Void>{
 								break;
 							}
 						} while (!choice.equals("8"));
-						
+
 						scanner.close();
 					}
 				} catch (Exception e) {
