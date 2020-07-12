@@ -53,24 +53,24 @@ public class MyCareerApp implements Callable<Void> {
 			@Override
 			public void run() {
 				try {
-
+					
+					if (!userInterface.equals("gui") && !userInterface.equals("cli")) {
+						System.err
+								.println("Invalid value for option '--ui/--user-interface'\nUse --ui=gui or --ui=cli");
+						System.exit(1);
+					}
 					
 					MongoClient mongoClient = new MongoClient(new ServerAddress(mongoHost, mongoPort));
 					StudentRepositoryMongo studentRepo = new StudentRepositoryMongo(mongoClient, databaseName,
 							studentCollectionName);
 					CourseRepositoryMongo courseRepo = new CourseRepositoryMongo(mongoClient, databaseName,
 							courseCollectionName);
-
-					if (!userInterface.equals("gui") && !userInterface.equals("cli")) {
-						System.err
-								.println("Invalid value for option '--ui/--user-interface'\nUse --ui=gui or --ui=cli");
-						System.exit(1);
-					}
+					
+					TransactionManagerMongo txManager = new TransactionManagerMongo(mongoClient, studentRepo, courseRepo);
+					MyCareerService service = new MyCareerService(txManager);
 
 					if (userInterface.equals("gui")) {
 						MyCareerSwingView frame = new MyCareerSwingView();
-						TransactionManagerMongo txManager = new TransactionManagerMongo(mongoClient, studentRepo, courseRepo);
-						MyCareerService service = new MyCareerService(txManager);
 						MyCareerController controller = new MyCareerController(frame,service);
 						frame.setMyCareerController(controller);
 						frame.setVisible(true);
@@ -79,8 +79,8 @@ public class MyCareerApp implements Callable<Void> {
 
 					if (userInterface.equals("cli")) {
 						MyCareerCLIView cli = new MyCareerCLIView(System.in, System.out);
-						// TODO inserire creazione controller e setMyCareerController
-
+						MyCareerController controller = new MyCareerController(cli, service);
+						cli.setMyCareerController(controller);
 						String choice;
 						Scanner scanner = new Scanner(System.in);
 

@@ -1,59 +1,59 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>it.unifi.stud</groupId>
-    <artifactId>my-career-parent</artifactId>
-    <relativePath>../my-career-parent/pom.xml</relativePath>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>my-career-app</artifactId>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.unifi.stud</groupId>
+		<artifactId>my-career-parent</artifactId>
+		<relativePath>../my-career-parent/pom.xml</relativePath>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>my-career-app</artifactId>
 
-  <dependencies>
+	<dependencies>
 
-    <!-- Module Dependencies -->
+		<!-- Module Dependencies -->
 
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>my-career-backend</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>my-career-frontend</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>my-career-backend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>my-career-frontend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-    <!-- Compile Dependencies -->
+		<!-- Compile Dependencies -->
 
-    <!-- Mongo DB -->
-    <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongo-java-driver</artifactId>
-    </dependency>
+		<!-- Mongo DB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+		</dependency>
 
-    <!-- Picocli -->
-    <dependency>
-      <groupId>info.picocli</groupId>
-      <artifactId>picocli</artifactId>
-    </dependency>
-    
-    <!-- Test Dependencies -->
-    
-     <!-- AssertJ Swing -->
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-swing-junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    
-    <!-- Testcontainers -->
-    <dependency>
-      <groupId>org.testcontainers</groupId>
-      <artifactId>testcontainers</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<!-- Picocli -->
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+		</dependency>
 
-  </dependencies>
+		<!-- Test Dependencies -->
+
+		<!-- AssertJ Swing -->
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-swing-junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Testcontainers -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 </project>

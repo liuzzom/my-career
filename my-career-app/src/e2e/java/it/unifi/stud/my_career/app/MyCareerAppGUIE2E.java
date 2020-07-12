@@ -90,7 +90,7 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 		course2Participants.add(STUDENT_ID_2);
 		addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
 		// start swing view
-		application("it.unifi.stud.my_career.app.MyCareerApp").withArgs("--mongo-host=" + mongoContainerIpAddress,
+		application("it.unifi.stud.my_career.app.MyCareerApp").withArgs("--user-interface="+"gui","--mongo-host=" + mongoContainerIpAddress,
 				"--mongo-port=" + mongoContainerMappedPort.toString(), "--db-name=" + CAREER_DB_NAME,
 				"--db-student-collection=" + STUDENTS_COLLECTION_NAME,
 				"--db-course-collection=" + COURSES_COLLECTION_NAME).start();
