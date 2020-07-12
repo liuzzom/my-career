@@ -13,11 +13,26 @@ import picocli.CommandLine.Option;
 @Command(mixinStandardHelpOptions = true)
 public class MyCareerApp implements Callable<Void>{
 	
-	// TODO inserire parametri per il DB (mongoHost, mongoPort, databaseName, collectionName)
+	// TODO usare i parametri per il db
 	
 	// Command Line argument for UI
 	@Option(names = {"--ui", "--user-interface"}, description = "User Interface type (allowable values: gui, cli)")
 	private String userInterface = "gui";
+	
+	@Option(names = { "--mongo-host" }, description = "MongoDB host address")
+	private String mongoHost = "localhost";
+
+	@Option(names = { "--mongo-port" }, description = "MongoDB host port")
+	private int mongoPort = 27017;
+
+	@Option(names = { "--db-name" }, description = "Database name")
+	private String databaseName = "career";
+
+	@Option(names = { "--db-student-collection" }, description = "Students collection name")
+	private String studentCollectionName = "students";
+	
+	@Option(names = { "--db-course-collection" }, description = "Coruses collection name")
+	private String courseCollectionName = "courses";
 	
 	/**
 	 * Launch the application.
