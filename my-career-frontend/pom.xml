@@ -80,11 +80,16 @@
         <artifactId>pitest-maven</artifactId>
       </plugin>
 
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
-  
-   <profiles>
-      <profile>
+
+  <profiles>
+    <profile>
       <id>enable-coveralls</id>
       <build>
         <plugins>
@@ -96,5 +101,5 @@
       </build>
     </profile>
   </profiles>
-  
+
 </project>

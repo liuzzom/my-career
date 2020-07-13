@@ -226,7 +226,6 @@
           </executions>
         </plugin>
 
-
         <!-- Pitest maven plugin -->
         <plugin>
           <groupId>org.pitest</groupId>
@@ -317,5 +316,6 @@
         </plugins>
       </build>
     </profile>
+
   </profiles>
 </project>
