@@ -348,4 +348,16 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).contains("Goodbye");
 	}
+	
+	@Test
+	public void testWrongInput() {
+		// Setup
+		String userInput = "Error";
+		testin = new ByteArrayInputStream(userInput.getBytes());
+		myCareerCLIView.setInputStream(testin);
+		// Exercise
+		myCareerCLIView.exec();
+		// Verify
+		assertThat(testOut.toString()).contains("Not a valid input");
+	}
 }

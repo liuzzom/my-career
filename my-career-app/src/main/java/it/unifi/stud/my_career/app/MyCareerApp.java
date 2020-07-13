@@ -80,9 +80,10 @@ public class MyCareerApp implements Callable<Void> {
 						MyCareerCLIView cli = new MyCareerCLIView(System.in, System.out);
 						MyCareerController controller = new MyCareerController(cli, service);
 						cli.setMyCareerController(controller);
+						int userChoice;
 						do {
-							cli.exec();
-						} while (true);
+							userChoice = cli.exec();
+						} while (userChoice != 8);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -190,44 +190,56 @@ public class MyCareerCLIView implements MyCareerView {
 						+ "6) Remove a course subscription\n" + "7) Get students (by course)\n" + "8) Exit");
 	}
 
-	public void exec() {
+	public int exec() {
 		scanner = new Scanner(inputStream);
 		
 		showMenu();
 		outputStream.println("Enter a valid digit: ");
+		
 		String choice = scanner.nextLine();
+		int rValue;
 		
 		switch (choice) {
 		case "1":
 			addStudent();
+			rValue = 1;
 			break;
 		case "2":
 			getAllStudents();
+			rValue = 2;
 			break;
 		case "3":
 			deleteStudent();
+			rValue = 3;
 			break;
 		case "4":
 			getCoursesByStudent();
+			rValue = 4;
 			break;
 		case "5":
 			addCourse();
+			rValue = 5;
 			break;
 		case "6":
 			removeCourse();
+			rValue = 6;
 			break;
 		case "7":
 			getStudentsByCourse();
+			rValue = 7;
 			break;
 		case "8":
 			outputStream.println("Goodbye");
+			rValue = 8;
 			break;
 		default:
 			outputStream.println("Not a valid input");
-			System.exit(0);
+			rValue = -1;
+			break;
 		}
 
 	scanner.close();
+	return rValue;
 
 	}
 }
