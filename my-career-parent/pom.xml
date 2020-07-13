@@ -1,208 +1,229 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>it.unifi.stud</groupId>
-	<artifactId>my-career-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.unifi.stud</groupId>
+  <artifactId>my-career-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
-		<junit.version>4.12</junit.version>
-		<assertj.version>3.11.1</assertj.version>
-		<assertjswing.version>3.9.2</assertjswing.version>
-		<mockito.version>3.2.4</mockito.version>
-		<mongo.driver.version>3.12.1</mongo.driver.version>
-		<mongo.java.server.version>1.24.0</mongo.java.server.version>
-		<testcontainers.version>1.12.5</testcontainers.version>
-	</properties>
+    <junit.version>4.12</junit.version>
+    <assertj.version>3.11.1</assertj.version>
+    <assertjswing.version>3.9.2</assertjswing.version>
+    <mockito.version>3.2.4</mockito.version>
+    <mongo.driver.version>3.12.1</mongo.driver.version>
+    <mongo.java.server.version>1.24.0</mongo.java.server.version>
+    <testcontainers.version>1.12.5</testcontainers.version>
+  </properties>
 
-	<dependencyManagement>
-		<dependencies>
+  <dependencyManagement>
+    <dependencies>
 
-			<!-- Compile Dependencies -->
+      <!-- Compile Dependencies -->
 
-			<!-- Mongo DB -->
-			<dependency>
-				<groupId>org.mongodb</groupId>
-				<artifactId>mongo-java-driver</artifactId>
-				<version>${mongo.driver.version}</version>
-			</dependency>
-			<dependency>
-				<!-- required to see Mongo Java Driver logs -->
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.2.3</version>
-			</dependency>
+      <!-- Mongo DB -->
+      <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongo-java-driver</artifactId>
+        <version>${mongo.driver.version}</version>
+      </dependency>
+      <dependency>
+        <!-- required to see Mongo Java Driver logs -->
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.2.3</version>
+      </dependency>
 
-			<!-- Picocli -->
-			<dependency>
-				<groupId>info.picocli</groupId>
-				<artifactId>picocli</artifactId>
-				<version>4.2.0</version>
-			</dependency>
+      <!-- Picocli -->
+      <dependency>
+        <groupId>info.picocli</groupId>
+        <artifactId>picocli</artifactId>
+        <version>4.2.0</version>
+      </dependency>
 
-			<!-- Test Dependencies -->
+      <!-- Test Dependencies -->
 
-			<!-- JUnit -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
+      <!-- JUnit -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-			<!-- AssertJ Core -->
-			<dependency>
-				<groupId>org.assertj</groupId>
-				<artifactId>assertj-core</artifactId>
-				<version>${assertj.version}</version>
-				<scope>test</scope>
-			</dependency>
+      <!-- AssertJ Core -->
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-			<!-- AssertJ Swing -->
-			<dependency>
-				<groupId>org.assertj</groupId>
-				<artifactId>assertj-swing-junit</artifactId>
-				<version>${assertjswing.version}</version>
-				<scope>test</scope>
-			</dependency>
+      <!-- AssertJ Swing -->
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-swing-junit</artifactId>
+        <version>${assertjswing.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-			<!-- Mockito -->
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<version>${mockito.version}</version>
-				<scope>test</scope>
-			</dependency>
+      <!-- Mockito -->
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-			<!-- Mongo in memory DB -->
-			<dependency>
-				<groupId>de.bwaldvogel</groupId>
-				<artifactId>mongo-java-server</artifactId>
-				<version>${mongo.java.server.version}</version>
-				<scope>test</scope>
-			</dependency>
+      <!-- Mongo in memory DB -->
+      <dependency>
+        <groupId>de.bwaldvogel</groupId>
+        <artifactId>mongo-java-server</artifactId>
+        <version>${mongo.java.server.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-			<!-- Testcontainers -->
-			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>testcontainers</artifactId>
-				<version>${testcontainers.version}</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+      <!-- Testcontainers -->
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>${testcontainers.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-	<build>
-		<plugins>
-			<!-- Docker Container -->
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.27.2</version>
-				<configuration>
-					<images>
-						<image>
-							<name>krnbr/mongo:4.2.6</name>
-							<run>
-								<ports>
-									<port>27017:27017</port>
-								</ports>
-							</run>
-						</image>
-					</images>
-				</configuration>
-				<executions>
-					<execution>
-						<id>docker:start</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>docker:stop</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+  <build>
+    <pluginManagement>
+      <plugins>
 
-			<!-- Add test folder for IT and E2E -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.0.0</version>
-				<executions>
-					<execution>
-						<id>add-test-source</id>
-						<phase>generate-test-sources</phase>
-						<goals>
-							<goal>add-test-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/it/java</source>
-								<source>src/e2e/java</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+        </plugin>
 
-			<!-- Plugin for IT -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+        <!-- Docker Container -->
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>0.27.2</version>
+          <configuration>
+            <images>
+              <image>
+                <name>krnbr/mongo:4.2.6</name>
+                <run>
+                  <ports>
+                    <port>27017:27017</port>
+                  </ports>
+                </run>
+              </image>
+            </images>
+          </configuration>
+          <executions>
+            <execution>
+              <id>docker:start</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>start</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>docker:stop</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>stop</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
 
-			<!-- Jacoco maven plugin -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
-				<configuration>
-					<excludes>
-						<exclude>**/model/*.*</exclude>
-						<exclude>**/app/*.*</exclude>
-						<exclude>**/test/**</exclude>
-						<exclude>**/it/**</exclude>
-						<exclude>**/e2e/**</exclude>
-						<exclude>**/repository/TransactionManager.*</exclude>
-						<exclude>**/repository/TransactionCode.*</exclude>
-						<exclude>**/repository/CourseTransactionCode.*</exclude>
-						<exclude>**/repository/StudentTransactionCode.*</exclude>
-						<exclude>**/view/MyCareerView.*</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+        <!-- Add test folder for IT and E2E -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
+          <executions>
+            <execution>
+              <id>add-test-source</id>
+              <phase>generate-test-sources</phase>
+              <goals>
+                <goal>add-test-source</goal>
+              </goals>
+              <configuration>
+                <sources>
+                  <source>src/it/java</source>
+                  <source>src/e2e/java</source>
+                </sources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
 
-		</plugins>
-	</build>
+        <!-- Plugin for IT -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.22.1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Jacoco maven plugin -->
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.3</version>
+          <configuration>
+            <excludes>
+              <exclude>**/model/*.*</exclude>
+              <exclude>**/app/*.*</exclude>
+              <exclude>**/test/**</exclude>
+              <exclude>**/it/**</exclude>
+              <exclude>**/e2e/**</exclude>
+              <exclude>**/repository/TransactionManager.*</exclude>
+              <exclude>**/repository/TransactionCode.*</exclude>
+              <exclude>**/repository/CourseTransactionCode.*</exclude>
+              <exclude>**/repository/StudentTransactionCode.*</exclude>
+              <exclude>**/view/MyCareerView.*</exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>prepare-agent</goal>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>enable-jacoco</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
