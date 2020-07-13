@@ -196,24 +196,30 @@ public class MyCareerCLIViewTest {
 		assertThat(testOut.toString()).isEqualTo("Course removed : " + course2 + "\n");
 	}
 
+	// Test user interaction
+	
 	@Test
 	public void testAddStudentShouldTakeInputsAndDelegateToControllerNewStudent() {
 		// Setup
-		String userInput = "1\ntest1";
+		String userInput = "1\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addStudent();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: ");
+		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
 		verify(myCareerController).addStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
 
 	}
 
 	@Test
 	public void testGetAllStudentsShouldDelegateToControllerGeAllStudents() {
+		// Setup
+		String userInput = "2";
+		testin = new ByteArrayInputStream(userInput.getBytes());
+		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getAllStudents();
+		myCareerCLIView.exec();
 		// Verify
 		verify(myCareerController).getAllStudents();
 	}
@@ -221,39 +227,39 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testDeleteStudentShouldTakeInpustAndDelegateToControllerDeleteStudent() {
 		// Setup
-		String userInput = "1\ntest1";
+		String userInput = "3\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.deleteStudent();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: ");
+		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
 		verify(myCareerController).deleteStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
 	}
 
 	@Test
 	public void testGetCoursesByStudentShouldTakeInputsAndDelegateToControllerGetCoursesByStudent() {
 		// Setup
-		String userInput = "1\ntest1";
+		String userInput = "4\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getCoursesByStudent();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: ");
+		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
 		verify(myCareerController).getCoursesByStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
 	}
 
 	@Test
 	public void testAddCourseShouldTakeInputsAndDelegateToControllerAddCourse() {
 		// Setup
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "5\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
@@ -262,13 +268,13 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testAddCourseWhenCFUIsNotANumberShouldNotCallController() {
 		// Setup
-		String userInput = "1\ntest1\n123\nAPT\nError";
+		String userInput = "5\n1\ntest1\n123\nAPT\nError";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
@@ -277,13 +283,13 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testRemoveCourseShouldDelegateToControllerRemoveController() {
 		// Setup
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "6\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.removeCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
@@ -292,13 +298,13 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testRemoveCourseWhenCFUIsNotANumberShouldNotCallController() {
 		// Setup
-		String userInput = "1\ntest1\n123\nAPT\nError";
+		String userInput = "6\n1\ntest1\n123\nAPT\nError";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.removeCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
@@ -307,28 +313,39 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testGetStudentsByCourseShouldTakeInputsAndDelegateToControllerGetStudentsByCourse() {
 		// Setup
-		String userInput = "123\nAPT\n6";
+		String userInput = "7\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getStudentsByCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert course id: Insert course name: Insert course CFU: ");
+		assertThat(testOut.toString()).contains("Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
 	}
 
 	@Test
 	public void testGetStudentsByCourseWhenCFUIsNotANumberShouldNotCallController() {
 		// Setup
-		String userInput = "123\nAPT\nError";
+		String userInput = "7\n123\nAPT\nError";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getStudentsByCourse();
+		myCareerCLIView.exec();
 		// Verify
-		System.out.println(testOut.toString());
 		assertThat(testOut.toString())
-				.isEqualTo("Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
+				.contains("Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
+	}
+	
+	@Test
+	public void testExit() {
+		// Setup
+		String userInput = "8";
+		testin = new ByteArrayInputStream(userInput.getBytes());
+		myCareerCLIView.setInputStream(testin);
+		// Exercise
+		myCareerCLIView.exec();
+		// Verify
+		assertThat(testOut.toString()).contains("Goodbye");
 	}
 }

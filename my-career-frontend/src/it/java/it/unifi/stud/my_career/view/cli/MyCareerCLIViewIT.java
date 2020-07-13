@@ -101,14 +101,14 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testAddStudentSuccess() {
 		// Setup
-		String userInput = "1\ntest1";
+		String userInput = "1\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addStudent();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString())
-				.isEqualTo("Insert id: Insert name: Student account created : Student [id=1, name=test1]\n");
+				.contains("Insert id: Insert name: Student account created : Student [id=1, name=test1]\n");
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(new Student(STUDENT1_ID, STUDENT1_NAME));
 	}
 
@@ -117,13 +117,13 @@ public class MyCareerCLIViewIT {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		myCareerService.saveStudent(student);
-		String userInput = "1\ntest1";
+		String userInput = "1\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addStudent();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert id: Insert name: ERROR! Already exists a student with id 1 : Student [id=1, name=test1]\n");
 	}
 
@@ -132,28 +132,28 @@ public class MyCareerCLIViewIT {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		myCareerService.saveStudent(student);
-		String userInput = "1\ntest1";
+		String userInput = "3\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.deleteStudent();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString())
-				.isEqualTo("Insert id: Insert name: Student account deleted : Student [id=1, name=test1]\n");
+				.contains("Insert id: Insert name: Student account deleted : Student [id=1, name=test1]\n");
 		assertThat(myCareerCLIView.getStudentsList()).isEmpty();
 	}
 
 	@Test
 	public void testDeletStudentErrorStudentDoesNotExist() {
 		// Setup
-		String userInput = "1\ntest1";
+		String userInput = "3\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.deleteStudent();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString())
-				.isEqualTo("Insert id: Insert name: ERROR! Student does not exist : Student [id=1, name=test1]\n");
+				.contains("Insert id: Insert name: ERROR! Student does not exist : Student [id=1, name=test1]\n");
 	}
 
 	@Test
@@ -161,11 +161,11 @@ public class MyCareerCLIViewIT {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		myCareerController.addStudent(student);
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "5\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addCourse();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(new Student(STUDENT1_ID, STUDENT1_NAME));
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(new Course(COURSE1_ID, COURSE1_NAME, 6));
@@ -178,13 +178,13 @@ public class MyCareerCLIViewIT {
 		myCareerService.saveStudent(student);
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		myCareerService.saveCourse(student, course);
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "5\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU:"
 						+ " ERROR! The course already exists : Course [id=123, name=APT, cfu=6]\n");
 	}
@@ -192,29 +192,29 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testAddCourseErrorStudentDoesNotExist() {
 		// Setup
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "5\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.addCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU:"
 						+ " ERROR! The student does not exist : Course [id=123, name=APT, cfu=6]\n");
 	}
 
 	@Test
-	public void testRmoveCourseSuccess() {
+	public void testRemoveCourseSuccess() {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		myCareerController.addStudent(student);
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		myCareerController.addCourse(student, course);
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "6\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.removeCourse();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(myCareerCLIView.getCoursesList()).isEmpty();
 	}
@@ -224,13 +224,13 @@ public class MyCareerCLIViewIT {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		myCareerService.saveStudent(student);
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "6\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.removeCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: "
 						+ "ERROR! The course does not exist : Course [id=123, name=APT, cfu=6]\n");
 	}
@@ -238,13 +238,13 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testRemoveCourseErrorStudentDoesNotExist() {
 		// Setup
-		String userInput = "1\ntest1\n123\nAPT\n6";
+		String userInput = "6\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.removeCourse();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: "
 						+ "ERROR! The student does not exist : Course [id=123, name=APT, cfu=6]\n");
 
@@ -257,26 +257,26 @@ public class MyCareerCLIViewIT {
 		myCareerService.saveStudent(student);
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		myCareerService.saveCourse(student, course);
-		String userInput = "1\ntest1";
+		String userInput = "4\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getCoursesByStudent();
+		myCareerCLIView.exec();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Insert id: Insert name: Course [id=123, name=APT, cfu=6]\n");
+		assertThat(testOut.toString()).contains("Insert id: Insert name: Course [id=123, name=APT, cfu=6]\n");
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course);
 	}
 
 	@Test
 	public void testGetCoursesByStudentErrorStudentDoesNotExist() {
-		String userInput = "1\ntest1";
+		String userInput = "4\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getCoursesByStudent();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString())
-				.isEqualTo("Insert id: Insert name: ERROR! Student does not exist : Student [id=1, name=test1]\n");
+				.contains("Insert id: Insert name: ERROR! Student does not exist : Student [id=1, name=test1]\n");
 	}
 
 	@Test
@@ -286,14 +286,14 @@ public class MyCareerCLIViewIT {
 		myCareerService.saveStudent(student);
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
 		myCareerService.saveCourse(student, course);
-		String userInput = "123\nAPT\n6";
+		String userInput = "7\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.getStudentsByCourse();
+		myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString())
-				.isEqualTo("Insert course id: Insert course name: Insert course CFU: Student [id=1, name=test1]\n");
+				.contains("Insert course id: Insert course name: Insert course CFU: Student [id=1, name=test1]\n");
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student);
 	}
 }

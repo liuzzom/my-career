@@ -94,49 +94,38 @@ public class MyCareerCLIView implements MyCareerView {
 		outputStream.println(message + " : " + course);
 	}
 
-	public void addStudent() {
-		scanner = new Scanner(inputStream);
-
+	private void addStudent() {
 		outputStream.print("Insert id: ");
 		String id = scanner.nextLine();
 		outputStream.print("Insert name: ");
 		String name = scanner.nextLine();
 
 		myCareerController.addStudent(new Student(id, name));
-		scanner.close();
 	}
 
-	public void getAllStudents() {
+	private void getAllStudents() {
 		myCareerController.getAllStudents();
 	}
 
-	public void deleteStudent() {
-		scanner = new Scanner(inputStream);
-
+	private void deleteStudent() {
 		outputStream.print("Insert id: ");
 		String id = scanner.nextLine();
 		outputStream.print("Insert name: ");
 		String name = scanner.nextLine();
 
 		myCareerController.deleteStudent(new Student(id, name));
-		scanner.close();
 	}
 
-	public void getCoursesByStudent() {
-		scanner = new Scanner(inputStream);
-
+	private void getCoursesByStudent() {
 		outputStream.print("Insert id: ");
 		String id = scanner.nextLine();
 		outputStream.print("Insert name: ");
 		String name = scanner.nextLine();
 
 		myCareerController.getCoursesByStudent(new Student(id, name));
-		scanner.close();
 	}
 
-	public void addCourse() {
-		scanner = new Scanner(inputStream);
-
+	private void addCourse() {
 		outputStream.print("Insert student id: ");
 		String studentId = scanner.nextLine();
 		outputStream.print("Insert student name: ");
@@ -155,12 +144,9 @@ public class MyCareerCLIView implements MyCareerView {
 
 		myCareerController.addCourse(new Student(studentId, studentName),
 				new Course(courseId, courseName, Integer.parseInt(courseCFU)));
-		scanner.close();
 	}
 
-	public void removeCourse() {
-		scanner = new Scanner(inputStream);
-
+	private void removeCourse() {
 		outputStream.print("Insert student id: ");
 		String studentId = scanner.nextLine();
 		outputStream.print("Insert student name: ");
@@ -179,11 +165,9 @@ public class MyCareerCLIView implements MyCareerView {
 
 		myCareerController.removeCourse(new Student(studentId, studentName),
 				new Course(courseId, courseName, Integer.parseInt(courseCFU)));
-		scanner.close();
 	}
 
-	public void getStudentsByCourse() {
-		scanner = new Scanner(inputStream);
+	private void getStudentsByCourse() {
 		outputStream.print("Insert course id: ");
 		String courseId = scanner.nextLine();
 		outputStream.print("Insert course name: ");
@@ -197,7 +181,6 @@ public class MyCareerCLIView implements MyCareerView {
 		}
 
 		myCareerController.getStudentsByCourse(new Course(courseId, courseName, Integer.parseInt(courseCFU)));
-		scanner.close();
 	}
 
 	public void showMenu() {
@@ -207,4 +190,44 @@ public class MyCareerCLIView implements MyCareerView {
 						+ "6) Remove a course subscription\n" + "7) Get students (by course)\n" + "8) Exit");
 	}
 
+	public void exec() {
+		scanner = new Scanner(inputStream);
+		
+		showMenu();
+		outputStream.println("Enter a valid digit: ");
+		String choice = scanner.nextLine();
+		
+		switch (choice) {
+		case "1":
+			addStudent();
+			break;
+		case "2":
+			getAllStudents();
+			break;
+		case "3":
+			deleteStudent();
+			break;
+		case "4":
+			getCoursesByStudent();
+			break;
+		case "5":
+			addCourse();
+			break;
+		case "6":
+			removeCourse();
+			break;
+		case "7":
+			getStudentsByCourse();
+			break;
+		case "8":
+			outputStream.println("Goodbye");
+			break;
+		default:
+			outputStream.println("Not a valid input");
+			System.exit(0);
+		}
+
+	scanner.close();
+
+	}
 }

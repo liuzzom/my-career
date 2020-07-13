@@ -1,7 +1,6 @@
 package it.unifi.stud.my_career.app;
 
 import java.awt.EventQueue;
-import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 import com.mongodb.MongoClient;
@@ -81,45 +80,9 @@ public class MyCareerApp implements Callable<Void> {
 						MyCareerCLIView cli = new MyCareerCLIView(System.in, System.out);
 						MyCareerController controller = new MyCareerController(cli, service);
 						cli.setMyCareerController(controller);
-						String choice;
-						Scanner scanner = new Scanner(System.in);
-
 						do {
-							cli.showMenu();
-							System.out.print("Enter a valid digit: ");
-							choice = scanner.nextLine();
-							switch (choice) {
-							case "1":
-								cli.addStudent();
-								break;
-							case "2":
-								cli.getAllStudents();
-								break;
-							case "3":
-								cli.deleteStudent();
-								break;
-							case "4":
-								cli.getCoursesByStudent();
-								break;
-							case "5":
-								cli.addCourse();
-								break;
-							case "6":
-								cli.removeCourse();
-								break;
-							case "7":
-								cli.getStudentsByCourse();
-								break;
-							case "8":
-								System.out.println("Goodbye");
-								break;
-							default:
-								System.out.println("Not a valid input");
-								break;
-							}
-						} while (!choice.equals("8"));
-
-						scanner.close();
+							cli.exec();
+						} while (true);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
