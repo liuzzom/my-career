@@ -18,4 +18,4 @@ cache:
     - $HOME/.m2
 
 script:
-  - mvn -f my-career-aggregator/pom.xml clean verify
+  - mvn -f my-career-aggregator/pom.xml clean verify -P jacoco,enable-coveralls 

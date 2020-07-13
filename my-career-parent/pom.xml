@@ -103,11 +103,6 @@
     <pluginManagement>
       <plugins>
 
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
-        </plugin>
-
         <!-- Docker Container -->
         <plugin>
           <groupId>io.fabric8</groupId>
@@ -165,7 +160,7 @@
           </executions>
         </plugin>
 
-        <!-- Plugin for IT -->
+        <!-- Plugin for IT and E2E -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
@@ -176,6 +171,21 @@
                 <goal>integration-test</goal>
                 <goal>verify</goal>
               </goals>
+            </execution>
+            <execution>
+              <id>e2e-tests</id>
+              <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+              </goals>
+              <configuration>
+                <excludes>
+                  <exclude>**/*IT.java</exclude>
+                </excludes>
+                <includes>
+                  <include>**/*E2E.java</include>
+                </includes>
+              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -188,15 +198,7 @@
           <configuration>
             <excludes>
               <exclude>**/model/*.*</exclude>
-              <exclude>**/app/*.*</exclude>
-              <exclude>**/test/**</exclude>
-              <exclude>**/it/**</exclude>
-              <exclude>**/e2e/**</exclude>
-              <exclude>**/repository/TransactionManager.*</exclude>
-              <exclude>**/repository/TransactionCode.*</exclude>
-              <exclude>**/repository/CourseTransactionCode.*</exclude>
-              <exclude>**/repository/StudentTransactionCode.*</exclude>
-              <exclude>**/view/MyCareerView.*</exclude>
+              <exclude>**/TransactionManagerMongo.*</exclude>
             </excludes>
           </configuration>
           <executions>
@@ -208,13 +210,84 @@
             </execution>
           </executions>
         </plugin>
+
+        <!-- Coveralls maven plugin -->
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>4.3.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <phase>verify</phase>
+            </execution>
+          </executions>
+        </plugin>
+
+
+        <!-- Pitest maven plugin -->
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.4.3</version>
+          <configuration>
+            <excludedClasses>
+              <param>it.unifi.stud.my_career.model.*</param>
+              <param>it.unifi.stud.my_career.repository.mongo.TransactionManagerMongo</param>
+              <param>it.unifi.stud.my_career.view.swing.*</param>
+              <param>it.unifi.stud.my_career.app.*</param>
+            </excludedClasses>
+            <excludedTestClasses>
+              <param>it.unifi.stud.my_career.view.swing.*</param>
+              <param>it.unifi.stud.my_career.app.*</param>
+              <param>**.*IT</param>
+              <param>**.*E2E</param>
+            </excludedTestClasses>
+            <mutators>
+              <mutator>DEFAULTS</mutator>
+            </mutators>
+            <mutationThreshold>80</mutationThreshold>
+            <outputFormats>
+              <outputFormat>XML</outputFormat>
+              <outputFormat>HTML</outputFormat>
+            </outputFormats>
+          </configuration>
+        </plugin>
+
+        <!-- Maven assembly plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.1.1</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+              <configuration>
+                <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+                <archive>
+                  <manifest>
+                    <mainClass>it.unifi.stud.my_career.app.MyCareerApp</mainClass>
+                  </manifest>
+                </archive>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
 
   <profiles>
     <profile>
-      <id>enable-jacoco</id>
+      <id>jacoco</id>
       <build>
         <plugins>
           <plugin>
@@ -224,6 +297,38 @@
         </plugins>
       </build>
     </profile>
-  </profiles>
 
+    <profile>
+      <id>mutation-testing</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+                <phase>test</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>enable-coveralls</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
 </project>

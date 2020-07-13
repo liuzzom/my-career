@@ -205,10 +205,11 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
 		verify(myCareerController).addStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		assertThat(rValue).isEqualTo(1);
 
 	}
 
@@ -219,9 +220,10 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		verify(myCareerController).getAllStudents();
+		assertThat(rValue).isEqualTo(2);
 	}
 
 	@Test
@@ -231,10 +233,11 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
 		verify(myCareerController).deleteStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		assertThat(rValue).isEqualTo(3);
 	}
 
 	@Test
@@ -244,10 +247,11 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
 		verify(myCareerController).getCoursesByStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		assertThat(rValue).isEqualTo(4);
 	}
 
 	@Test
@@ -257,12 +261,13 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(rValue).isEqualTo(5);
 	}
 
 	@Test
@@ -272,12 +277,13 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(rValue).isEqualTo(5);
 	}
 
 	@Test
@@ -287,12 +293,13 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(rValue).isEqualTo(6);
 	}
 
 	@Test
@@ -302,12 +309,13 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
 				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(rValue).isEqualTo(6);
 	}
 
 	@Test
@@ -317,10 +325,11 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert course id: Insert course name: Insert course CFU: ");
 		verify(myCareerController).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(rValue).isEqualTo(7);
 	}
 
 	@Test
@@ -330,11 +339,12 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString())
 				.contains("Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
 		verify(myCareerController, never()).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(rValue).isEqualTo(7);
 	}
 	
 	@Test
@@ -344,9 +354,10 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Goodbye");
+		assertThat(rValue).isEqualTo(8);
 	}
 	
 	@Test
@@ -356,8 +367,9 @@ public class MyCareerCLIViewTest {
 		testin = new ByteArrayInputStream(userInput.getBytes());
 		myCareerCLIView.setInputStream(testin);
 		// Exercise
-		myCareerCLIView.exec();
+		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Not a valid input");
+		assertThat(rValue).isEqualTo(-1);
 	}
 }
