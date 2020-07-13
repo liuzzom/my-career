@@ -212,6 +212,7 @@
         </plugin>
 
         <!-- Coveralls maven plugin -->
+        <!-- 
         <plugin>
           <groupId>org.eluder.coveralls</groupId>
           <artifactId>coveralls-maven-plugin</artifactId>
@@ -225,6 +226,7 @@
             </execution>
           </executions>
         </plugin>
+         -->
 
         <!-- Pitest maven plugin -->
         <plugin>
