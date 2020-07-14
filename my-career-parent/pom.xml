@@ -231,7 +231,7 @@
 						</execution>
 					</executions>
 				</plugin>
-				
+
 				<!-- Pitest maven plugin -->
 				<plugin>
 					<groupId>org.pitest</groupId>
@@ -301,5 +301,16 @@
 			</build>
 		</profile>
 
+		<profile>
+			<id>enable-coveralls</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eluder.coveralls</groupId>
+						<artifactId>coveralls-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
