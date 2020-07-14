@@ -1,109 +1,105 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>it.unifi.stud</groupId>
-    <artifactId>my-career-parent</artifactId>
-    <relativePath>../my-career-parent/pom.xml</relativePath>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>my-career-frontend</artifactId>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.unifi.stud</groupId>
+		<artifactId>my-career-parent</artifactId>
+		<relativePath>../my-career-parent/pom.xml</relativePath>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>my-career-frontend</artifactId>
 
-  <dependencies>
+	<dependencies>
 
-    <!-- Module Dependencies -->
+		<!-- Module Dependencies -->
 
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>my-career-backend</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>my-career-backend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-    <!-- Test Dependencies -->
+		<!-- Test Dependencies -->
 
-    <!-- JUnit -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <!-- AssertJ Swing -->
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-swing-junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<!-- AssertJ Swing -->
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-swing-junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <!-- Mockito -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <!-- Testcontainers -->
-    <dependency>
-      <groupId>org.testcontainers</groupId>
-      <artifactId>testcontainers</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<!-- Testcontainers -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-  </dependencies>
+	</dependencies>
 
-  <build>
-    <plugins>
+	<build>
+		<plugins>
 
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-      </plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+			</plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-      </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
 
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
 
-      <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-      </plugin>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+			</plugin>
 
-      <!-- 
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-      </plugin>
-       -->
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+			</plugin>
 
-    </plugins>
-  </build>
+		</plugins>
+	</build>
 
-<!-- 
-  <profiles>
-    <profile>
-      <id>enable-coveralls</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.eluder.coveralls</groupId>
-            <artifactId>coveralls-maven-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
- -->
+	<profiles>
+		<profile>
+			<id>coveralls</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eluder.coveralls</groupId>
+						<artifactId>coveralls-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
