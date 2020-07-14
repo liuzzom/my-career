@@ -14,11 +14,15 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <junit.version>4.12</junit.version>
+    
     <assertj.version>3.11.1</assertj.version>
     <assertjswing.version>3.9.2</assertjswing.version>
+    
     <mockito.version>3.2.4</mockito.version>
+    
     <mongo.driver.version>3.12.1</mongo.driver.version>
     <mongo.java.server.version>1.24.0</mongo.java.server.version>
+    
     <testcontainers.version>1.12.5</testcontainers.version>
   </properties>
 
@@ -234,18 +238,22 @@
           <artifactId>pitest-maven</artifactId>
           <version>1.4.3</version>
           <configuration>
-            <excludedClasses>
-              <param>it.unifi.stud.my_career.model.*</param>
-              <param>it.unifi.stud.my_career.repository.mongo.TransactionManagerMongo</param>
-              <param>it.unifi.stud.my_career.view.swing.*</param>
-              <param>it.unifi.stud.my_career.app.*</param>
-            </excludedClasses>
-            <excludedTestClasses>
-              <param>it.unifi.stud.my_career.view.swing.*</param>
-              <param>it.unifi.stud.my_career.app.*</param>
-              <param>**.*IT</param>
-              <param>**.*E2E</param>
-            </excludedTestClasses>
+			<targetClasses>
+				<!-- Back-end classes -->
+				<param>it.unifi.stud.my_career.repository.mongo.CourseRepositoryMongo</param>
+				<param>it.unifi.stud.my_career.repository.mongo.StudentRepositoryMongo</param>
+				<param>it.unifi.stud.my_career.service.MyCareerService</param>
+				<!-- Front-end classes -->
+				<param>it.unifi.stud.my_career.controller.MyCareerController</param>
+			</targetClasses>
+			<targetTests>
+				<!-- Back-end classes -->
+				<param>it.unifi.stud.my_career.repository.mongo.CourseRepositoryMongoTest</param>
+				<param>it.unifi.stud.my_career.repository.mongo.StudentRepositoryMongoTest</param>
+				<param>it.unifi.stud.my_career.service.MyCareerServiceTest</param>
+				<!-- Front-end classes -->
+				<param>it.unifi.stud.my_career.controller.MyCareerControllerTest</param>
+			</targetTests>
             <mutators>
               <mutator>DEFAULTS</mutator>
             </mutators>
@@ -256,32 +264,6 @@
             </outputFormats>
           </configuration>
         </plugin>
-
-        <!-- Maven assembly plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.1.1</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>single</goal>
-              </goals>
-              <configuration>
-                <descriptorRefs>
-                  <descriptorRef>jar-with-dependencies</descriptorRef>
-                </descriptorRefs>
-                <archive>
-                  <manifest>
-                    <mainClass>it.unifi.stud.my_career.app.MyCareerApp</mainClass>
-                  </manifest>
-                </archive>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-
       </plugins>
     </pluginManagement>
   </build>
