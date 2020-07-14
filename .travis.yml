@@ -4,7 +4,10 @@ language: java
 # to use xvfb as a service
 dist: xenial
 
-jdk: openjdk8
+matrix:
+  include:
+  - jdk: openjdk8
+    env: ADDITIONAL_MAVEN_ARGS="-P enable-jacoco -P enable-mutation-testing
 
 services:
   - docker
@@ -18,4 +21,4 @@ cache:
     - $HOME/.m2
 
 script:
-  - mvn -f my-career-aggregator/pom.xml clean verify -P jacoco,enable-coveralls 
+  - mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS
