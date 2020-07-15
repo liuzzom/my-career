@@ -83,10 +83,6 @@
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<configuration>
-					<serviceJobId>558869305</serviceJobId>
-				</configuration>
-
 			</plugin>
 
 		</plugins>
