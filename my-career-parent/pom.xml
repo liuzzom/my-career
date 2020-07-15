@@ -142,7 +142,7 @@
 					</executions>
 				</plugin>
 
-				<!-- Add test folder for IT and E2E -->
+				<!-- Add test folder for IT -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
@@ -157,14 +157,13 @@
 							<configuration>
 								<sources>
 									<source>src/it/java</source>
-									<source>src/e2e/java</source>
 								</sources>
 							</configuration>
 						</execution>
 					</executions>
 				</plugin>
 
-				<!-- Plugin for IT and E2E -->
+				<!-- Plugin for IT -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
@@ -217,8 +216,8 @@
 					</executions>
 					<configuration>
 						<sourceDirectories>
-							<sourceDirectory>../my-career-backend/src/mainjava</sourceDirectory>
-							<sourceDirectory>../my-career-frontend/src/mainjava</sourceDirectory>
+							<sourceDirectory>../my-career-backend/src/main/java</sourceDirectory>
+							<sourceDirectory>../my-career-frontend/src/main/java</sourceDirectory>
 						</sourceDirectories>
 					</configuration>
 				</plugin>
