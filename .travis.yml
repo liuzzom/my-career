@@ -1,24 +1,18 @@
 language: java
-
-# explicit distribution specification
-# to use xvfb as a service
 dist: xenial
-
 matrix:
   include:
   - jdk: openjdk8
     env: ADDITIONAL_MAVEN_ARGS="-P jacoco -P mutation-testing coveralls:report
-
 services:
-  - docker
-  - xvfb
-
-# skip installation step
+- docker
+- xvfb
 install: true
-
 cache:
   directories:
-  - $HOME/.m2
-
+  - "$HOME/.m2"
 script:
-  - mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS
+- mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS
+env:
+  global:
+    secure: Z1co9VrNa/etdiq5OSAE0+SSnN9LMkMigj4Nc6/Tut/ElHHT3Ts5se/kZij+iY+9r+glCt6oE1yQZpfSXrwEbXrXTP/sPvByQjJNB6N+ag0MxflJyiPfMz6gFOd5jpeGbmKtW36OFuC7E3ty7EAl7YKVUM+tdD8iEhC4xnhyv9rXtN2V7ia2d84bnGYd9Ats6yQtOZDwEGrtDLJ6pHg3eq7TTE5OBX48FAZxYK6lRGbYXqPrd5NoAiMT4D4+mDCo1h8MUFIvsahPyTV3TwtvyTLVu8HWsE0plJVtINaQQWJto/sAtlMjMCpSTFFhLwOa5QQfk+cIIpPSzuwq8/KfPBXedA77k+BCyaKhxRKdDBs3hqTRUq1FvsIh7XC/NVobx+FXDNB6AwizF0AIL8id1cyOP/qUHzj3QLrizDwSHHRGHssHujjpP0rQla85yQ6L5oAdV6etiSbHpNQtq06aWcCVSwp8pQWesd6emDhza/FZ3vqkt0hNjvOb3Dm+CoLssZkkH+XLDga14vREjNpxVwZq/KRpVI10iz1buDfuFZxD8WTMpAkHEYVgf1jnypGXNJFN7SN/0u6dQ9hPm03qh8PKjikuXi9dFgq7xWWP4phrdEOcCqCeF9AbVH0P24Y8H6jf22vK1Yf7a1v2+2D+Og1Sag/eRZHE/cc4c4qMleg=
