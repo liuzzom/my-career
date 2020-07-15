@@ -18,11 +18,14 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 		</dependency>
+
+		<!-- required to see Mongo Java Driver logs -->
+		<!-- 
 		<dependency>
-			<!-- required to see Mongo Java Driver logs -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+		 -->
 
 		<!-- Test Dependencies -->
 
@@ -90,10 +93,12 @@
 				<artifactId>pitest-maven</artifactId>
 			</plugin>
 
+			<!-- 
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
 			</plugin>
+			 -->
 
 		</plugins>
 	</build>

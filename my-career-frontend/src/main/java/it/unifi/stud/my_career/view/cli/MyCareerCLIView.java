@@ -191,11 +191,10 @@ public class MyCareerCLIView implements MyCareerView {
 	}
 
 	public int exec() {
-		scanner = new Scanner(inputStream);
-		
 		showMenu();
 		outputStream.println("Enter a valid digit: ");
 		
+		scanner = new Scanner(inputStream);
 		String choice = scanner.nextLine();
 		int rValue;
 		
@@ -237,8 +236,6 @@ public class MyCareerCLIView implements MyCareerView {
 			rValue = -1;
 			break;
 		}
-
-	scanner.close();
 	return rValue;
 
 	}

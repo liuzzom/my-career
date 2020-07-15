@@ -2,6 +2,8 @@ package it.unifi.stud.my_career.app;
 
 import java.awt.EventQueue;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
@@ -77,9 +79,13 @@ public class MyCareerApp implements Callable<Void> {
 					}
 
 					if (userInterface.equals("cli")) {
+					    Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+					    mongoLogger.setLevel(Level.OFF);
+						
 						MyCareerCLIView cli = new MyCareerCLIView(System.in, System.out);
 						MyCareerController controller = new MyCareerController(cli, service);
 						cli.setMyCareerController(controller);
+						
 						int userChoice;
 						do {
 							userChoice = cli.exec();

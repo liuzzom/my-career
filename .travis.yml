@@ -3,7 +3,7 @@ dist: xenial
 matrix:
   include:
   - jdk: openjdk8
-    env: ADDITIONAL_MAVEN_ARGS="-P jacoco -P mutation-testing coveralls:report
+    env: ADDITIONAL_MAVEN_ARGS="-P jacoco -P mutation-testing
 services:
 - docker
 - xvfb
