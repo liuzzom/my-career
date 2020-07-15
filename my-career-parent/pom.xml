@@ -216,8 +216,8 @@
 					</executions>
 					<configuration>
 						<sourceDirectories>
-							<sourceDirectory>../my-career-backend/src/main/java</sourceDirectory>
-							<sourceDirectory>../my-career-frontend/src/main/java</sourceDirectory>
+							<sourceDirectory>../my-career-backend</sourceDirectory>
+							<sourceDirectory>../my-career-frontend</sourceDirectory>
 						</sourceDirectories>
 					</configuration>
 				</plugin>
