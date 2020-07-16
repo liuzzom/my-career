@@ -20,12 +20,10 @@
 		</dependency>
 
 		<!-- required to see Mongo Java Driver logs -->
-		<!-- 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-		 -->
 
 		<!-- Test Dependencies -->
 
@@ -93,12 +91,8 @@
 				<artifactId>pitest-maven</artifactId>
 			</plugin>
 
-			<!-- 
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-			</plugin>
-			 -->
+			<!-- <plugin> <groupId>org.eluder.coveralls</groupId> <artifactId>coveralls-maven-plugin</artifactId> 
+				</plugin> -->
 
 		</plugins>
 	</build>

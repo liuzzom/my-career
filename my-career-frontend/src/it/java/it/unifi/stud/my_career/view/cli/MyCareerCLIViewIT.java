@@ -94,7 +94,7 @@ public class MyCareerCLIViewIT {
 		// Execute
 		myCareerController.getAllStudents();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("Student [id=1, name=test1]\nStudent [id=2, name=test2]\n");
+		assertThat(testOut.toString()).hasToString("Student [id=1, name=test1]\nStudent [id=2, name=test2]\n");
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student1, student2);
 	}
 

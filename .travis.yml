@@ -1,15 +1,26 @@
 language: java
+
 dist: xenial
+
 matrix:
   include:
   - jdk: openjdk8
-    env: ADDITIONAL_MAVEN_ARGS="-P jacoco -P mutation-testing
+    env: ADDITIONAL_MAVEN_ARGS="-P jacoco -P mutation-testing sonar:sonar
+
+addons:
+  sonarcloud:
+    organization: "liuzzom-github"
+
 services:
 - docker
 - xvfb
+
 install: true
+
 cache:
   directories:
-  - "$HOME/.m2"
+  - $HOME/.m2
+  - $HOME/.sonar/cache
+
 script:
-- mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS
+- mvn -f my-career-aggregator/pom.xml clean verify -Pjacoco sonar:sonar -Dsonar.projectKey=liuzzom_my-career

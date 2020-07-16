@@ -1,17 +1,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>it.unifi.stud</groupId>
-  <artifactId>my-career-aggregator</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modules>
-    <module>../my-career-parent</module>
-    <module>../my-career-backend</module>
-    <module>../my-career-frontend</module>
-    <module>../my-career-app</module>
-  </modules>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.unifi.stud</groupId>
+	<artifactId>my-career-aggregator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<sonar.issue.ignore.multicriteria>e11, e12, e13, e14, e15, e16, e17</sonar.issue.ignore.multicriteria>
+
+		<sonar.issue.ignore.multicriteria.e11.ruleKey>java:S110</sonar.issue.ignore.multicriteria.e11.ruleKey>
+		<sonar.issue.ignore.multicriteria.e11.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e11.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e12.ruleKey>java:S117</sonar.issue.ignore.multicriteria.e12.ruleKey>
+		<sonar.issue.ignore.multicriteria.e12.resourceKey>**/MyCareerSwingView.java</sonar.issue.ignore.multicriteria.e12.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e13.ruleKey>java:S2699</sonar.issue.ignore.multicriteria.e13.ruleKey>
+		<sonar.issue.ignore.multicriteria.e13.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e13.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e14.ruleKey>java:S106</sonar.issue.ignore.multicriteria.e14.ruleKey>
+		<sonar.issue.ignore.multicriteria.e14.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e14.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e15.ruleKey>xml:S125</sonar.issue.ignore.multicriteria.e15.ruleKey>
+		<sonar.issue.ignore.multicriteria.e15.resourceKey>**/*.xml</sonar.issue.ignore.multicriteria.e15.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e16.ruleKey>java:S3973</sonar.issue.ignore.multicriteria.e16.ruleKey>
+		<sonar.issue.ignore.multicriteria.e16.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e16.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e17.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e17.ruleKey>
+		<sonar.issue.ignore.multicriteria.e17.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e17.resourceKey>
+
+		<sonar.coverage.exclusions>
+			**/MyCareerApp.*,
+			**/model/*.*,
+			**/TransactionManagerMongo.*
+		</sonar.coverage.exclusions>
+
+	</properties>
+
+	<modules>
+		<module>../my-career-parent</module>
+		<module>../my-career-backend</module>
+		<module>../my-career-frontend</module>
+		<module>../my-career-app</module>
+	</modules>
 </project>

@@ -1,5 +1,6 @@
 package it.unifi.stud.my_career.repository.mongo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -16,6 +17,7 @@ import com.mongodb.client.model.Updates;
 
 public class CourseRepositoryMongo implements CourseRepository {
 
+	private static final String PARTICIPANTS = "participants";
 	private static final String ID = "id";
 	private static final String NAME = "name";
 	private static final String CFU = "cfu";
@@ -59,18 +61,18 @@ public class CourseRepositoryMongo implements CourseRepository {
 	public List<String> getParticipantsStudentsIdByCourseId(String id) {
 		Document d = collectionCourses.find(Filters.and(Filters.eq(ID, id))).first();
 		if (d != null)
-			return d.getList("participants", String.class);
-		return null;
+			return d.getList(PARTICIPANTS, String.class);
+		return Collections.emptyList();
 	}
 
 	@Override
 	public void deleteCourseParticipant(String courseId, Student student) {
-		collectionCourses.updateOne(Filters.eq(ID, courseId), Updates.pull("participants", student.getId()));
+		collectionCourses.updateOne(Filters.eq(ID, courseId), Updates.pull(PARTICIPANTS, student.getId()));
 	}
 
 	@Override
 	public void addCourseParticipant(String courseId, Student student) {
-		collectionCourses.updateOne(Filters.eq(ID, courseId), Updates.push("participants", student.getId()));
+		collectionCourses.updateOne(Filters.eq(ID, courseId), Updates.push(PARTICIPANTS, student.getId()));
 	}
 
 }

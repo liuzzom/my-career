@@ -61,7 +61,7 @@ public class MyCareerCLIViewTest {
 		// Exercise
 		myCareerCLIView.showMenu();
 		// Verify
-		assertThat(testOut.toString()).isEqualTo(
+		assertThat(testOut.toString()).hasToString(
 				"" + "Student Section\n" + "1) Add a student\n" + "2) Get all students\n" + "3) Delete a student\n"
 						+ "4) Get courses (by student)\n" + "Course Section\n" + "5) Add a course subscription\n"
 						+ "6) Remove a course subscription\n" + "7) Get students (by course)\n" + "8) Exit\n");
@@ -75,7 +75,7 @@ public class MyCareerCLIViewTest {
 		// Exercise
 		myCareerCLIView.showStudentError(errorMessage, student);
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("ERROR! error message : " + student + "\n");
+		assertThat(testOut.toString()).hasToString("ERROR! error message : " + student + "\n");
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.showAllStudents(asList(student1, student2));
 		// Verify
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student1, student2);
-		assertThat(testOut.toString()).isEqualTo("Student [id=1, name=test1]\nStudent [id=2, name=test2]\n");
+		assertThat(testOut.toString()).hasToString("Student [id=1, name=test1]\nStudent [id=2, name=test2]\n");
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.showAllStudents(asList(student3, student4));
 		// Verify
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student3, student4);
-		assertThat(testOut.toString()).isEqualTo("Student [id=3, name=test3]\nStudent [id=4, name=test4]\n");
+		assertThat(testOut.toString()).hasToString("Student [id=3, name=test3]\nStudent [id=4, name=test4]\n");
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.studentAdded("Student added", student2);
 		// Verify
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student1, student2);
-		assertThat(testOut.toString()).isEqualTo("Student added : " + student2 + "\n");
+		assertThat(testOut.toString()).hasToString("Student added : " + student2 + "\n");
 	}
 
 	@Test
@@ -128,7 +128,7 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.studentRemoved("Student removed", student2);
 		// Verify
 		assertThat(myCareerCLIView.getStudentsList()).containsExactly(student1);
-		assertThat(testOut.toString()).isEqualTo("Student removed : " + student2 + "\n");
+		assertThat(testOut.toString()).hasToString("Student removed : " + student2 + "\n");
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class MyCareerCLIViewTest {
 		// Exercise
 		myCareerCLIView.showCourseError(errorMessage, course);
 		// Verify
-		assertThat(testOut.toString()).isEqualTo("ERROR! error message : " + course + "\n");
+		assertThat(testOut.toString()).hasToString("ERROR! error message : " + course + "\n");
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course1, course2);
 		assertThat(testOut.toString())
-				.isEqualTo("Course [id=123, name=APT, cfu=6]\nCourse [id=456, name=BDA, cfu=9]\n");
+				.hasToString("Course [id=123, name=APT, cfu=6]\nCourse [id=456, name=BDA, cfu=9]\n");
 	}
 
 	@Test
@@ -167,7 +167,8 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.showAllCourses(asList(course3, course4));
 		// Verify
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course3, course4);
-		assertThat(testOut.toString()).isEqualTo("Course [id=789, name=ML, cfu=9]\nCourse [id=101, name=HCI, cfu=6]\n");
+		assertThat(testOut.toString())
+				.hasToString("Course [id=789, name=ML, cfu=9]\nCourse [id=101, name=HCI, cfu=6]\n");
 	}
 
 	@Test
@@ -180,7 +181,7 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.courseAdded("Course added", course2);
 		// Verify
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course1, course2);
-		assertThat(testOut.toString()).isEqualTo("Course added : " + course2 + "\n");
+		assertThat(testOut.toString()).hasToString("Course added : " + course2 + "\n");
 	}
 
 	@Test
@@ -193,11 +194,11 @@ public class MyCareerCLIViewTest {
 		myCareerCLIView.courseRemoved("Course removed", course2);
 		// Verify
 		assertThat(myCareerCLIView.getCoursesList()).containsExactly(course1);
-		assertThat(testOut.toString()).isEqualTo("Course removed : " + course2 + "\n");
+		assertThat(testOut.toString()).hasToString("Course removed : " + course2 + "\n");
 	}
 
 	// Test user interaction
-	
+
 	@Test
 	public void testAddStudentShouldTakeInputsAndDelegateToControllerNewStudent() {
 		// Setup
@@ -346,7 +347,7 @@ public class MyCareerCLIViewTest {
 		verify(myCareerController, never()).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
 		assertThat(rValue).isEqualTo(7);
 	}
-	
+
 	@Test
 	public void testExit() {
 		// Setup
@@ -359,7 +360,7 @@ public class MyCareerCLIViewTest {
 		assertThat(testOut.toString()).contains("Goodbye");
 		assertThat(rValue).isEqualTo(8);
 	}
-	
+
 	@Test
 	public void testWrongInput() {
 		// Setup

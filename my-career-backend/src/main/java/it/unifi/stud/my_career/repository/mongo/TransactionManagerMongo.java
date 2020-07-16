@@ -36,7 +36,7 @@ public class TransactionManagerMongo implements TransactionManager {
 		}
 		return rValue;
 
-	};
+	}
 
 	public <T> T studentTransaction(StudentTransactionCode<T> code) {
 
@@ -53,7 +53,7 @@ public class TransactionManagerMongo implements TransactionManager {
 		}
 		return rValue;
 
-	};
+	}
 
 	public <T> T courseTransaction(CourseTransactionCode<T> code) {
 
@@ -70,5 +70,5 @@ public class TransactionManagerMongo implements TransactionManager {
 		}
 		return rValue;
 
-	};
+	}
 }

@@ -148,7 +148,7 @@ public class StudentRepositoryMongoIT {
 
 	@Test
 	public void testNotGettingParticipantsStudentsIdByCourseId() {
-		assertThat(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT_ID_1)).isNull();
+		assertThat(studentRepository.getParticipatedCoursesIdByStudentId(STUDENT_ID_1)).isEmpty();
 	}
 
 	// DeleteStudentParticipation
