@@ -25,21 +25,21 @@ public class MyCareerService {
 	}
 
 	public void saveStudent(Student student) {
-		transactionManager.studentTransaction((studentRepository) -> {
+		transactionManager.studentTransaction(studentRepository -> {
 			studentRepository.save(student);
 			return null;
 		});
 	}
 
 	public void deleteStudent(Student student) {
-		transactionManager.studentTransaction((studentRepository) -> {
+		transactionManager.studentTransaction(studentRepository -> {
 			studentRepository.delete(student.getId());
 			return null;
 		});
 	}
 
 	public List<Course> getCoursesByStudent(Student student) {
-		List<Course> courses = new ArrayList<Course>();
+		List<Course> courses = new ArrayList<>();
 
 		transactionManager.careerTransaction((studentRepository, courseRepository) -> {
 			List<String> coursesIds = studentRepository.getParticipatedCoursesIdByStudentId(student.getId());
@@ -98,7 +98,7 @@ public class MyCareerService {
 	}
 
 	public List<Student> getStudentsByCourse(Course course) {
-		List<Student> students = new ArrayList<Student>();
+		List<Student> students = new ArrayList<>();
 
 		transactionManager.careerTransaction((studentRepository, courseRepository) -> {
 			List<String> studentsIds = courseRepository.getParticipantsStudentsIdByCourseId(course.getId());

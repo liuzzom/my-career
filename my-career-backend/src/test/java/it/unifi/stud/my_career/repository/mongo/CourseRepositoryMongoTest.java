@@ -169,7 +169,7 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testNotGettingParticipantsStudentsIdByCourseId() {
-		assertThat(courseRepository.getParticipantsStudentsIdByCourseId(COURSE_ID_1)).isNull();
+		assertThat(courseRepository.getParticipantsStudentsIdByCourseId(COURSE_ID_1)).isEmpty();
 	}
 
 	// DeleteCourseParticipant

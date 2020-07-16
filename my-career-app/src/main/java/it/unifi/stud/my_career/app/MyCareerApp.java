@@ -57,25 +57,26 @@ public class MyCareerApp implements Callable<Void> {
 			@Override
 			public void run() {
 				try {
-					
+
 					if (!userInterface.equals("gui") && !userInterface.equals("cli")) {
 						System.err
 								.println("Invalid value for option '--ui/--user-interface'\nUse --ui=gui or --ui=cli");
 						System.exit(1);
 					}
-					
+
 					MongoClient mongoClient = new MongoClient(new ServerAddress(mongoHost, mongoPort));
 					StudentRepositoryMongo studentRepo = new StudentRepositoryMongo(mongoClient, databaseName,
 							studentCollectionName);
 					CourseRepositoryMongo courseRepo = new CourseRepositoryMongo(mongoClient, databaseName,
 							courseCollectionName);
-					
-					TransactionManagerMongo txManager = new TransactionManagerMongo(mongoClient, studentRepo, courseRepo);
+
+					TransactionManagerMongo txManager = new TransactionManagerMongo(mongoClient, studentRepo,
+							courseRepo);
 					MyCareerService service = new MyCareerService(txManager);
 
 					if (userInterface.equals("gui")) {
 						MyCareerSwingView frame = new MyCareerSwingView();
-						MyCareerController controller = new MyCareerController(frame,service);
+						MyCareerController controller = new MyCareerController(frame, service);
 						frame.setMyCareerController(controller);
 						frame.setVisible(true);
 						controller.getAllStudents();
@@ -85,18 +86,19 @@ public class MyCareerApp implements Callable<Void> {
 						LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 						Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
 						rootLogger.setLevel(Level.OFF);
-						
+
 						MyCareerCLIView cli = new MyCareerCLIView(System.in, System.out);
 						MyCareerController controller = new MyCareerController(cli, service);
 						cli.setMyCareerController(controller);
-						
+
 						int userChoice;
 						do {
 							userChoice = cli.exec();
 						} while (userChoice != 8);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE,
+							"Exception", e);
 				}
 			}
 		});

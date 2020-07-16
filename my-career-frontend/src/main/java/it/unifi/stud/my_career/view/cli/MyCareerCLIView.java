@@ -13,6 +13,15 @@ import it.unifi.stud.my_career.view.MyCareerView;
 
 public class MyCareerCLIView implements MyCareerView {
 
+	private static final String INSERT_STUDENT_NAME = "Insert student name: ";
+	private static final String INSERT_STUDENT_ID = "Insert student id: ";
+	private static final String CFU_ERROR_MSG = "CFU value must be a number";
+	private static final String CFU_REGEX = "\\b([1-9]|[12][0-9]|3[01])\\b";
+	private static final String INSERT_COURSE_CFU = "Insert course CFU: ";
+	private static final String INSERT_COURSE_NAME = "Insert course name: ";
+	private static final String INSERT_COURSE_ID = "Insert course id: ";
+	private static final String INSERT_NAME = "Insert name: ";
+	private static final String INSERT_ID = "Insert id: ";
 	private InputStream inputStream;
 	private PrintStream outputStream;
 
@@ -26,8 +35,8 @@ public class MyCareerCLIView implements MyCareerView {
 		this.inputStream = inputStream;
 		this.outputStream = outputStream;
 
-		studentsList = new ArrayList<Student>();
-		coursesList = new ArrayList<Course>();
+		studentsList = new ArrayList<>();
+		coursesList = new ArrayList<>();
 	}
 
 	List<Student> getStudentsList() {
@@ -95,9 +104,9 @@ public class MyCareerCLIView implements MyCareerView {
 	}
 
 	private void addStudent() {
-		outputStream.print("Insert id: ");
+		outputStream.print(INSERT_ID);
 		String id = scanner.nextLine();
-		outputStream.print("Insert name: ");
+		outputStream.print(INSERT_NAME);
 		String name = scanner.nextLine();
 
 		myCareerController.addStudent(new Student(id, name));
@@ -108,37 +117,37 @@ public class MyCareerCLIView implements MyCareerView {
 	}
 
 	private void deleteStudent() {
-		outputStream.print("Insert id: ");
+		outputStream.print(INSERT_ID);
 		String id = scanner.nextLine();
-		outputStream.print("Insert name: ");
+		outputStream.print(INSERT_NAME);
 		String name = scanner.nextLine();
 
 		myCareerController.deleteStudent(new Student(id, name));
 	}
 
 	private void getCoursesByStudent() {
-		outputStream.print("Insert id: ");
+		outputStream.print(INSERT_ID);
 		String id = scanner.nextLine();
-		outputStream.print("Insert name: ");
+		outputStream.print(INSERT_NAME);
 		String name = scanner.nextLine();
 
 		myCareerController.getCoursesByStudent(new Student(id, name));
 	}
 
 	private void addCourse() {
-		outputStream.print("Insert student id: ");
+		outputStream.print(INSERT_STUDENT_ID);
 		String studentId = scanner.nextLine();
-		outputStream.print("Insert student name: ");
+		outputStream.print(INSERT_STUDENT_NAME);
 		String studentName = scanner.nextLine();
-		outputStream.print("Insert course id: ");
+		outputStream.print(INSERT_COURSE_ID);
 		String courseId = scanner.nextLine();
-		outputStream.print("Insert course name: ");
+		outputStream.print(INSERT_COURSE_NAME);
 		String courseName = scanner.nextLine();
-		outputStream.print("Insert course CFU: ");
+		outputStream.print(INSERT_COURSE_CFU);
 		String courseCFU = scanner.nextLine();
 
-		if (!courseCFU.matches("\\b([1-9]|[12][0-9]|3[01])\\b")) {
-			outputStream.println("CFU value must be a number");
+		if (!courseCFU.matches(CFU_REGEX)) {
+			outputStream.println(CFU_ERROR_MSG);
 			return;
 		}
 
@@ -147,19 +156,19 @@ public class MyCareerCLIView implements MyCareerView {
 	}
 
 	private void removeCourse() {
-		outputStream.print("Insert student id: ");
+		outputStream.print(INSERT_STUDENT_ID);
 		String studentId = scanner.nextLine();
-		outputStream.print("Insert student name: ");
+		outputStream.print(INSERT_STUDENT_NAME);
 		String studentName = scanner.nextLine();
-		outputStream.print("Insert course id: ");
+		outputStream.print(INSERT_COURSE_ID);
 		String courseId = scanner.nextLine();
-		outputStream.print("Insert course name: ");
+		outputStream.print(INSERT_COURSE_NAME);
 		String courseName = scanner.nextLine();
-		outputStream.print("Insert course CFU: ");
+		outputStream.print(INSERT_COURSE_CFU);
 		String courseCFU = scanner.nextLine();
 
-		if (!courseCFU.matches("\\b([1-9]|[12][0-9]|3[01])\\b")) {
-			outputStream.println("CFU value must be a number");
+		if (!courseCFU.matches(CFU_REGEX)) {
+			outputStream.println(CFU_ERROR_MSG);
 			return;
 		}
 
@@ -168,15 +177,15 @@ public class MyCareerCLIView implements MyCareerView {
 	}
 
 	private void getStudentsByCourse() {
-		outputStream.print("Insert course id: ");
+		outputStream.print(INSERT_COURSE_ID);
 		String courseId = scanner.nextLine();
-		outputStream.print("Insert course name: ");
+		outputStream.print(INSERT_COURSE_NAME);
 		String courseName = scanner.nextLine();
-		outputStream.print("Insert course CFU: ");
+		outputStream.print(INSERT_COURSE_CFU);
 		String courseCFU = scanner.nextLine();
 
-		if (!courseCFU.matches("\\b([1-9]|[12][0-9]|3[01])\\b")) {
-			outputStream.println("CFU value must be a number");
+		if (!courseCFU.matches(CFU_REGEX)) {
+			outputStream.println(CFU_ERROR_MSG);
 			return;
 		}
 

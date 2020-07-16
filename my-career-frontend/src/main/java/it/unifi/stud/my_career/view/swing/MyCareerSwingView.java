@@ -25,9 +25,8 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
+
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MyCareerSwingView extends JFrame implements MyCareerView {
 
@@ -65,7 +64,7 @@ public class MyCareerSwingView extends JFrame implements MyCareerView {
 
 	private DefaultListModel<Student> studentsListModel;
 	private DefaultListModel<Course> coursesListModel;
-	private MyCareerController myCareerController;
+	private transient MyCareerController myCareerController;
 
 	DefaultListModel<Student> getStudentsListModel() {
 		return studentsListModel;
@@ -95,22 +94,19 @@ public class MyCareerSwingView extends JFrame implements MyCareerView {
 			}
 		};
 
-		ListSelectionListener studentsListListener = new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				deleteStudentButton.setEnabled(studentsList.getSelectedIndex() != -1);
-				addCourseButton.setEnabled(
-						!courseIDTextField.getText().trim().isEmpty() && !courseNameTextField.getText().trim().isEmpty()
-								&& !courseCFUsTextField.getText().trim().isEmpty()
-								&& courseCFUsTextField.getText().trim().matches("\\b([1-9]|[12][0-9]|3[01])\\b")
-								&& studentsList.getSelectedIndex() != -1);
-				deleteCourseButton
-						.setEnabled(studentsList.getSelectedIndex() != -1 && coursesList.getSelectedIndex() != -1);
+		ListSelectionListener studentsListListener = e -> {
+			deleteStudentButton.setEnabled(studentsList.getSelectedIndex() != -1);
+			addCourseButton.setEnabled(
+					!courseIDTextField.getText().trim().isEmpty() && !courseNameTextField.getText().trim().isEmpty()
+							&& !courseCFUsTextField.getText().trim().isEmpty()
+							&& courseCFUsTextField.getText().trim().matches("\\b([1-9]|[12][0-9]|3[01])\\b")
+							&& studentsList.getSelectedIndex() != -1);
+			deleteCourseButton
+					.setEnabled(studentsList.getSelectedIndex() != -1 && coursesList.getSelectedIndex() != -1);
 
-				// to avoid double trigger (click and release)
-				if (!e.getValueIsAdjusting())
-					myCareerController.getCoursesByStudent(studentsList.getSelectedValue());
-			}
+			// to avoid double trigger (click and release)
+			if (!e.getValueIsAdjusting())
+				myCareerController.getCoursesByStudent(studentsList.getSelectedValue());
 		};
 
 		KeyAdapter addCourseButtonEnabler = new KeyAdapter() {
@@ -124,43 +120,18 @@ public class MyCareerSwingView extends JFrame implements MyCareerView {
 			}
 		};
 
-		ActionListener addStudentButtonListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				myCareerController
-						.addStudent(new Student(studentIDTextField.getText(), studentNameTextField.getText()));
-			}
-		};
+		ActionListener addStudentButtonListener = e -> myCareerController
+				.addStudent(new Student(studentIDTextField.getText(), studentNameTextField.getText()));
 
-		ActionListener deleteStudentButtonListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				myCareerController.deleteStudent(studentsList.getSelectedValue());
-			}
-		};
+		ActionListener deleteStudentButtonListener = e -> myCareerController.deleteStudent(studentsList.getSelectedValue());
 
-		ActionListener addCourseButtonListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				myCareerController.addCourse(studentsList.getSelectedValue(), new Course(courseIDTextField.getText(),
-						courseNameTextField.getText(), Integer.parseInt(courseCFUsTextField.getText())));
-			}
-		};
+		ActionListener addCourseButtonListener = e -> myCareerController.addCourse(studentsList.getSelectedValue(), new Course(courseIDTextField.getText(),
+				courseNameTextField.getText(), Integer.parseInt(courseCFUsTextField.getText())));
 
-		ActionListener removeCourseButtonListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				myCareerController.removeCourse(studentsList.getSelectedValue(), coursesList.getSelectedValue());
-			}
-		};
+		ActionListener removeCourseButtonListener = e -> myCareerController.removeCourse(studentsList.getSelectedValue(), coursesList.getSelectedValue());
 
-		ListSelectionListener coursesListListener = new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				deleteCourseButton
-						.setEnabled(studentsList.getSelectedIndex() != -1 && coursesList.getSelectedIndex() != -1);
-			}
-		};
+		ListSelectionListener coursesListListener = e -> deleteCourseButton
+				.setEnabled(studentsList.getSelectedIndex() != -1 && coursesList.getSelectedIndex() != -1);
 
 		// Frame Elements
 		setTitle("My Career");
@@ -259,8 +230,8 @@ public class MyCareerSwingView extends JFrame implements MyCareerView {
 		gbc_studentScrollPane.gridy = 4;
 		studentPanel.add(studentScrollPane, gbc_studentScrollPane);
 
-		studentsListModel = new DefaultListModel<Student>();
-		studentsList = new JList<Student>(studentsListModel);
+		studentsListModel = new DefaultListModel<>();
+		studentsList = new JList<>(studentsListModel);
 		studentsList.addListSelectionListener(studentsListListener);
 		studentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentsList.setName("studentsList");
@@ -388,8 +359,8 @@ public class MyCareerSwingView extends JFrame implements MyCareerView {
 		gbc_coursesScrollPane.gridy = 5;
 		coursePanel.add(coursesScrollPane, gbc_coursesScrollPane);
 
-		coursesListModel = new DefaultListModel<Course>();
-		coursesList = new JList<Course>(coursesListModel);
+		coursesListModel = new DefaultListModel<>();
+		coursesList = new JList<>(coursesListModel);
 		coursesList.addListSelectionListener(coursesListListener);
 		coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		coursesList.setName("coursesList");
