@@ -202,11 +202,6 @@
 					</executions>
 				</plugin>
 
-				<!-- Coveralls maven plugin -->
-				<!-- <plugin> <groupId>org.eluder.coveralls</groupId> <artifactId>coveralls-maven-plugin</artifactId> 
-					<version>4.3.0</version> <executions> <execution> <goals> <goal>report</goal> 
-					</goals> <phase>verify</phase> </execution> </executions> </plugin> -->
-
 				<!-- Pitest maven plugin -->
 				<plugin>
 					<groupId>org.pitest</groupId>
