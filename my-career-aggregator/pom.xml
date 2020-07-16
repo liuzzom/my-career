@@ -23,9 +23,6 @@
 		<sonar.issue.ignore.multicriteria.e14.ruleKey>java:S106</sonar.issue.ignore.multicriteria.e14.ruleKey>
 		<sonar.issue.ignore.multicriteria.e14.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e14.resourceKey>
 
-		<sonar.issue.ignore.multicriteria.e15.ruleKey>xml:S125</sonar.issue.ignore.multicriteria.e15.ruleKey>
-		<sonar.issue.ignore.multicriteria.e15.resourceKey>**/*.xml</sonar.issue.ignore.multicriteria.e15.resourceKey>
-
 		<sonar.issue.ignore.multicriteria.e16.ruleKey>java:S3973</sonar.issue.ignore.multicriteria.e16.ruleKey>
 		<sonar.issue.ignore.multicriteria.e16.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e16.resourceKey>
 
