@@ -39,13 +39,11 @@
 			</dependency>
 			
 			<!-- required to see Mongo Java Driver logs -->
-			<!-- 
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>1.2.3</version>
 			</dependency>
-			 -->
 
 			<!-- Picocli -->
 			<dependency>
