@@ -24,6 +24,7 @@
 		<mongo.java.server.version>1.24.0</mongo.java.server.version>
 
 		<testcontainers.version>1.12.5</testcontainers.version>
+
 	</properties>
 
 	<dependencyManagement>
@@ -37,7 +38,7 @@
 				<artifactId>mongo-java-driver</artifactId>
 				<version>${mongo.driver.version}</version>
 			</dependency>
-			
+
 			<!-- required to see Mongo Java Driver logs -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
@@ -203,21 +204,9 @@
 				</plugin>
 
 				<!-- Coveralls maven plugin -->
-				<!-- 
-				<plugin>
-					<groupId>org.eluder.coveralls</groupId>
-					<artifactId>coveralls-maven-plugin</artifactId>
-					<version>4.3.0</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>report</goal>
-							</goals>
-							<phase>verify</phase>
-						</execution>
-					</executions>
-				</plugin>
-				 -->
+				<!-- <plugin> <groupId>org.eluder.coveralls</groupId> <artifactId>coveralls-maven-plugin</artifactId> 
+					<version>4.3.0</version> <executions> <execution> <goals> <goal>report</goal> 
+					</goals> <phase>verify</phase> </execution> </executions> </plugin> -->
 
 				<!-- Pitest maven plugin -->
 				<plugin>
