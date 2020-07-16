@@ -23,4 +23,4 @@ cache:
   - $HOME/.sonar/cache
 
 script:
-- mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS -Dsonar.projectKey=liuzzom_my-career
+- mvn -f my-career-aggregator/pom.xml clean verify -Pjacoco sonar:sonar -Dsonar.projectKey=liuzzom_my-career
