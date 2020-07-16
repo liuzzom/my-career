@@ -125,13 +125,13 @@ public class MyCareerAppCLIE2E {
 
 	@After
 	public void onTearDown() {
-		//try {
+		try {
 			// FIXME forse da fare con process builder
-		//	Runtime.getRuntime().exec("docker kill " + mongoTestContainerId);
-		//} catch (IOException e) {
+			Runtime.getRuntime().exec("docker kill " + mongoTestContainerId);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
+			e.printStackTrace();
+		}
 		mongoProcess.destroy();
 	}
 
