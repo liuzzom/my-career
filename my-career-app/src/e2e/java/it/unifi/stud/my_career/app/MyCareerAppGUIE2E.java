@@ -66,7 +66,7 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	private MongoClient client;
 
 	private FrameFixture window;
-
+	
 	@Override
 	protected void onSetUp() {
 		String mongoContainerIpAddress = mongoContainer.getContainerIpAddress();

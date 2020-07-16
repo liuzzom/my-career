@@ -3,8 +3,19 @@ package it.unifi.stud.my_career.app;
 import static org.assertj.swing.launcher.ApplicationLauncher.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import org.assertj.swing.finder.WindowFinder;
@@ -36,11 +47,6 @@ import it.unifi.stud.my_career.model.Student;
 
 public class MyCareerAppCLIE2E {
 
-	@SuppressWarnings("rawtypes")
-	@ClassRule
-	public static final GenericContainer mongoContainer = new GenericContainer("krnbr/mongo:4.2.6")
-			.withExposedPorts(27017);
-
 	private static final String CAREER_DB_NAME = "career";
 	private static final String STUDENTS_COLLECTION_NAME = "students";
 	private static final String COURSES_COLLECTION_NAME = "courses";
@@ -66,83 +72,118 @@ public class MyCareerAppCLIE2E {
 	private static final String COURSE_NAME_3 = "LabBlu";
 	private static final int COURSE_CFU_3 = 12;
 
-	private MongoClient client;
-	private FrameFixture window;
+	public static BufferedReader inp;
+	public static BufferedWriter out;
+	public static Process mongoProcess;
+	public static String mongoTestContainerId;
 
 	@Before
 	public void onSetUp() {
-		String mongoContainerIpAddress = mongoContainer.getContainerIpAddress();
-		Integer mongoContainerMappedPort = mongoContainer.getMappedPort(27017);
-		client = new MongoClient(new ServerAddress(mongoContainerIpAddress, mongoContainerMappedPort));
-		client.getDatabase(CAREER_DB_NAME).drop();
-		// adding students to db
-		List<String> student1Participations = new ArrayList<String>();
-		student1Participations.add(COURSE_ID_1);
-		addTestStudentToDatabaseWithParticipations(STUDENT_ID_1, STUDENT_NAME_1, student1Participations);
-		List<String> student2Participations = new ArrayList<String>();
-		student2Participations.add(COURSE_ID_1);
-		student2Participations.add(COURSE_ID_2);
-		addTestStudentToDatabaseWithParticipations(STUDENT_ID_2, STUDENT_NAME_2, student2Participations);
-		// adding courses to db
-		List<String> course1Participants = new ArrayList<String>();
-		course1Participants.add(STUDENT_ID_1);
-		course1Participants.add(STUDENT_ID_2);
-		addTestCourseToDatabaseWithParticipants(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1, course1Participants);
-		List<String> course2Participants = new ArrayList<String>();
-		course2Participants.add(STUDENT_ID_2);
-		addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
-		// start cli app
 
-		/*
-		Thread thread = new Thread() {
-			public void run() {
+		try {
+			// FIXME forse da fare con process builder
+			mongoProcess = Runtime.getRuntime().exec("docker run -p 27017:27017 --detach --rm krnbr/mongo:4.2.6");
+			// TODO magari sarebbe carino inserire direttamente degli studenti da qui?
+			InputStream is = mongoProcess.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				System.out.println("mongoID:" + line + "-");
+				mongoTestContainerId = line;
 			}
-		};
-		*/
-		
 
-		
-		application("it.unifi.stud.my_career.app.MyCareerApp")
-		.withArgs("--user-interface=" + "cli", "--mongo-host=" + mongoContainerIpAddress,
-				"--mongo-port=" + mongoContainerMappedPort.toString(), "--db-name=" + CAREER_DB_NAME,
-				"--db-student-collection=" + STUDENTS_COLLECTION_NAME,
-				"--db-course-collection=" + COURSES_COLLECTION_NAME)
-		.start();
-		
-		
+			ProcessBuilder builder = new ProcessBuilder("java", "-jar",
+					"/home/davide/Downloads/my-career-app-FIXED.jar", "--ui=cli"); // FIXME get the right place
+
+			builder.redirectErrorStream(true);
+
+			Process process;
+
+			process = builder.start();
+			OutputStream stdin = process.getOutputStream();
+			InputStream stdout = process.getInputStream();
+
+			inp = new BufferedReader(new InputStreamReader(stdout));
+			out = new BufferedWriter(new OutputStreamWriter(stdin));
+
+			line = null;
+			boolean initFinished = false;
+			while (((line = inp.readLine()) != null) & !initFinished) {
+				System.out.println("ProcessOut: " + line);
+				if (line.contains("Enter a valid digit")) {
+					initFinished = true;
+					return;
+				}
+			}
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 	}
 
 	@After
 	public void onTearDown() {
-		client.close();
+		//try {
+			// FIXME forse da fare con process builder
+		//	Runtime.getRuntime().exec("docker kill " + mongoTestContainerId);
+		//} catch (IOException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
+		mongoProcess.destroy();
 	}
-	
+
 	@Test
-	public void pippo() {
-		
-	}
-	
-	
-
-	private void addTestStudentToDatabaseWithParticipations(String studentId, String studentName,
-			List<String> participations) {
-		client.getDatabase(CAREER_DB_NAME).getCollection(STUDENTS_COLLECTION_NAME).insertOne(new Document()
-				.append(NAME, studentName).append(ID, studentId).append("participations", participations));
+	public void testInsertingNewStudentSuccess() throws IOException {
+		System.out.println("testingSuccess");
+		String inputResult = sendInputAndGetOutput("1\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		System.out.println(inputResult);
+		assertThat(inputResult).isEqualTo("Insert id: Insert name: Student account created : Student [id="
+				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
 	}
 
-	private void addTestCourseToDatabaseWithParticipants(String courseId, String courseName, int cfu,
-			List<String> participants) {
-		client.getDatabase(CAREER_DB_NAME).getCollection(COURSES_COLLECTION_NAME).insertOne(new Document()
-				.append(ID, courseId).append(NAME, courseName).append(CFU, cfu).append("participants", participants));
+	@Test
+	public void testInsertingNewStudentFail() throws IOException {
+		System.out.println("testingFail");
+		// TODO insert student 1 here
+		addTestStudentToDatabase(STUDENT_ID_1, STUDENT_NAME_1);
+		String inputResult = sendInputAndGetOutput("1\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		assertThat(inputResult).isEqualTo("Insert id: Insert name: ERROR! Already exists a student with id "
+				+ STUDENT_ID_1 + " : Student [id=" + STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
 	}
 
-	private void removeTestStudentFromDatabase(String id) {
-		client.getDatabase(CAREER_DB_NAME).getCollection(STUDENTS_COLLECTION_NAME).deleteOne(Filters.eq("id", id));
+	private void addTestStudentToDatabase(String studentId, String studentName) {
+		try {
+
+			Process r = Runtime.getRuntime().exec("sudo docker exec " + mongoTestContainerId+ " mongo 127.0.0.1/career --eval 'var document = { id : \"986\", name : \"newname\" }; db.students.insert(document);'\n");
+
+			InputStream is = r.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				System.out.println("insertion:" + line + "-");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void removeTestCourseFromDatabase(String id) {
-		client.getDatabase(CAREER_DB_NAME).getCollection(COURSES_COLLECTION_NAME).deleteOne(Filters.eq("id", id));
+	public static String sendInputAndGetOutput(String msg) {
+		String result;
+		try {
+			out.write(msg + "\n");
+			out.flush();
+			out.close();
+			result = inp.readLine();
+			return result;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 }
