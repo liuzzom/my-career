@@ -32,6 +32,12 @@
 		<sonar.issue.ignore.multicriteria.e17.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e17.ruleKey>
 		<sonar.issue.ignore.multicriteria.e17.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e17.resourceKey>
 
+		<sonar.coverage.exclusions>
+			**/MyCareerApp.*,
+			**/model/*.*,
+			**/TransactionManagerMongo.*
+		</sonar.coverage.exclusions>
+
 	</properties>
 
 	<modules>
