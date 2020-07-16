@@ -23,5 +23,4 @@ cache:
   - $HOME/.sonar/cache
 
 script:
-- git fetch --unshallow
 - mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS -Dsonar.projectKey=liuzzom_my-career
