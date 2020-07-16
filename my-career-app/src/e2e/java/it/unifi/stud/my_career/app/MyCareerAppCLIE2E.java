@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.assertj.swing.finder.WindowFinder;
@@ -55,17 +56,19 @@ public class MyCareerAppCLIE2E {
 	private static final String NAME = "name";
 	private static final String ID = "id";
 
+	private static final int sleepTime = 10;
+
 	private static final String STUDENT_ID_1 = "1423";
 	private static final String STUDENT_NAME_1 = "Pippo";
 	private static final String STUDENT_ID_2 = "1234";
-	private static final String STUDENT_NAME_2 = "Peppo";
+	private static final String STUDENT_NAME_2 = "Maria";
 	private static final String STUDENT_ID_3 = "12345";
 	private static final String STUDENT_NAME_3 = "Giorgino";
 
-	private static final String COURSE_ID_1 = "777";
+	private static final String COURSE_ID_1 = "101";
 	private static final String COURSE_NAME_1 = "LabBello";
 	private static final int COURSE_CFU_1 = 9;
-	private static final String COURSE_ID_2 = "888";
+	private static final String COURSE_ID_2 = "102";
 	private static final String COURSE_NAME_2 = "LabBrutto";
 	private static final int COURSE_CFU_2 = 6;
 	private static final String COURSE_ID_3 = "883";
@@ -82,6 +85,7 @@ public class MyCareerAppCLIE2E {
 
 		try {
 			// FIXME forse da fare con process builder
+
 			mongoProcess = Runtime.getRuntime().exec("docker run -p 27017:27017 --detach --rm krnbr/mongo:4.2.6");
 			// TODO magari sarebbe carino inserire direttamente degli studenti da qui?
 			InputStream is = mongoProcess.getInputStream();
@@ -97,9 +101,7 @@ public class MyCareerAppCLIE2E {
 
 			builder.redirectErrorStream(true);
 
-			Process process;
-
-			process = builder.start();
+			Process process = builder.start();
 			OutputStream stdin = process.getOutputStream();
 			InputStream stdout = process.getInputStream();
 
@@ -137,28 +139,148 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testInsertingNewStudentSuccess() throws IOException {
-		System.out.println("testingSuccess");
 		String inputResult = sendInputAndGetOutput("1\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
 		System.out.println(inputResult);
-		assertThat(inputResult).isEqualTo("Insert id: Insert name: Student account created : Student [id="
+		assertThat(inputResult).hasToString("Insert id: Insert name: Student account created : Student [id="
 				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
 	}
 
 	@Test
-	public void testInsertingNewStudentFail() throws IOException {
-		System.out.println("testingFail");
-		// TODO insert student 1 here
-		addTestStudentToDatabase(STUDENT_ID_1, STUDENT_NAME_1);
+	public void testInsertingNewStudentFail() throws IOException, InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime); // FIXME magari possiamo aspettare non un tempo ma un evento...
+		addTestStudents();
 		String inputResult = sendInputAndGetOutput("1\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
-		assertThat(inputResult).isEqualTo("Insert id: Insert name: ERROR! Already exists a student with id "
+		assertThat(inputResult).hasToString("Insert id: Insert name: ERROR! Already exists a student with id "
 				+ STUDENT_ID_1 + " : Student [id=" + STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
 	}
 
-	private void addTestStudentToDatabase(String studentId, String studentName) {
+	@Test
+	public void testGetAllStudentsWithSomethingInDB() throws IOException, InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		String inputResult = sendInputAndGetMultipleOutput("2");
+		assertThat(inputResult).hasToString("Student [id=" + STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]Student [id="
+				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_2 + "]");
+	}
+
+	@Test
+	public void testGetAllStudentsWithNothingInDB() throws IOException, InterruptedException {
+		String inputResult = sendInputAndGetMultipleOutput("2");
+		assertThat(inputResult).hasToString("");
+	}
+
+	@Test
+	public void testDeleteStudentSuccess() throws IOException, InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		String inputResult = sendInputAndGetOutput("3\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		assertThat(inputResult).hasToString("Insert id: Insert name: Student account deleted : Student [id="
+				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
+	}
+
+	@Test
+	public void testDeleteStudentError() throws IOException, InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		String inputResult = sendInputAndGetOutput("3\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		assertThat(inputResult).hasToString("Insert id: Insert name: ERROR! Student does not exist : Student [id="
+				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
+	}
+
+	@Test
+	public void testGetCoursesByStudentIdSuccess() throws IOException, InterruptedException {
+		// FIXME this does not work
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("4\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString("Insert id: Insert name: Student account deleted : Student [id="
+				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
+	}
+
+	@Test
+	public void testGetCoursesByStudentIdFail() throws IOException, InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		String inputResult = sendInputAndGetMultipleOutput("4\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		assertThat(inputResult).hasToString("Insert id: Insert name: ERROR! Student does not exist : Student [id="
+				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
+	}
+
+	@Test
+	public void testGetCoursesOfAStudentWithNoCourses() throws IOException, InterruptedException {
+		// TODO
+	}
+
+	@Test
+	public void testAddCourseSubscriptionSuccess() {
+		//TODO
+	}
+	
+	@Test
+	public void testAddCourseSubscriptionWrongStudentId() {
+		//TODO
+	}
+	
+	@Test
+	public void testRemoveCourseSubscriptionSuccess() {
+		//TODO
+	}
+	
+	@Test
+	public void testRemoveCourseSubscriptionFailNoStudent() {
+		//TODO
+	}
+	
+	@Test
+	public void testRemoveCourseSubscriptionFailNoCourse() {
+		//TODO
+	}
+	
+	@Test
+	public void testGetStudentsByCourseWithAllInDB() {
+		//TODO
+	}
+	
+	@Test
+	public void testGetStudentsByCourseWithoutStudentsInDB() {
+		//TODO
+	}
+	
+	@Test
+	public void testGetStudentsByCourseWithoutCourseInDB() {
+		//TODO
+	}
+	
+	@Test
+	public void testExit() {
+		//TODO
+	}
+
+	private void addTestStudents() {
 		try {
 
-			Process r = Runtime.getRuntime().exec("sudo docker exec " + mongoTestContainerId+ " mongo 127.0.0.1/career --eval 'var document = { id : \"986\", name : \"newname\" }; db.students.insert(document);'\n");
+			// This method ads student1 and student2 to db
+			Process r = Runtime.getRuntime().exec("mongoimport -d " + CAREER_DB_NAME + " -c " + STUDENTS_COLLECTION_NAME
+					+ " --file /home/davide/importStudents.json");
 
+			InputStream is = r.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				System.out.println("insertion:" + line + "-");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void addTestCourses() {
+		try {
+
+			// This method ads course1 and course2 to db
+			Process r = Runtime.getRuntime().exec("mongoimport -d " + CAREER_DB_NAME + " -c " + COURSES_COLLECTION_NAME
+					+ " --file /home/davide/importCourses.json");
 			InputStream is = r.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String line = null;
@@ -178,6 +300,24 @@ public class MyCareerAppCLIE2E {
 			out.flush();
 			out.close();
 			result = inp.readLine();
+			return result;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String sendInputAndGetMultipleOutput(String msg) {
+		String result = "";
+		try {
+			out.write(msg + "\n");
+			out.flush();
+			out.close();
+			String line = null;
+			while (((line = inp.readLine()) != null) & !line.equalsIgnoreCase("Student Section")) {
+				result = result + line;
+			}
 			return result;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
