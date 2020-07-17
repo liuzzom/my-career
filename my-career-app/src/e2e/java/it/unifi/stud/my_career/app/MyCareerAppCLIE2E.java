@@ -32,7 +32,7 @@ public class MyCareerAppCLIE2E {
 	private static final String NAME = "name";
 	private static final String ID = "id";
 	
-	private static final int sleepTime = 10;
+	private static final int sleepTime = 8;
 
 
 	private static final String STUDENT_ID_1 = "1423";
@@ -99,7 +99,7 @@ public class MyCareerAppCLIE2E {
 			addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
 
 			ProcessBuilder builder = new ProcessBuilder("java", "-jar",
-					"/home/davide/Downloads/my-career-app-FIXED.jar", "--ui=cli"); // FIXME get the right place
+					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli"); // FIXME get the right place
 
 			builder.redirectErrorStream(true);
 
