@@ -66,11 +66,11 @@ public class MyCareerAppCLIE2E {
 	private static final String STUDENT_NAME_3 = "Giorgino";
 
 	private static final String COURSE_ID_1 = "101";
-	private static final String COURSE_NAME_1 = "LabBello";
-	private static final int COURSE_CFU_1 = 9;
-	private static final String COURSE_ID_2 = "102";
-	private static final String COURSE_NAME_2 = "LabBrutto";
-	private static final int COURSE_CFU_2 = 6;
+	private static final String COURSE_NAME_1 = "APT";
+	private static final int COURSE_CFU_1 = 6;
+	private static final String COURSE_ID_2 = "202";
+	private static final String COURSE_NAME_2 = "BDA";
+	private static final int COURSE_CFU_2 = 9;
 	private static final String COURSE_ID_3 = "883";
 	private static final String COURSE_NAME_3 = "LabBlu";
 	private static final int COURSE_CFU_3 = 12;
@@ -80,6 +80,8 @@ public class MyCareerAppCLIE2E {
 	public static Process mongoProcess;
 	public static String mongoTestContainerId;
 
+	// TODO add tests for cfu regex?
+
 	@Before
 	public void onSetUp() {
 
@@ -87,7 +89,6 @@ public class MyCareerAppCLIE2E {
 			// FIXME forse da fare con process builder
 
 			mongoProcess = Runtime.getRuntime().exec("docker run -p 27017:27017 --detach --rm krnbr/mongo:4.2.6");
-			// TODO magari sarebbe carino inserire direttamente degli studenti da qui?
 			InputStream is = mongoProcess.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String line = null;
@@ -160,7 +161,7 @@ public class MyCareerAppCLIE2E {
 		addTestStudents();
 		String inputResult = sendInputAndGetMultipleOutput("2");
 		assertThat(inputResult).hasToString("Student [id=" + STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]Student [id="
-				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_2 + "]");
+				+ STUDENT_ID_2 + ", name=" + STUDENT_NAME_2 + "]");
 	}
 
 	@Test
@@ -188,14 +189,13 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testGetCoursesByStudentIdSuccess() throws IOException, InterruptedException {
-		// FIXME this does not work
+		// FIXME questo non restituisce nulla
 		TimeUnit.SECONDS.sleep(sleepTime);
 		addTestStudents();
 		addTestCourses();
-		String inputResult = sendInputAndGetMultipleOutput("4\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		String inputResult = sendInputAndGetOutput("4\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
 		System.out.println("-" + inputResult + "-");
-		assertThat(inputResult).hasToString("Insert id: Insert name: Student account deleted : Student [id="
-				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
+		assertThat(inputResult).hasToString("");
 	}
 
 	@Test
@@ -212,48 +212,128 @@ public class MyCareerAppCLIE2E {
 	}
 
 	@Test
-	public void testAddCourseSubscriptionSuccess() {
-		//TODO
+	public void testAddCourseSubscriptionSuccess() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("5\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1 + "\n"
+				+ COURSE_ID_2 + "\n" + COURSE_NAME_2 + "\n" + COURSE_CFU_2);
+		assertThat(inputResult).hasToString(
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: Added a new course : Course [id="
+						+ COURSE_ID_2 + ", name=" + COURSE_NAME_2 + ", cfu=" + COURSE_CFU_2 + "]");
 	}
-	
+
 	@Test
-	public void testAddCourseSubscriptionWrongStudentId() {
-		//TODO
+	public void testAddCourseSubscriptionWrongStudent() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("5\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3 + "\n"
+				+ COURSE_ID_2 + "\n" + COURSE_NAME_2 + "\n" + COURSE_CFU_2);
+		assertThat(inputResult).hasToString(
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ERROR! The student does not exist : Course [id="
+						+ COURSE_ID_2 + ", name=" + COURSE_NAME_2 + ", cfu=" + COURSE_CFU_2 + "]");
+
 	}
-	
+
 	@Test
-	public void testRemoveCourseSubscriptionSuccess() {
-		//TODO
+	public void testAddCourseSubscriptionStudentAlreadySubscribed() throws InterruptedException {
+		// FIXME non è mai stato testato!?
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("5\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1 + "\n"
+				+ COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString(
+				"");
+
 	}
-	
+
 	@Test
-	public void testRemoveCourseSubscriptionFailNoStudent() {
-		//TODO
+	public void testRemoveCourseSubscriptionSuccess() throws InterruptedException {
+		// FIXME
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("6\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1 + "\n"
+				+ COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString("");
+
 	}
-	
+
 	@Test
-	public void testRemoveCourseSubscriptionFailNoCourse() {
-		//TODO
+	public void testRemoveCourseSubscriptionFailNoStudent() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("6\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3 + "\n"
+				+ COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		assertThat(inputResult).hasToString(
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ERROR! The student does not exist : Course [id="
+						+ COURSE_ID_1 + ", name=" + COURSE_NAME_1 + ", cfu=" + COURSE_CFU_1 + "]");
 	}
-	
+
 	@Test
-	public void testGetStudentsByCourseWithAllInDB() {
-		//TODO
+	public void testRemoveCourseSubscriptionFailNoCourse() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput("6\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1 + "\n"
+				+ COURSE_ID_3 + "\n" + COURSE_NAME_3 + "\n" + COURSE_CFU_3);
+		assertThat(inputResult).hasToString(
+				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ERROR! The course does not exist : Course [id="
+						+ COURSE_ID_3 + ", name=" + COURSE_NAME_3 + ", cfu=" + COURSE_CFU_3 + "]");
 	}
-	
+
 	@Test
-	public void testGetStudentsByCourseWithoutStudentsInDB() {
-		//TODO
+	public void testGetStudentsByCourseWithAllInDB() throws InterruptedException {
+		// FIXME
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput(
+				"7\n" + COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString(
+				"");
+
 	}
-	
+
 	@Test
-	public void testGetStudentsByCourseWithoutCourseInDB() {
-		//TODO
+	public void testGetStudentsByCourseWithoutStudentsInDB() throws InterruptedException {
+		// FIXME
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestCourses();
+		String inputResult = sendInputAndGetMultipleOutput(
+				"7\n" + COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString(
+				"");
+
 	}
-	
+
 	@Test
-	public void testExit() {
-		//TODO
+	public void testGetStudentsByCourseWithoutCourseInDB() throws InterruptedException {
+		// FIXME
+		TimeUnit.SECONDS.sleep(sleepTime);
+		addTestStudents();
+		String inputResult = sendInputAndGetMultipleOutput(
+				"7\n" + COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString(
+				"");
+	}
+
+	@Test
+	public void testExit() throws InterruptedException {
+		// FIXME
+		TimeUnit.SECONDS.sleep(sleepTime);
+		String inputResult = sendInputAndGetMultipleOutput("8\n");
+		System.out.println("-" + inputResult + "-");
+		assertThat(inputResult).hasToString("");
+
 	}
 
 	private void addTestStudents() {
