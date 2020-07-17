@@ -89,7 +89,7 @@ public class MyCareerService {
 			courseRepository.deleteCourseParticipant(course.getId(), student);
 			studentRepository.deleteStudentParticipation(student.getId(), course);
 
-			if (courseRepository.getParticipantsStudentsIdByCourseId(course.getId()).size() == 1)
+			if (courseRepository.getParticipantsStudentsIdByCourseId(course.getId()).isEmpty())
 				courseRepository.delete(course.getId());
 
 			return null;

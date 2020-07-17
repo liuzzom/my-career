@@ -90,7 +90,7 @@ public class MyCareerControllerIT {
 		// Exercise
 		myCareerController.addStudent(student);
 		// Verify
-		myCareerView.studentAdded("Student account created", student);
+		verify(myCareerView).studentAdded("Student account created", student);
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class MyCareerControllerIT {
 		// Exercise
 		myCareerController.deleteStudent(studentToDelete);
 		// Verify
-		myCareerView.studentRemoved("Student account deleted", studentToDelete);
+		verify(myCareerView).studentRemoved("Student account deleted", studentToDelete);
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class MyCareerControllerIT {
 		// Exercise
 		myCareerController.getCoursesByStudent(student);
 		// Verify
-		myCareerView.showAllCourses(asList(course));
+		verify(myCareerView).showAllCourses(asList(course));
 	}
 
 	@Test
@@ -124,10 +124,11 @@ public class MyCareerControllerIT {
 		// Setup
 		Student student = new Student(STUDENT_ID, STUDENT_NAME);
 		Course course = new Course(COURSE_ID, COURSE_NAME, 6);
+		studentRepository.save(student);
 		// Exercise
 		myCareerController.addCourse(student, course);
 		// Verify
-		myCareerView.courseAdded("Added a new course", course);
+		verify(myCareerView).courseAdded("Added a new course", course);
 	}
 
 	@Test
@@ -135,10 +136,14 @@ public class MyCareerControllerIT {
 		// Setup
 		Student student = new Student(STUDENT_ID, STUDENT_NAME);
 		Course course = new Course(COURSE_ID, COURSE_NAME, 6);
+		studentRepository.save(student);
+		courseRepository.save(course);
+		studentRepository.addStudentParticipation(STUDENT_ID, course);
+		courseRepository.addCourseParticipant(COURSE_ID, student);
 		// Exercise
 		myCareerController.removeCourse(student, course);
 		// Verify
-		myCareerView.courseRemoved("The course has been removed", course);
+		verify(myCareerView).courseRemoved("The course has been removed", course);
 	}
 
 	@Test
@@ -151,8 +156,8 @@ public class MyCareerControllerIT {
 		studentRepository.addStudentParticipation(STUDENT_ID, course);
 		courseRepository.addCourseParticipant(COURSE_ID, student);
 		// Exercise
-		myCareerController.getCoursesByStudent(student);
+		myCareerController.getStudentsByCourse(course);
 		// Verify
-		myCareerView.showAllStudents(asList(student));
+		verify(myCareerView).showAllStudents(asList(student));
 	}
 }
