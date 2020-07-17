@@ -275,7 +275,7 @@ public class MyCareerServiceTest {
 		// Setup
 		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
 		Course course = new Course(COURSE1_ID, COURSE1_NAME, COURSE_CFUS);
-		when(courseRepository.getParticipantsStudentsIdByCourseId(COURSE1_ID)).thenReturn(asList(COURSE1_ID));
+		when(courseRepository.getParticipantsStudentsIdByCourseId(COURSE1_ID)).thenReturn(Collections.emptyList());
 		// Exercise
 		myCareerService.removeCourse(student, course);
 		// Verify
