@@ -11,16 +11,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.bson.Document;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.model.Filters;
-
 
 public class MyCareerAppCLIE2E {
 
@@ -31,9 +30,8 @@ public class MyCareerAppCLIE2E {
 	private static final String CFU = "cfu";
 	private static final String NAME = "name";
 	private static final String ID = "id";
-	
-	private static final int sleepTime = 8;
 
+	private static final int sleepTime = 10;
 
 	private static final String STUDENT_ID_1 = "1423";
 	private static final String STUDENT_NAME_1 = "Pippo";
@@ -59,16 +57,30 @@ public class MyCareerAppCLIE2E {
 
 	private MongoClient mongoClient;
 
+	@BeforeClass
+	public static void dbStart() {
+		try {
+			mongoProcess = Runtime.getRuntime().exec("docker run -p 27017:27017 --detach --rm krnbr/mongo:4.2.6");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@AfterClass
+	public static void dbShutDown() {
+		try {
+			Runtime.getRuntime().exec("docker kill " + mongoTestContainerId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		mongoProcess.destroy();
+	}
+
 	@Before
 	public void onSetUp() {
 
 		try {
-			// FIXME da fare con process builder
-			// FIXME forse possiamo usare il nome del container
-
-			mongoProcess = Runtime.getRuntime()
-					.exec("docker run -p 27017:27017 --detach --rm krnbr/mongo:4.2.6");
-
 			InputStream is = mongoProcess.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String line = null;
@@ -76,8 +88,6 @@ public class MyCareerAppCLIE2E {
 				System.out.println("mongoID:" + line + "-");
 				mongoTestContainerId = line;
 			}
-			
-			TimeUnit.SECONDS.sleep(sleepTime); 
 
 			mongoClient = new MongoClient("localhost");
 			mongoClient.getDatabase(CAREER_DB_NAME).drop();
@@ -99,7 +109,8 @@ public class MyCareerAppCLIE2E {
 			addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
 
 			ProcessBuilder builder = new ProcessBuilder("java", "-jar",
-					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli"); // FIXME get the right place
+					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli"); // FIXME get the
+																									// right place
 
 			builder.redirectErrorStream(true);
 
@@ -112,7 +123,7 @@ public class MyCareerAppCLIE2E {
 
 			line = null;
 			boolean initFinished = false;
-			//FIXME insert timeout
+			// FIXME insert timeout
 			while (((line = inp.readLine()) != null) & !initFinished) {
 				System.out.println("ProcessOut: " + line);
 				if (line.contains("Enter a valid digit")) {
@@ -121,7 +132,7 @@ public class MyCareerAppCLIE2E {
 				}
 			}
 
-		} catch (IOException | InterruptedException e1) {
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -130,14 +141,8 @@ public class MyCareerAppCLIE2E {
 
 	@After
 	public void onTearDown() {
-		try {
-			// FIXME forse da fare con process builder
-			Runtime.getRuntime().exec("docker kill " + mongoTestContainerId);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mongoProcess.destroy();
+		mongoClient.getDatabase(CAREER_DB_NAME).drop();
+		mongoClient.close();
 	}
 
 	@Test
@@ -260,7 +265,7 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testExit() throws InterruptedException, IOException {
-		//FIXME
+		// FIXME
 		out.write("8\n");
 		out.flush();
 		out.close();
@@ -285,7 +290,6 @@ public class MyCareerAppCLIE2E {
 		}
 		return "";
 	}
-
 
 	private void addTestStudentToDatabaseWithParticipations(String studentId, String studentName,
 			List<String> participations) {
