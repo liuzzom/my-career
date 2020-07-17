@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<sonar.issue.ignore.multicriteria>e11, e12, e13, e14, e15, e16, e17</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11, e12, e13, e14, e16, e17</sonar.issue.ignore.multicriteria>
 
 		<sonar.issue.ignore.multicriteria.e11.ruleKey>java:S110</sonar.issue.ignore.multicriteria.e11.ruleKey>
 		<sonar.issue.ignore.multicriteria.e11.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e11.resourceKey>
