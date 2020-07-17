@@ -22,9 +22,5 @@ cache:
   - $HOME/.m2
   - $HOME/.sonar/cache
 
-jobs:
-  include:
-    - stage: package
-      script: mvn -f my-career-aggregator/pom.xml clean package
-    - stage: test
-      script: mvn -f my-career-aggregator/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS sonar:sonar -Dsonar.projectKey=liuzzom_my-career
+script:
+- mvn -f my-career-aggregator/pom.xml clean package verify $ADDITIONAL_MAVEN_ARGS sonar:sonar -Dsonar.projectKey=liuzzom_my-career
