@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<sonar.issue.ignore.multicriteria>e11, e12, e13, e14, e16, e17</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11, e12, e13, e14, e15, e16</sonar.issue.ignore.multicriteria>
 
 		<sonar.issue.ignore.multicriteria.e11.ruleKey>java:S110</sonar.issue.ignore.multicriteria.e11.ruleKey>
 		<sonar.issue.ignore.multicriteria.e11.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e11.resourceKey>
@@ -23,11 +23,11 @@
 		<sonar.issue.ignore.multicriteria.e14.ruleKey>java:S106</sonar.issue.ignore.multicriteria.e14.ruleKey>
 		<sonar.issue.ignore.multicriteria.e14.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e14.resourceKey>
 
-		<sonar.issue.ignore.multicriteria.e16.ruleKey>java:S3973</sonar.issue.ignore.multicriteria.e16.ruleKey>
-		<sonar.issue.ignore.multicriteria.e16.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e16.resourceKey>
+		<sonar.issue.ignore.multicriteria.e15.ruleKey>java:S3973</sonar.issue.ignore.multicriteria.e15.ruleKey>
+		<sonar.issue.ignore.multicriteria.e15.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e15.resourceKey>
 
-		<sonar.issue.ignore.multicriteria.e17.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e17.ruleKey>
-		<sonar.issue.ignore.multicriteria.e17.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e17.resourceKey>
+		<sonar.issue.ignore.multicriteria.e16.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e16.ruleKey>
+		<sonar.issue.ignore.multicriteria.e16.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e16.resourceKey>
 
 		<sonar.coverage.exclusions>
 			**/MyCareerApp.*,

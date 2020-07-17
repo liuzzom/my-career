@@ -2,10 +2,7 @@ language: java
 
 dist: xenial
 
-matrix:
-  include:
-  - jdk: openjdk8
-    env: ADDITIONAL_MAVEN_ARGS="-Pjacoco -Pmutation-testing
+jdk: openjdk8
 
 addons:
   sonarcloud:
@@ -23,4 +20,4 @@ cache:
   - $HOME/.sonar/cache
 
 script:
-- mvn -f my-career-aggregator/pom.xml clean package verify $ADDITIONAL_MAVEN_ARGS sonar:sonar -Dsonar.projectKey=liuzzom_my-career
+- mvn -f my-career-aggregator/pom.xml clean package verify -Pjacoco -Pmutation-testing sonar:sonar -Dsonar.projectKey=liuzzom_my-career
