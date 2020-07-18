@@ -89,6 +89,6 @@ where `<jar_path>` is the path of the jar file you downloaded or built by yourse
 ### Author Refernces
 
 - Antonino Mauro Liuzzo
-  - [GitHub](#https://github.com/liuzzom)
+  - [GitHub](https://github.com/liuzzom)
 - Davide Nesi
-  - [GitHub](#https://github.com/DavideNesi)
+  - [GitHub](https://github.com/DavideNesi)
