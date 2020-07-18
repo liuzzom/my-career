@@ -31,9 +31,9 @@ You can find a development report [here](https://docs.google.com/document/d/1Jtv
 
  ### UIs Screenshots
 
-![GUI Screen](/home/mauroliuzzo/git/my-career/readme-resources/gui screenshot.png)
+![GUI Screen](./readme-resources/gui screenshot.png)
 
-![CLI Screen](/home/mauroliuzzo/git/my-career/readme-resources/cli screenshot.png)
+![CLI Screen](./readme-resources/cli screenshot.png)
 
 ### System Requirements
 
