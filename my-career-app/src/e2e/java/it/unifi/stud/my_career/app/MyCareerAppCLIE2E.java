@@ -107,7 +107,6 @@ public class MyCareerAppCLIE2E {
 			course2Participants.add(STUDENT_ID_2);
 			addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
 
-			// FIXME get the right place
 			ProcessBuilder builder = new ProcessBuilder("java", "-jar",
 					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli");
 

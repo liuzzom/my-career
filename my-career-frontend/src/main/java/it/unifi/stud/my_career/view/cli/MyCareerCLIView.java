@@ -233,7 +233,7 @@ public class MyCareerCLIView implements MyCareerView {
 
 	}
 
-	public String[] askingStudentAndCourse () {
+	private String[] askingStudentAndCourse () {
 		String[] results = new String[5];
 		
 		outputStream.print(INSERT_STUDENT_ID);
