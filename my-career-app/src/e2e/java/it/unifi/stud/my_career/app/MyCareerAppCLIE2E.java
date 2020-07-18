@@ -31,8 +31,6 @@ public class MyCareerAppCLIE2E {
 	private static final String NAME = "name";
 	private static final String ID = "id";
 
-	private static final int sleepTime = 10;
-
 	private static final String STUDENT_ID_1 = "1423";
 	private static final String STUDENT_NAME_1 = "Pippo";
 	private static final String STUDENT_ID_2 = "1234";
