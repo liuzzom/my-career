@@ -135,45 +135,29 @@ public class MyCareerCLIView implements MyCareerView {
 	}
 
 	private void addCourse() {
-		outputStream.print(INSERT_STUDENT_ID);
-		String studentId = scanner.nextLine();
-		outputStream.print(INSERT_STUDENT_NAME);
-		String studentName = scanner.nextLine();
-		outputStream.print(INSERT_COURSE_ID);
-		String courseId = scanner.nextLine();
-		outputStream.print(INSERT_COURSE_NAME);
-		String courseName = scanner.nextLine();
-		outputStream.print(INSERT_COURSE_CFU);
-		String courseCFU = scanner.nextLine();
+		
+		String[] params = askingStudentAndCourse();
 
-		if (!courseCFU.matches(CFU_REGEX)) {
+		if (!params[4].matches(CFU_REGEX)) {
 			outputStream.println(CFU_ERROR_MSG);
 			return;
 		}
 
-		myCareerController.addCourse(new Student(studentId, studentName),
-				new Course(courseId, courseName, Integer.parseInt(courseCFU)));
+		myCareerController.addCourse(new Student(params[0], params[1]),
+				new Course(params[2], params[3], Integer.parseInt(params[4])));
 	}
 
 	private void removeCourse() {
-		outputStream.print(INSERT_STUDENT_ID);
-		String studentId = scanner.nextLine();
-		outputStream.print(INSERT_STUDENT_NAME);
-		String studentName = scanner.nextLine();
-		outputStream.print(INSERT_COURSE_ID);
-		String courseId = scanner.nextLine();
-		outputStream.print(INSERT_COURSE_NAME);
-		String courseName = scanner.nextLine();
-		outputStream.print(INSERT_COURSE_CFU);
-		String courseCFU = scanner.nextLine();
+		
+		String[] params = askingStudentAndCourse();
 
-		if (!courseCFU.matches(CFU_REGEX)) {
+		if (!params[4].matches(CFU_REGEX)) {
 			outputStream.println(CFU_ERROR_MSG);
 			return;
 		}
 
-		myCareerController.removeCourse(new Student(studentId, studentName),
-				new Course(courseId, courseName, Integer.parseInt(courseCFU)));
+		myCareerController.removeCourse(new Student(params[0], params[1]),
+				new Course(params[2], params[3], Integer.parseInt(params[4])));
 	}
 
 	private void getStudentsByCourse() {
@@ -247,5 +231,22 @@ public class MyCareerCLIView implements MyCareerView {
 		}
 	return rValue;
 
+	}
+
+	public String[] askingStudentAndCourse () {
+		String[] results = new String[5];
+		
+		outputStream.print(INSERT_STUDENT_ID);
+		results[0] = scanner.nextLine();
+		outputStream.print(INSERT_STUDENT_NAME);
+		results[1] = scanner.nextLine();
+		outputStream.print(INSERT_COURSE_ID);
+		results[2] = scanner.nextLine();
+		outputStream.print(INSERT_COURSE_NAME);
+		results[3] = scanner.nextLine();
+		outputStream.print(INSERT_COURSE_CFU);
+		results[4] = scanner.nextLine();
+		
+		return results;
 	}
 }

@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bson.Document;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -59,6 +60,13 @@ public class MyCareerAppCLIE2E {
 	public static void dbStart() {
 		try {
 			mongoProcess = Runtime.getRuntime().exec("docker run -p 27017:27017 --detach --rm krnbr/mongo:4.2.6");
+			InputStream is = mongoProcess.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				System.out.println("mongoID:" + line + "-");
+				mongoTestContainerId = line;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -79,13 +87,6 @@ public class MyCareerAppCLIE2E {
 	public void onSetUp() {
 
 		try {
-			InputStream is = mongoProcess.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				System.out.println("mongoID:" + line + "-");
-				mongoTestContainerId = line;
-			}
 
 			mongoClient = new MongoClient("localhost");
 			mongoClient.getDatabase(CAREER_DB_NAME).drop();
@@ -106,22 +107,23 @@ public class MyCareerAppCLIE2E {
 			course2Participants.add(STUDENT_ID_2);
 			addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
 
+			// FIXME get the right place
 			ProcessBuilder builder = new ProcessBuilder("java", "-jar",
-					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli"); // FIXME get the
-																									// right place
+					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli");
 
 			builder.redirectErrorStream(true);
 
 			Process process = builder.start();
+
 			OutputStream stdin = process.getOutputStream();
 			InputStream stdout = process.getInputStream();
 
 			inp = new BufferedReader(new InputStreamReader(stdout));
 			out = new BufferedWriter(new OutputStreamWriter(stdin));
 
+			String line = null;
 			line = null;
 			boolean initFinished = false;
-			// FIXME insert timeout
 			while (((line = inp.readLine()) != null) & !initFinished) {
 				System.out.println("ProcessOut: " + line);
 				if (line.contains("Enter a valid digit")) {
@@ -131,7 +133,6 @@ public class MyCareerAppCLIE2E {
 			}
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -139,7 +140,6 @@ public class MyCareerAppCLIE2E {
 
 	@After
 	public void onTearDown() {
-		mongoClient.getDatabase(CAREER_DB_NAME).drop();
 		mongoClient.close();
 	}
 
@@ -167,7 +167,6 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testGetAllStudentsWithNothingInDB() throws IOException, InterruptedException {
-		// FIXME
 		removeTestStudentFromDatabase(STUDENT_ID_1);
 		removeTestStudentFromDatabase(STUDENT_ID_2);
 		String inputResult = sendInputAndGetMultipleOutput("2");
@@ -263,7 +262,6 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testExit() throws InterruptedException, IOException {
-		// FIXME
 		out.write("8\n");
 		out.flush();
 		out.close();
@@ -271,7 +269,7 @@ public class MyCareerAppCLIE2E {
 		assertThat(inputResult).hasToString("Goodbye");
 	}
 
-	public static String sendInputAndGetMultipleOutput(String msg) {
+	private static String sendInputAndGetMultipleOutput(String msg) {
 		String result = "";
 		try {
 			out.write(msg + "\n");
@@ -283,7 +281,6 @@ public class MyCareerAppCLIE2E {
 			}
 			return result;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "";
