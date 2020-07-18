@@ -9,13 +9,13 @@
 ### Table Of Contents
 
 - [Introduction](#Introduction)
-- [UIs Screenshots](#UIs Screenshots)
-- [System Requirements](#System Requirements)
-- [Download the Jar file](#Download the Jar file)
-- [Build Instruction](#Build Instruction)
+- [UIs Screenshots](#UIs-Screenshots)
+- [System Requirements](#System-Requirements)
+- [Download the Jar file](#Download-the-Jar-file)
+- [Build Instruction](#Build-Instruction)
 - [Usage](#Usage)
   - [Options](#Options)
-- [Author Refernces](#Author Refernces)
+- [Author Refernces](#Author-Refernces)
 
 ### Introduction
 
