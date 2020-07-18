@@ -47,7 +47,22 @@ You can find a ready to go jar file [here](https://github.com/liuzzom/my-career/
 
 ### Build Instruction
 
-Coming Soon...
+#### Preparatory steps (command for Debian and Ubuntu-based distributions)
+
+1. Install Maven `sudo apt install maven`
+2. Install Docker `sudo apt install docker.io`
+3. Install Java `sudo apt install openjdk-8-jdk`
+
+If you want to build by yourself the application, you have to do the following steps:
+
+1. Clone this repository.
+2. Move to the downloaded directory.
+3. Move to my-career-aggregator folder.
+4. Run a maven build, with clean and package goals
+
+``` bash
+mvn clean package
+```
 
 ### Usage
 
