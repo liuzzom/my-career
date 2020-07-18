@@ -31,9 +31,9 @@ You can find a development report [here](https://docs.google.com/document/d/1Jtv
 
  ### UIs Screenshots
 
-![GUI Screen](./readme-resources/gui screenshot.png)
+![GUI Screen](https://github.com/liuzzom/my-career/blob/master/readme-resources/gui%20screenshot.png)
 
-![CLI Screen](./readme-resources/cli screenshot.png)
+![CLI Screen](https://github.com/liuzzom/my-career/blob/master/readme-resources/cli%20screenshot.png)
 
 ### System Requirements
 
