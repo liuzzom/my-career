@@ -113,8 +113,10 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testOnStartAllStudentsAreShown() {
+		//Setup
 		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
+		//Exercise & Verify
 		assertThat(window.list("studentsList").contents()).anySatisfy(e -> assertThat(e).contains(student1.toString()))
 				.anySatisfy(e -> assertThat(e).contains(student2.toString()));
 	}
@@ -123,19 +125,24 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testAddStudentButtonSuccess() {
+		//Setup
 		Student student3 = new Student(STUDENT_ID_3, STUDENT_NAME_3);
+		//Exercise
 		window.textBox("studentIDTextField").enterText(STUDENT_ID_3);
 		window.textBox("studentNameTextField").enterText(STUDENT_NAME_3);
 		window.button(JButtonMatcher.withText("Add Student")).click();
+		//Verify
 		assertThat(window.list("studentsList").contents()).anySatisfy(e -> assertThat(e).contains(student3.toString()));
 	}
 
 	@Test
 	@GUITest
 	public void testAddStudentButtonError() {
+		//Exercise
 		window.textBox("studentIDTextField").enterText(STUDENT_ID_1);
 		window.textBox("studentNameTextField").enterText("Piergiorgio");
 		window.button(JButtonMatcher.withText("Add Student")).click();
+		//Verify
 		assertThat(window.label("studentInfoErrorMessageLabel").text()).contains(STUDENT_ID_1, STUDENT_NAME_1);
 	}
 
@@ -143,23 +150,28 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testAddCourseButtonSuccess() {
-		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
+		//Setup
 		Course course3 = new Course(COURSE_ID_3, COURSE_NAME_3, COURSE_CFU_3);
+		//Exercise
+		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
 		window.textBox("courseIDTextField").enterText(COURSE_ID_3);
 		window.textBox("courseNameTextField").enterText(COURSE_NAME_3);
 		window.textBox("courseCFUsTextField").enterText(String.valueOf(COURSE_CFU_3));
 		window.button(JButtonMatcher.withText("Add Course")).click();
+		//Verify
 		assertThat(window.list("coursesList").contents()).anySatisfy(e -> assertThat(e).contains(course3.toString()));
 	}
 
 	@Test
 	@GUITest
 	public void testAddCourseButtonError() {
+		//Exercise
 		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
 		window.textBox("courseIDTextField").enterText(COURSE_ID_1);
 		window.textBox("courseNameTextField").enterText("LabFinto");
 		window.textBox("courseCFUsTextField").enterText(String.valueOf(COURSE_CFU_1));
 		window.button(JButtonMatcher.withText("Add Course")).click();
+		//Verify
 		assertThat(window.label("courseInfoErrorMessageLabel").text()).contains(COURSE_ID_1, "LabFinto",
 				String.valueOf(COURSE_CFU_1));
 	}
@@ -168,17 +180,21 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testDeleteStudentButtonSuccess() {
+		//Exercise
 		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
 		window.button(JButtonMatcher.withText("Delete Student")).click();
+		//Verify
 		assertThat(window.list("studentsList").contents()).noneMatch(e -> e.contains(STUDENT_ID_1));
 	}
 
 	@Test
 	@GUITest
 	public void testDeleteStudentButtonError() {
+		//Exercise
 		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
 		removeTestStudentFromDatabase(STUDENT_ID_1);
 		window.button(JButtonMatcher.withText("Delete Student")).click();
+		//Verify
 		assertThat(window.label("studentInfoErrorMessageLabel").text()).contains(STUDENT_ID_1, STUDENT_NAME_1);
 	}
 
@@ -186,19 +202,23 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testDeleteCourseButtonSuccess() {
+		//Exercise
 		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
 		window.list("coursesList").selectItem(Pattern.compile(".*" + COURSE_ID_1 + ".*"));
 		window.button(JButtonMatcher.withText("Delete Course")).click();
+		//Verify
 		assertThat(window.list("coursesList").contents()).noneMatch(e -> e.contains(COURSE_ID_1));
 	}
 
 	@Test
 	@GUITest
 	public void testDeleteCourseButtonError() {
+		//Exercise
 		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_1 + ".*"));
 		window.list("coursesList").selectItem(Pattern.compile(".*" + COURSE_ID_1 + ".*"));
 		removeTestCourseFromDatabase(COURSE_ID_1);
 		window.button(JButtonMatcher.withText("Delete Course")).click();
+		//Verify
 		assertThat(window.label("courseInfoErrorMessageLabel").text()).contains(COURSE_ID_1, COURSE_NAME_1,
 				String.valueOf(COURSE_CFU_1));
 	}
@@ -207,8 +227,11 @@ public class MyCareerAppGUIE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testSelectStudentShowParticipatedCourses() {
+		//Setup
 		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2);
+		//Exercise
 		window.list("studentsList").selectItem(Pattern.compile(".*" + STUDENT_ID_2 + ".*"));
+		//Verify
 		assertThat(window.list("coursesList").contents()).anySatisfy(e -> assertThat(e).contains(course2.toString()));
 	}
 

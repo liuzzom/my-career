@@ -30,9 +30,6 @@ import java.awt.event.ActionListener;
 
 public class MyCareerSwingView extends JFrame implements MyCareerView {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 

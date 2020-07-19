@@ -20,23 +20,23 @@ import it.unifi.stud.my_career.model.Student;
 
 public class MyCareerCLIViewTest {
 
-	private static final String COURSE4_NAME = "HCI";
-	private static final String COURSE4_ID = "101";
-	private static final String COURSE3_NAME = "ML";
-	private static final String COURSE3_ID = "789";
-	private static final String COURSE2_NAME = "BDA";
-	private static final String COURSE2_ID = "456";
-	private static final String COURSE1_NAME = "APT";
-	private static final String COURSE1_ID = "123";
-
-	private static final String STUDENT4_NAME = "test4";
-	private static final String STUDENT4_ID = "4";
-	private static final String STUDENT3_NAME = "test3";
-	private static final String STUDENT3_ID = "3";
-	private static final String STUDENT2_NAME = "test2";
-	private static final String STUDENT2_ID = "2";
-	private static final String STUDENT1_NAME = "test1";
-	private static final String STUDENT1_ID = "1";
+	private static final String COURSE_NAME_1 = "APT";
+	private static final String COURSE_ID_1 = "123";
+	private static final String COURSE_NAME_2 = "BDA";
+	private static final String COURSE_ID_2 = "456";
+	private static final String COURSE_NAME_3 = "ML";
+	private static final String COURSE_ID_3 = "789";
+	private static final String COURSE_NAME_4 = "HCI";
+	private static final String COURSE_ID_4 = "101";
+	
+	private static final String STUDENT_NAME_1 = "test1";
+	private static final String STUDENT_ID_1 = "1";
+	private static final String STUDENT_NAME_2 = "test2";
+	private static final String STUDENT_ID_2 = "2";
+	private static final String STUDENT_NAME_3 = "test3";
+	private static final String STUDENT_ID_3 = "3";
+	private static final String STUDENT_NAME_4 = "test4";
+	private static final String STUDENT_ID_4 = "4";
 
 	@Mock
 	private MyCareerController myCareerController;
@@ -70,7 +70,7 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testShowStudentErrorShouldShowAMessageInOutputStream() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		String errorMessage = "error message";
 		// Exercise
 		myCareerCLIView.showStudentError(errorMessage, student);
@@ -81,8 +81,8 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testShowAllStudentWithEmptyInitialListShouldAddStudentDescriptionsToTheList() {
 		// Setup
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		// Exercise
 		myCareerCLIView.showAllStudents(asList(student1, student2));
 		// Verify
@@ -93,10 +93,10 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testShowAllStudentWithNonEmptyListShouldRefreshTheList() {
 		// Setup
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
-		Student student3 = new Student(STUDENT3_ID, STUDENT3_NAME);
-		Student student4 = new Student(STUDENT4_ID, STUDENT4_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
+		Student student3 = new Student(STUDENT_ID_3, STUDENT_NAME_3);
+		Student student4 = new Student(STUDENT_ID_4, STUDENT_NAME_4);
 		myCareerCLIView.getStudentsList().addAll(asList(student1, student2));
 		// Exercise
 		myCareerCLIView.showAllStudents(asList(student3, student4));
@@ -108,8 +108,8 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testStudentAddedShouldAddTheStudentToTheListAndShowAMessage() {
 		// Setup
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		myCareerCLIView.getStudentsList().add(student1);
 		// Exercise
 		myCareerCLIView.studentAdded("Student added", student2);
@@ -121,8 +121,8 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testStudentRemovedShouldRemoveTheStudentFromTheListAndShowAMessage() {
 		// Setup
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		myCareerCLIView.getStudentsList().addAll(asList(student1, student2));
 		// Exercise
 		myCareerCLIView.studentRemoved("Student removed", student2);
@@ -134,7 +134,7 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testShowCourseErrorShouldShowTheMessageInTheOutputStream() {
 		// Setup
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		String errorMessage = "error message";
 		// Exercise
 		myCareerCLIView.showCourseError(errorMessage, course);
@@ -145,8 +145,8 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testShowAllCoursesWithInitialEmptyListShouldAddCourseDescriptionsToTheList() {
 		// Setup
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
 		// Exercise
 		myCareerCLIView.showAllCourses(asList(course1, course2));
 		// Verify
@@ -158,10 +158,10 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testShowAllCoursesWithNonEmptyListShouldRefreshTheList() {
 		// Setup
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
-		Course course3 = new Course(COURSE3_ID, COURSE3_NAME, 9);
-		Course course4 = new Course(COURSE4_ID, COURSE4_NAME, 6);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
+		Course course3 = new Course(COURSE_ID_3, COURSE_NAME_3, 9);
+		Course course4 = new Course(COURSE_ID_4, COURSE_NAME_4, 6);
 		myCareerCLIView.getCoursesList().addAll(asList(course1, course2));
 		// Exercise
 		myCareerCLIView.showAllCourses(asList(course3, course4));
@@ -174,8 +174,8 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testCourseAddedShouldAddTheCourseToTheListAndShowAMessage() {
 		// Setup
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
 		myCareerCLIView.getCoursesList().add(course1);
 		// Exercise
 		myCareerCLIView.courseAdded("Course added", course2);
@@ -187,8 +187,8 @@ public class MyCareerCLIViewTest {
 	@Test
 	public void testCourseRemovedShouldRemoveTheCourseFromTheListAndShowAMessage() {
 		// Setup
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
 		myCareerCLIView.getCoursesList().addAll(asList(course1, course2));
 		// Exercise
 		myCareerCLIView.courseRemoved("Course removed", course2);
@@ -209,7 +209,7 @@ public class MyCareerCLIViewTest {
 		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
-		verify(myCareerController).addStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		verify(myCareerController).addStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1));
 		assertThat(rValue).isEqualTo(1);
 
 	}
@@ -237,7 +237,7 @@ public class MyCareerCLIViewTest {
 		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
-		verify(myCareerController).deleteStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		verify(myCareerController).deleteStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1));
 		assertThat(rValue).isEqualTo(3);
 	}
 
@@ -251,7 +251,7 @@ public class MyCareerCLIViewTest {
 		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert id: Insert name: ");
-		verify(myCareerController).getCoursesByStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		verify(myCareerController).getCoursesByStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1));
 		assertThat(rValue).isEqualTo(4);
 	}
 
@@ -266,8 +266,8 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
-		verify(myCareerController).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController).addCourse(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		assertThat(rValue).isEqualTo(5);
 	}
 
@@ -282,8 +282,8 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
-		verify(myCareerController, never()).addCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController, never()).addCourse(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		assertThat(rValue).isEqualTo(5);
 	}
 
@@ -298,8 +298,8 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ");
-		verify(myCareerController).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController).removeCourse(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		assertThat(rValue).isEqualTo(6);
 	}
 
@@ -314,8 +314,8 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString()).contains(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
-		verify(myCareerController, never()).removeCourse(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController, never()).removeCourse(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		assertThat(rValue).isEqualTo(6);
 	}
 
@@ -329,7 +329,7 @@ public class MyCareerCLIViewTest {
 		int rValue = myCareerCLIView.exec();
 		// Verify
 		assertThat(testOut.toString()).contains("Insert course id: Insert course name: Insert course CFU: ");
-		verify(myCareerController).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController).getStudentsByCourse(new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		assertThat(rValue).isEqualTo(7);
 	}
 
@@ -344,7 +344,7 @@ public class MyCareerCLIViewTest {
 		// Verify
 		assertThat(testOut.toString())
 				.contains("Insert course id: Insert course name: Insert course CFU: CFU value must be a number\n");
-		verify(myCareerController, never()).getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController, never()).getStudentsByCourse(new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		assertThat(rValue).isEqualTo(7);
 	}
 

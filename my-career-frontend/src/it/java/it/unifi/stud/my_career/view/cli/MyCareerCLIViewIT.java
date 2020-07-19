@@ -27,13 +27,13 @@ import it.unifi.stud.my_career.repository.mongo.TransactionManagerMongo;
 import it.unifi.stud.my_career.service.MyCareerService;
 
 public class MyCareerCLIViewIT {
-	private static final String COURSE1_NAME = "APT";
-	private static final String COURSE1_ID = "123";
+	private static final String COURSE_NAME_1 = "APT";
+	private static final String COURSE_ID_1 = "123";
 
-	private static final String STUDENT2_NAME = "test2";
-	private static final String STUDENT2_ID = "2";
-	private static final String STUDENT1_NAME = "test1";
-	private static final String STUDENT1_ID = "1";
+	private static final String STUDENT_NAME_2 = "test2";
+	private static final String STUDENT_ID_2 = "2";
+	private static final String STUDENT_NAME_1 = "test1";
+	private static final String STUDENT_ID_1 = "1";
 
 	@SuppressWarnings("rawtypes")
 	@ClassRule
@@ -87,8 +87,8 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testAllStudents() {
 		// Setup
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		myCareerService.saveStudent(student1);
 		myCareerService.saveStudent(student2);
 		// Execute
@@ -109,13 +109,13 @@ public class MyCareerCLIViewIT {
 		// Verify
 		assertThat(testOut.toString())
 				.contains("Insert id: Insert name: Student account created : Student [id=1, name=test1]\n");
-		assertThat(myCareerCLIView.getStudentsList()).containsExactly(new Student(STUDENT1_ID, STUDENT1_NAME));
+		assertThat(myCareerCLIView.getStudentsList()).containsExactly(new Student(STUDENT_ID_1, STUDENT_NAME_1));
 	}
 
 	@Test
 	public void testAddStudentErrorStudentDoesAlreadyExist() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
 		String userInput = "1\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -130,7 +130,7 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testDeleteStudentSuccess() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
 		String userInput = "3\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -159,7 +159,7 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testAddCourseSuccess() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerController.addStudent(student);
 		String userInput = "5\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -167,16 +167,16 @@ public class MyCareerCLIViewIT {
 		// Exercise
 		myCareerCLIView.exec();
 		// Verify
-		assertThat(myCareerCLIView.getStudentsList()).containsExactly(new Student(STUDENT1_ID, STUDENT1_NAME));
-		assertThat(myCareerCLIView.getCoursesList()).containsExactly(new Course(COURSE1_ID, COURSE1_NAME, 6));
+		assertThat(myCareerCLIView.getStudentsList()).containsExactly(new Student(STUDENT_ID_1, STUDENT_NAME_1));
+		assertThat(myCareerCLIView.getCoursesList()).containsExactly(new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 	}
 
 	@Test
 	public void testAddCourseErrorrCourseAlreadyExist() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		myCareerService.saveCourse(student, course);
 		String userInput = "5\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -206,9 +206,9 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testRemoveCourseSuccess() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerController.addStudent(student);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		myCareerController.addCourse(student, course);
 		String userInput = "6\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -222,7 +222,7 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testRemoveCourseErrorCourseDoesNotExist() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
 		String userInput = "6\n1\ntest1\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -253,9 +253,9 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testGetCoursesByStudentSuccess() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		myCareerService.saveCourse(student, course);
 		String userInput = "4\n1\ntest1";
 		testin = new ByteArrayInputStream(userInput.getBytes());
@@ -282,9 +282,9 @@ public class MyCareerCLIViewIT {
 	@Test
 	public void testGetStudentsByCourseSuccess() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		myCareerService.saveCourse(student, course);
 		String userInput = "7\n123\nAPT\n6";
 		testin = new ByteArrayInputStream(userInput.getBytes());

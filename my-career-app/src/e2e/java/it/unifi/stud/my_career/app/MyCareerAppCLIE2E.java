@@ -107,19 +107,19 @@ public class MyCareerAppCLIE2E {
 			course2Participants.add(STUDENT_ID_2);
 			addTestCourseToDatabaseWithParticipants(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2, course2Participants);
 
+			//Start application
 			ProcessBuilder builder = new ProcessBuilder("java", "-jar",
 					"./target/my-career-app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "--ui=cli");
-
 			builder.redirectErrorStream(true);
-
 			Process process = builder.start();
 
+			//redirect streams
 			OutputStream stdin = process.getOutputStream();
 			InputStream stdout = process.getInputStream();
-
 			inp = new BufferedReader(new InputStreamReader(stdout));
 			out = new BufferedWriter(new OutputStreamWriter(stdin));
 
+			//waiting for startup
 			String line = null;
 			line = null;
 			boolean initFinished = false;
@@ -141,70 +141,97 @@ public class MyCareerAppCLIE2E {
 	public void onTearDown() {
 		mongoClient.close();
 	}
+	
+	//add student
 
 	@Test
 	public void testInsertingNewStudentSuccess() throws IOException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("1\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3);
-		System.out.println(inputResult);
+		//Verify
 		assertThat(inputResult).hasToString("Insert id: Insert name: Student account created : Student [id="
 				+ STUDENT_ID_3 + ", name=" + STUDENT_NAME_3 + "]");
 	}
 
 	@Test
 	public void testInsertingNewStudentFail() throws IOException, InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("1\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		//Verify
 		assertThat(inputResult).hasToString("Insert id: Insert name: ERROR! Already exists a student with id "
 				+ STUDENT_ID_1 + " : Student [id=" + STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
 	}
+	
+	//get students
 
 	@Test
 	public void testGetAllStudentsWithSomethingInDB() throws IOException, InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("2");
+		//Verify
 		assertThat(inputResult).hasToString("Student [id=" + STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]Student [id="
 				+ STUDENT_ID_2 + ", name=" + STUDENT_NAME_2 + "]");
 	}
 
 	@Test
 	public void testGetAllStudentsWithNothingInDB() throws IOException, InterruptedException {
+		//Setup
 		removeTestStudentFromDatabase(STUDENT_ID_1);
 		removeTestStudentFromDatabase(STUDENT_ID_2);
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("2");
+		//Verify
 		assertThat(inputResult).hasToString("");
 	}
+	
+	//delete student
 
 	@Test
 	public void testDeleteStudentSuccess() throws IOException, InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("3\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
+		//Verify
 		assertThat(inputResult).hasToString("Insert id: Insert name: Student account deleted : Student [id="
 				+ STUDENT_ID_1 + ", name=" + STUDENT_NAME_1 + "]");
 	}
 
 	@Test
 	public void testDeleteStudentError() throws IOException, InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("3\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3);
+		//Verify
 		assertThat(inputResult).hasToString("Insert id: Insert name: ERROR! Student does not exist : Student [id="
 				+ STUDENT_ID_3 + ", name=" + STUDENT_NAME_3 + "]");
 	}
+	
+	//get course by student id
 
 	@Test
 	public void testGetCoursesByStudentIdSuccess() throws IOException, InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("4\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1);
-		System.out.print(inputResult);
+		//Verify
 		assertThat(inputResult).hasToString("Insert id: Insert name: Course [id=" + COURSE_ID_1 + ", name="
 				+ COURSE_NAME_1 + ", cfu=" + COURSE_CFU_1 + "]");
 	}
 
 	@Test
 	public void testGetCoursesByStudentIdFail() throws IOException, InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("4\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3);
+		//Verify
 		assertThat(inputResult).hasToString("Insert id: Insert name: ERROR! Student does not exist : Student [id="
 				+ STUDENT_ID_3 + ", name=" + STUDENT_NAME_3 + "]");
 	}
+	
+	// add subscription
 
 	@Test
 	public void testAddCourseSubscriptionSuccess() throws InterruptedException {
+		//Exercise 
 		String inputResult = sendInputAndGetMultipleOutput("5\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1 + "\n"
 				+ COURSE_ID_2 + "\n" + COURSE_NAME_2 + "\n" + COURSE_CFU_2);
+		//Verify
 		assertThat(inputResult).hasToString(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: Added a new course : Course [id="
 						+ COURSE_ID_2 + ", name=" + COURSE_NAME_2 + ", cfu=" + COURSE_CFU_2 + "]");
@@ -212,18 +239,23 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testAddCourseSubscriptionWrongStudent() throws InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("5\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3 + "\n"
 				+ COURSE_ID_2 + "\n" + COURSE_NAME_2 + "\n" + COURSE_CFU_2);
+		//Verify
 		assertThat(inputResult).hasToString(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ERROR! The student does not exist : Course [id="
 						+ COURSE_ID_2 + ", name=" + COURSE_NAME_2 + ", cfu=" + COURSE_CFU_2 + "]");
-
 	}
+	
+	//remove course subscription
 
 	@Test
 	public void testRemoveCourseSubscriptionSuccess() throws InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("6\n" + STUDENT_ID_1 + "\n" + STUDENT_NAME_1 + "\n"
 				+ COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		//Verify
 		assertThat(inputResult).hasToString(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: The course has been removed : Course [id="
 						+ COURSE_ID_1 + ", name=" + COURSE_NAME_1 + ", cfu=" + COURSE_CFU_1 + "]");
@@ -231,18 +263,23 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testRemoveCourseSubscriptionFailNoStudent() throws InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput("6\n" + STUDENT_ID_3 + "\n" + STUDENT_NAME_3 + "\n"
 				+ COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
+		//Verify
 		assertThat(inputResult).hasToString(
 				"Insert student id: Insert student name: Insert course id: Insert course name: Insert course CFU: ERROR! The student does not exist : Course [id="
 						+ COURSE_ID_1 + ", name=" + COURSE_NAME_1 + ", cfu=" + COURSE_CFU_1 + "]");
 	}
+	
+	//get students by course participation
 
 	@Test
 	public void testGetStudentsByCourseWithAllInDB() throws InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput(
 				"7\n" + COURSE_ID_1 + "\n" + COURSE_NAME_1 + "\n" + COURSE_CFU_1);
-		System.out.println("-" + inputResult + "-");
+		//Verify
 		assertThat(inputResult).hasToString(
 				"Insert course id: Insert course name: Insert course CFU: Student [id=" + STUDENT_ID_1 + ", name="
 						+ STUDENT_NAME_1 + "]Student [id=" + STUDENT_ID_2 + ", name=" + STUDENT_NAME_2 + "]");
@@ -251,20 +288,25 @@ public class MyCareerAppCLIE2E {
 
 	@Test
 	public void testGetStudentsByWrongCourse() throws InterruptedException {
+		//Exercise
 		String inputResult = sendInputAndGetMultipleOutput(
 				"7\n" + COURSE_ID_3 + "\n" + COURSE_NAME_3 + "\n" + COURSE_CFU_3);
-		System.out.println("-" + inputResult + "-");
+		//Verify
 		assertThat(inputResult).hasToString(
 				"Insert course id: Insert course name: Insert course CFU: ERROR! The course does not exist : Course [id="
 						+ COURSE_ID_3 + ", name=" + COURSE_NAME_3 + ", cfu=" + COURSE_CFU_3 + "]");
 	}
+	
+	//exit
 
 	@Test
 	public void testExit() throws InterruptedException, IOException {
+		//Exercise
 		out.write("8\n");
 		out.flush();
 		out.close();
 		String inputResult = inp.readLine();
+		//Verify
 		assertThat(inputResult).hasToString("Goodbye");
 	}
 

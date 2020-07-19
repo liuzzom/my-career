@@ -26,10 +26,10 @@ import it.unifi.stud.my_career.view.MyCareerView;
 
 public class MyCareerControllerIT {
 
-	private static final String COURSE_NAME = "APT";
-	private static final String COURSE_ID = "123";
-	private static final String STUDENT_NAME = "test1";
-	private static final String STUDENT_ID = "1";
+	private static final String COURSE_NAME_1 = "APT";
+	private static final String COURSE_ID_1 = "123";
+	private static final String STUDENT_NAME_1 = "test1";
+	private static final String STUDENT_ID_1 = "1";
 
 	@SuppressWarnings("rawtypes")
 	@ClassRule
@@ -75,7 +75,7 @@ public class MyCareerControllerIT {
 	@Test
 	public void testGetAllStudents() {
 		// Setup
-		Student student = new Student(STUDENT_ID, STUDENT_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		myCareerService.saveStudent(student);
 		// Exercise
 		myCareerController.getAllStudents();
@@ -86,7 +86,7 @@ public class MyCareerControllerIT {
 	@Test
 	public void testAddStudent() {
 		// Setup
-		Student student = new Student(STUDENT_ID, STUDENT_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		// Exercise
 		myCareerController.addStudent(student);
 		// Verify
@@ -96,7 +96,7 @@ public class MyCareerControllerIT {
 	@Test
 	public void testDeleteStudent() {
 		// Setup
-		Student studentToDelete = new Student(STUDENT_ID, STUDENT_NAME);
+		Student studentToDelete = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		studentRepository.save(studentToDelete);
 		// Exercise
 		myCareerController.deleteStudent(studentToDelete);
@@ -107,12 +107,12 @@ public class MyCareerControllerIT {
 	@Test
 	public void testGetCoursesByStudent() {
 		// Setup
-		Student student = new Student(STUDENT_ID, STUDENT_NAME);
-		Course course = new Course(COURSE_ID, COURSE_NAME, 6);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		studentRepository.save(student);
 		courseRepository.save(course);
-		studentRepository.addStudentParticipation(STUDENT_ID, course);
-		courseRepository.addCourseParticipant(COURSE_ID, student);
+		studentRepository.addStudentParticipation(STUDENT_ID_1, course);
+		courseRepository.addCourseParticipant(COURSE_ID_1, student);
 		// Exercise
 		myCareerController.getCoursesByStudent(student);
 		// Verify
@@ -122,8 +122,8 @@ public class MyCareerControllerIT {
 	@Test
 	public void testAddCourse() {
 		// Setup
-		Student student = new Student(STUDENT_ID, STUDENT_NAME);
-		Course course = new Course(COURSE_ID, COURSE_NAME, 6);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		studentRepository.save(student);
 		// Exercise
 		myCareerController.addCourse(student, course);
@@ -134,12 +134,12 @@ public class MyCareerControllerIT {
 	@Test
 	public void testDeleteCourse() {
 		// Setup
-		Student student = new Student(STUDENT_ID, STUDENT_NAME);
-		Course course = new Course(COURSE_ID, COURSE_NAME, 6);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		studentRepository.save(student);
 		courseRepository.save(course);
-		studentRepository.addStudentParticipation(STUDENT_ID, course);
-		courseRepository.addCourseParticipant(COURSE_ID, student);
+		studentRepository.addStudentParticipation(STUDENT_ID_1, course);
+		courseRepository.addCourseParticipant(COURSE_ID_1, student);
 		// Exercise
 		myCareerController.removeCourse(student, course);
 		// Verify
@@ -149,12 +149,12 @@ public class MyCareerControllerIT {
 	@Test
 	public void testGetStudentsByCourse() {
 		// Setup
-		Student student = new Student(STUDENT_ID, STUDENT_NAME);
-		Course course = new Course(COURSE_ID, COURSE_NAME, 6);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		studentRepository.save(student);
 		courseRepository.save(course);
-		studentRepository.addStudentParticipation(STUDENT_ID, course);
-		courseRepository.addCourseParticipant(COURSE_ID, student);
+		studentRepository.addStudentParticipation(STUDENT_ID_1, course);
+		courseRepository.addCourseParticipant(COURSE_ID_1, student);
 		// Exercise
 		myCareerController.getStudentsByCourse(course);
 		// Verify

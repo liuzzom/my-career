@@ -24,30 +24,23 @@ import it.unifi.stud.my_career.model.Student;
 @RunWith(GUITestRunner.class)
 public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 
-	private static final String COURSE4_NAME = "HCI";
-	private static final String COURSE4_ID = "101";
-
-	private static final String COURSE3_NAME = "ML";
-	private static final String COURSE3_ID = "789";
-
-	private static final String COURSE2_NAME = "SWAM";
-	private static final String COURSE2_ID = "456";
-
-	private static final String STUDENT4_NAME = "test4";
-	private static final String STUDENT4_ID = "4";
-
-	private static final String STUDENT3_NAME = "test3";
-	private static final String STUDENT3_ID = "3";
-
-	private static final String STUDENT2_NAME = "test2";
-	private static final String STUDENT2_ID = "2";
-
-	private static final String COURSE1_NAME = "APT";
-	private static final String COURSE1_ID = "123";
-
-	private static final String STUDENT1_NAME = "test1";
-	private static final String STUDENT1_ID = "1";
-
+	private static final String COURSE_NAME_1 = "APT";
+	private static final String COURSE_ID_1 = "123";
+	private static final String COURSE_NAME_2 = "BDA";
+	private static final String COURSE_ID_2 = "456";
+	private static final String COURSE_NAME_3 = "ML";
+	private static final String COURSE_ID_3 = "789";
+	private static final String COURSE_NAME_4 = "HCI";
+	private static final String COURSE_ID_4 = "101";
+	
+	private static final String STUDENT_NAME_1 = "test1";
+	private static final String STUDENT_ID_1 = "1";
+	private static final String STUDENT_NAME_2 = "test2";
+	private static final String STUDENT_ID_2 = "2";
+	private static final String STUDENT_NAME_3 = "test3";
+	private static final String STUDENT_ID_3 = "3";
+	private static final String STUDENT_NAME_4 = "test4";
+	private static final String STUDENT_ID_4 = "4";
 	@Mock
 	private MyCareerController myCareerController;
 
@@ -107,8 +100,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testWhenStudentIdAndStudentNameAreNonEmptyThenAddStudentButtonShouldBeEnabled() {
 		// Setup
-		window.textBox("studentIDTextField").enterText(STUDENT1_ID);
-		window.textBox("studentNameTextField").enterText(STUDENT1_NAME);
+		window.textBox("studentIDTextField").enterText(STUDENT_ID_1);
+		window.textBox("studentNameTextField").enterText(STUDENT_NAME_1);
 		// Verify
 		window.button("addStudentButton").requireEnabled();
 	}
@@ -119,7 +112,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		JTextComponentFixture studentIdTextField = window.textBox("studentIDTextField");
 		JTextComponentFixture studentNameTextField = window.textBox("studentNameTextField");
 
-		studentIdTextField.enterText(STUDENT1_ID);
+		studentIdTextField.enterText(STUDENT_ID_1);
 		studentNameTextField.enterText(" ");
 		window.button("addStudentButton").requireDisabled();
 
@@ -128,7 +121,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button("addStudentButton").requireDisabled();
 
 		studentIdTextField.enterText(" ");
-		studentNameTextField.enterText(STUDENT1_NAME);
+		studentNameTextField.enterText(STUDENT_NAME_1);
 		window.button("addStudentButton").requireDisabled();
 
 	}
@@ -139,7 +132,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testDeleteStudentButtonShouldBeEnabledOnlyWhenAStudentIsSelected() {
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 		window.list("studentsList").selectItem(0);
 		window.button("deleteStudentButton").requireEnabled();
 
@@ -156,11 +149,11 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		JTextComponentFixture courseNameTextField = window.textBox("courseNameTextField");
 		JTextComponentFixture courseCFUsTextField = window.textBox("courseCFUsTextField");
 
-		courseIDTextField.enterText(COURSE1_ID);
-		courseNameTextField.enterText(COURSE1_NAME);
+		courseIDTextField.enterText(COURSE_ID_1);
+		courseNameTextField.enterText(COURSE_NAME_1);
 		courseCFUsTextField.enterText("6");
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 		window.list("studentsList").selectItem(0);
 
 		window.button("addCourseButton").requireEnabled();
@@ -177,10 +170,10 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		JTextComponentFixture courseCFUsTextField = window.textBox("courseCFUsTextField");
 
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 
-		courseIDTextField.enterText(COURSE1_ID);
-		courseNameTextField.enterText(COURSE1_NAME);
+		courseIDTextField.enterText(COURSE_ID_1);
+		courseNameTextField.enterText(COURSE_NAME_1);
 		courseCFUsTextField.enterText(" ");
 		window.list("studentsList").selectItem(0);
 
@@ -195,10 +188,10 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		JTextComponentFixture courseCFUsTextField = window.textBox("courseCFUsTextField");
 
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 
-		courseIDTextField.enterText(COURSE1_ID);
-		courseNameTextField.enterText(COURSE1_NAME);
+		courseIDTextField.enterText(COURSE_ID_1);
+		courseNameTextField.enterText(COURSE_NAME_1);
 		courseCFUsTextField.enterText("Error");
 		window.list("studentsList").selectItem(0);
 
@@ -213,10 +206,10 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		JTextComponentFixture courseCFUsTextField = window.textBox("courseCFUsTextField");
 
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 
 		courseIDTextField.enterText(" ");
-		courseNameTextField.enterText(COURSE1_NAME);
+		courseNameTextField.enterText(COURSE_NAME_1);
 		courseCFUsTextField.enterText("6");
 		window.list("studentsList").selectItem(0);
 
@@ -231,9 +224,9 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 		JTextComponentFixture courseCFUsTextField = window.textBox("courseCFUsTextField");
 
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 
-		courseIDTextField.enterText(COURSE1_ID);
+		courseIDTextField.enterText(COURSE_ID_1);
 		courseNameTextField.enterText(" ");
 		courseCFUsTextField.enterText("6");
 		window.list("studentsList").selectItem(0);
@@ -245,7 +238,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testWhenOnlyTheStudentIsSelectedThenAddCourseButtonShouldBeDisabled() {
 		GuiActionRunner.execute(
-				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME)));
+				() -> myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1)));
 
 		window.button("addCourseButton").requireDisabled();
 	}
@@ -255,8 +248,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testDeleteButtonShouldBeEnabledOnlyWhenAStudentAndACourseAreSelected() {
 		GuiActionRunner.execute(() -> {
-			myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME));
-			myCareerSwingView.getCoursesListModel().addElement(new Course(COURSE1_ID, COURSE1_NAME, 6));
+			myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1));
+			myCareerSwingView.getCoursesListModel().addElement(new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		});
 		window.list("studentsList").selectItem(0);
 		window.list("coursesList").selectItem(0);
@@ -270,8 +263,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	@GUITest
 	public void testDeleteButtonShouldBeEnabledOnlyWhenACourseAndAStudentAreSelected() {
 		GuiActionRunner.execute(() -> {
-			myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT1_ID, STUDENT1_NAME));
-			myCareerSwingView.getCoursesListModel().addElement(new Course(COURSE1_ID, COURSE1_NAME, 6));
+			myCareerSwingView.getStudentsListModel().addElement(new Student(STUDENT_ID_1, STUDENT_NAME_1));
+			myCareerSwingView.getCoursesListModel().addElement(new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 		});
 		window.list("coursesList").selectItem(0);
 		window.list("studentsList").selectItem(0);
@@ -286,7 +279,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// showStudentError test
 	@Test
 	public void testShowStudentErrorShouldShowTheMessageInTheStudentInfoErrorLabel() {
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		GuiActionRunner.execute(() -> myCareerSwingView.showStudentError("error message", student));
 		window.label("studentInfoErrorMessageLabel").requireText("error message: " + student);
 	}
@@ -294,8 +287,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// showAllStudent test
 	@Test
 	public void testShowAllStudentWithEmptyInitialListShouldAddStudentDescriptionsToTheList() {
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		GuiActionRunner.execute(() -> myCareerSwingView.showAllStudents(asList(student1, student2)));
 
 		String[] studentsListContents = window.list("studentsList").contents();
@@ -304,10 +297,10 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Test
 	public void testShowAllStudentWithNonEmptyListShouldRefreshTheList() {
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
-		Student student3 = new Student(STUDENT3_ID, STUDENT3_NAME);
-		Student student4 = new Student(STUDENT4_ID, STUDENT4_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
+		Student student3 = new Student(STUDENT_ID_3, STUDENT_NAME_3);
+		Student student4 = new Student(STUDENT_ID_4, STUDENT_NAME_4);
 
 		GuiActionRunner.execute(() -> {
 			myCareerSwingView.getStudentsListModel().addElement(student1);
@@ -323,7 +316,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// studentAdded test
 	@Test
 	public void testStudentAddedShouldAddTheStudentToTheListAndUpdateTheInfoErrorLabel() {
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		GuiActionRunner.execute(() -> myCareerSwingView.studentAdded("Student added", student));
 
 		String[] studentsListContents = window.list("studentsList").contents();
@@ -334,8 +327,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// studentRemoved test
 	@Test
 	public void testStudentRemovedShouldRemoveTheStudentFromTheListAndUpdateTheInfoErrorLabel() {
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		GuiActionRunner.execute(() -> {
 			DefaultListModel<Student> studentsListModel = myCareerSwingView.getStudentsListModel();
 			studentsListModel.addElement(student1);
@@ -352,7 +345,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// showCourseError temessagest
 	@Test
 	public void testShowCourseErrorShouldShowTheMessageInTheCourseInfoErrorLabel() {
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		GuiActionRunner.execute(() -> myCareerSwingView.showCourseError("Error message", course));
 		window.label("courseInfoErrorMessageLabel").requireText("Error message: " + course);
 	}
@@ -360,8 +353,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// showAllCourses test
 	@Test
 	public void testShowAllCoursesWithInitialEmptyListShouldAddCourseDescriptionsToTheList() {
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, "BDA", 9);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, "BDA", 9);
 		GuiActionRunner.execute(() -> myCareerSwingView.showAllCourses(asList(course1, course2)));
 		String[] coursesListContents = window.list("coursesList").contents();
 		assertThat(coursesListContents).containsExactly(course1.toString(), course2.toString());
@@ -369,10 +362,10 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Test
 	public void testShowAllCoursesWithNonEmptyListShouldRefreshTheList() {
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
-		Course course3 = new Course(COURSE3_ID, COURSE3_NAME, 9);
-		Course course4 = new Course(COURSE4_ID, COURSE4_NAME, 6);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
+		Course course3 = new Course(COURSE_ID_3, COURSE_NAME_3, 9);
+		Course course4 = new Course(COURSE_ID_4, COURSE_NAME_4, 6);
 
 		GuiActionRunner.execute(() -> {
 			myCareerSwingView.getCoursesListModel().addElement(course1);
@@ -388,7 +381,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// showCourseAdded test
 	@Test
 	public void testCourseAddedShouldAddTheCourseToTheListAndUpdateTheInfoErrorLabel() {
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
 		GuiActionRunner.execute(() -> myCareerSwingView.courseAdded("Course added", course));
 		String[] coursesListContents = window.list("coursesList").contents();
 		assertThat(coursesListContents).containsExactly(course.toString());
@@ -398,8 +391,8 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// showCourseRemoved test
 	@Test
 	public void testCourseRemovedShouldRemoveTheCourseFromTheListAndUpdateTheInfoErrorLabel() {
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
 		GuiActionRunner.execute(() -> {
 			DefaultListModel<Course> coursesListModel = myCareerSwingView.getCoursesListModel();
 			coursesListModel.addElement(course1);
@@ -416,18 +409,18 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// Test Add Student
 	@Test
 	public void testAddStudentButtonShouldDelegateToControllerNewStudent() {
-		window.textBox("studentIDTextField").enterText(STUDENT1_ID);
-		window.textBox("studentNameTextField").enterText(STUDENT1_NAME);
+		window.textBox("studentIDTextField").enterText(STUDENT_ID_1);
+		window.textBox("studentNameTextField").enterText(STUDENT_NAME_1);
 		window.button("addStudentButton").click();
 
-		verify(myCareerController).addStudent(new Student(STUDENT1_ID, STUDENT1_NAME));
+		verify(myCareerController).addStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1));
 	}
 
 	// Test Delete Student
 	@Test
 	public void testDeleteStudentButtonShouldDelegateToControllerDeleteStudent() {
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		GuiActionRunner.execute(() -> {
 			DefaultListModel<Student> studentsListModel = myCareerSwingView.getStudentsListModel();
 			studentsListModel.addElement(student1);
@@ -443,30 +436,30 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// Test Add Course
 	@Test
 	public void testAddCourseButtonShouldDelegateToControllerAddCourse() {
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
 		GuiActionRunner.execute(() -> {
 			DefaultListModel<Student> studentsListModel = myCareerSwingView.getStudentsListModel();
 			studentsListModel.addElement(student1);
 			studentsListModel.addElement(student2);
 		});
 		window.list("studentsList").selectItem(1);
-		window.textBox("courseIDTextField").enterText(COURSE1_ID);
-		window.textBox("courseNameTextField").enterText(COURSE1_NAME);
+		window.textBox("courseIDTextField").enterText(COURSE_ID_1);
+		window.textBox("courseNameTextField").enterText(COURSE_NAME_1);
 		window.textBox("courseCFUsTextField").enterText("6");
 
 		window.button("addCourseButton").click();
 
-		verify(myCareerController).addCourse(student2, new Course(COURSE1_ID, COURSE1_NAME, 6));
+		verify(myCareerController).addCourse(student2, new Course(COURSE_ID_1, COURSE_NAME_1, 6));
 	}
 
 	// Test DeleteCourse
 	@Test
 	public void testDeleteCourseButtonShouldDelegateToControllerDeleteCourse() {
-		Student student1 = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student student2 = new Student(STUDENT2_ID, STUDENT2_NAME);
-		Course course1 = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		Course course2 = new Course(COURSE2_ID, COURSE2_NAME, 9);
+		Student student1 = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student student2 = new Student(STUDENT_ID_2, STUDENT_NAME_2);
+		Course course1 = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		Course course2 = new Course(COURSE_ID_2, COURSE_NAME_2, 9);
 		GuiActionRunner.execute(() -> {
 			DefaultListModel<Student> studentsListModel = myCareerSwingView.getStudentsListModel();
 			DefaultListModel<Course> coursesListModel = myCareerSwingView.getCoursesListModel();
@@ -488,7 +481,7 @@ public class MyCareerSwingViewTest extends AssertJSwingJUnitTestCase {
 	// Test click on a student
 	@Test
 	public void testSelectAStudentInListShouldDelegateToControllerGetCoursesByStudent() {
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
 		GuiActionRunner.execute(() -> myCareerSwingView.getStudentsListModel().addElement(student));
 
 		window.list("studentsList").selectItem(0);

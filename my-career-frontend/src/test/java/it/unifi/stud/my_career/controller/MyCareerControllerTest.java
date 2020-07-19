@@ -19,11 +19,11 @@ import it.unifi.stud.my_career.view.MyCareerView;
 
 public class MyCareerControllerTest {
 
-	private static final String COURSE1_NAME = "APT";
-	private static final String COURSE1_ID = "123";
+	private static final String COURSE_NAME_1 = "APT";
+	private static final String COURSE_ID_1 = "123";
 
-	private static final String STUDENT1_NAME = "test";
-	private static final String STUDENT1_ID = "1";
+	private static final String STUDENT_NAME_1 = "test";
+	private static final String STUDENT_ID_1 = "1";
 
 	// Mocking Dependencies
 	@Mock
@@ -47,7 +47,7 @@ public class MyCareerControllerTest {
 	@Test
 	public void testGetAllStudents() {
 		// Setup
-		List<Student> students = asList(new Student(STUDENT1_ID, STUDENT1_NAME));
+		List<Student> students = asList(new Student(STUDENT_ID_1, STUDENT_NAME_1));
 		when(myCareerService.getAllStudents()).thenReturn(students);
 		// Exercise
 		myCareerController.getAllStudents();
@@ -60,8 +60,8 @@ public class MyCareerControllerTest {
 	@Test
 	public void testAddStudentWhenStudentDoesNotExistShouldAddAndNotify() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(null);
 		// Exercise
 		myCareerController.addStudent(student);
 		// Verify
@@ -73,9 +73,9 @@ public class MyCareerControllerTest {
 	@Test
 	public void testAddStudentWhenStudentDoesExistShouldShowError() {
 		// Setup
-		Student studentToAdd = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Student existingStudent = new Student(STUDENT1_ID, "name");
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(existingStudent);
+		Student studentToAdd = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Student existingStudent = new Student(STUDENT_ID_1, "name");
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(existingStudent);
 		// Exercise
 		myCareerController.addStudent(studentToAdd);
 		// Verify
@@ -88,8 +88,8 @@ public class MyCareerControllerTest {
 	@Test
 	public void testDeleteStudentWhenStudentDoesExistShouldDeleteAndShowInfo() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(student);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(student);
 		// Exercise
 		myCareerController.deleteStudent(student);
 		// Verify
@@ -101,8 +101,8 @@ public class MyCareerControllerTest {
 	@Test
 	public void testDeletStudentWhenStudentDoesNotExistShouldShowError() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(null);
 		// Exercise
 		myCareerController.deleteStudent(student);
 		// Verify
@@ -114,10 +114,10 @@ public class MyCareerControllerTest {
 	@Test
 	public void testGetCoursesByStudentWhenStudentDoesExistShouldGetCourses() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		List<Course> courses = asList(new Course(COURSE1_ID, COURSE1_NAME, 6));
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(student);
-		when(myCareerService.getCoursesByStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(courses);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		List<Course> courses = asList(new Course(COURSE_ID_1, COURSE_NAME_1, 6));
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(student);
+		when(myCareerService.getCoursesByStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(courses);
 		// Exercise
 		myCareerController.getCoursesByStudent(student);
 		// Verify
@@ -127,8 +127,8 @@ public class MyCareerControllerTest {
 	@Test
 	public void testGetCoursesByStudentWhenStudentDoesNotExistShouldShowError() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(null);
 		// Exercise
 		myCareerController.getCoursesByStudent(student);
 		// Verify
@@ -142,11 +142,11 @@ public class MyCareerControllerTest {
 	@Test
 	public void testAddCourseWhenCourseDoesNotExistAndStudentExistsShouldAddCourseAndShowInfo() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(student);
-		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(student);
+		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(null);
 		// Exercise
 		myCareerController.addCourse(student, course);
 		// Verify
@@ -158,11 +158,11 @@ public class MyCareerControllerTest {
 	@Test
 	public void testAddCourseWhenCourseExistsAndStudentExistsShouldShowError() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(student);
-		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(course);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(student);
+		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(course);
 		// Exercise
 		myCareerController.addCourse(student, course);
 		// Verify
@@ -173,9 +173,9 @@ public class MyCareerControllerTest {
 	@Test
 	public void testAddCourseWhenStudentDoesNotExistShouldShowError() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(null);
 		// Exercise
 		myCareerController.addCourse(student, course);
 		// Verify
@@ -188,11 +188,11 @@ public class MyCareerControllerTest {
 	@Test
 	public void testRemoveCourseWhenStudentExistsAndCourseExistsShouldRemoveAndShowInfo() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(student);
-		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(course);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(student);
+		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(course);
 		// Exercise
 		myCareerController.removeCourse(student, course);
 		// Verify
@@ -204,11 +204,11 @@ public class MyCareerControllerTest {
 	@Test
 	public void testRemoveCourseWhenStudentExitsAndCourseDoesNotExitsShouldShowError() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, STUDENT1_NAME);
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, STUDENT1_NAME))).thenReturn(student);
-		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT1_ID, STUDENT1_NAME),
-				new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, STUDENT_NAME_1);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1))).thenReturn(student);
+		when(myCareerService.findSingleCourseByStudent(new Student(STUDENT_ID_1, STUDENT_NAME_1),
+				new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(null);
 		// Exercise
 		myCareerController.removeCourse(student, course);
 		// Verify
@@ -219,9 +219,9 @@ public class MyCareerControllerTest {
 	@Test
 	public void testRemoveCourseWhenStudentDoesNotExistShouldShowError() {
 		// Setup
-		Student student = new Student(STUDENT1_ID, "test1");
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findStudent(new Student(STUDENT1_ID, "test1"))).thenReturn(null);
+		Student student = new Student(STUDENT_ID_1, "test1");
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findStudent(new Student(STUDENT_ID_1, "test1"))).thenReturn(null);
 		// Exercise
 		myCareerController.removeCourse(student, course);
 		// Verify
@@ -233,10 +233,10 @@ public class MyCareerControllerTest {
 	@Test
 	public void testGetStudentsByCourseWhenCourseDoesExistShoulGetStudents() {
 		// Setup
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		List<Student> students = asList(new Student(STUDENT1_ID, STUDENT1_NAME));
-		when(myCareerService.findCourse(new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(course);
-		when(myCareerService.getStudentsByCourse(new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(students);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		List<Student> students = asList(new Student(STUDENT_ID_1, STUDENT_NAME_1));
+		when(myCareerService.findCourse(new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(course);
+		when(myCareerService.getStudentsByCourse(new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(students);
 		// Exercise
 		myCareerController.getStudentsByCourse(course);
 		// Verify
@@ -246,8 +246,8 @@ public class MyCareerControllerTest {
 	@Test
 	public void testGetStudentsByCourseWhenCourseDoesNotExistShouldGetError() {
 		// Setup
-		Course course = new Course(COURSE1_ID, COURSE1_NAME, 6);
-		when(myCareerService.findCourse(new Course(COURSE1_ID, COURSE1_NAME, 6))).thenReturn(null);
+		Course course = new Course(COURSE_ID_1, COURSE_NAME_1, 6);
+		when(myCareerService.findCourse(new Course(COURSE_ID_1, COURSE_NAME_1, 6))).thenReturn(null);
 		// Exercise
 		myCareerController.getStudentsByCourse(course);
 		// Verify

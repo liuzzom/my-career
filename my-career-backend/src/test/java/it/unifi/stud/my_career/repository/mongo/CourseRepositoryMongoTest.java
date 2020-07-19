@@ -102,25 +102,30 @@ public class CourseRepositoryMongoTest {
 		return null;
 	}
 
+	// findAll
+	
 	@Test
 	public void testFindAll() {
+		//Setup
 		addTestCourseToRepository(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1);
+		//Exercise & Verify
 		assertThat(courseRepository.findById(COURSE_ID_1))
 				.isEqualTo(new Course(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1));
 	}
 
-	// findAll
-
 	@Test
 	public void testFindAllWhenDBFull() {
+		//Setup
 		addTestCourseToRepository(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1);
 		addTestCourseToRepository(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2);
+		//Exercise & Verify
 		assertThat(courseRepository.findAll()).containsExactly(new Course(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1),
 				new Course(COURSE_ID_2, COURSE_NAME_2, COURSE_CFU_2));
 	}
 
 	@Test
 	public void testFindAllWhenDBEmpty() {
+		//Exercise & Verify
 		assertThat(courseRepository.findAll()).isEmpty();
 	}
 
@@ -128,13 +133,16 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testFindByIdWhenInDBIsPresent() {
+		//Setup
 		addTestCourseToRepository(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1);
+		//Exercise & Verify
 		assertThat(courseRepository.findById(COURSE_ID_1))
 				.isEqualTo(new Course(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1));
 	}
 
 	@Test
 	public void testFindByIdWhenInDBIsNotPresent() {
+		//Exercise & Verify
 		assertThat(courseRepository.findById(COURSE_ID_1)).isNull();
 	}
 
@@ -142,7 +150,9 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testSave() {
+		//Exercise
 		courseRepository.save(new Course(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1));
+		//Verify
 		assertThat(retrieveAllCourses()).containsExactly(new Course(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1));
 	}
 
@@ -150,8 +160,11 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testDelete() {
+		//Setup
 		addTestCourseToRepository(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1);
+		//Exercise
 		courseRepository.delete(COURSE_ID_1);
+		//Verify
 		assertThat(retrieveAllCourses()).isEmpty();
 	}
 
@@ -159,16 +172,19 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testGetParticipantsStudentsIdByCourseId() {
+		//Setup
 		List<String> participants = new ArrayList<String>();
 		participants.add(STUDENT_ID_1);
 		participants.add(STUDENT_ID_2);
 		addTestCourseToRepositoryWithParticipants(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1, participants);
+		//Exercise & Verify
 		assertThat(courseRepository.getParticipantsStudentsIdByCourseId(COURSE_ID_1)).containsExactly(STUDENT_ID_1,
 				STUDENT_ID_2);
 	}
 
 	@Test
 	public void testNotGettingParticipantsStudentsIdByCourseId() {
+		//Exercise & Verify
 		assertThat(courseRepository.getParticipantsStudentsIdByCourseId(COURSE_ID_1)).isEmpty();
 	}
 
@@ -176,10 +192,13 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testDeleteCourseParticipant() {
+		//Setup
 		List<String> participants = new ArrayList<String>();
 		participants.add(STUDENT_ID_1);
 		addTestCourseToRepositoryWithParticipants(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1, participants);
+		//Exercise
 		courseRepository.deleteCourseParticipant(COURSE_ID_1, new Student(STUDENT_ID_1, STUDENT_NAME_1));
+		//Verify
 		assertThat(getCourseParticipants(COURSE_ID_1)).isEmpty();
 	}
 
@@ -187,10 +206,13 @@ public class CourseRepositoryMongoTest {
 
 	@Test
 	public void testAddCourseParticipant() {
+		//Setup
 		List<String> participants = new ArrayList<String>();
 		participants.add(STUDENT_ID_1);
 		addTestCourseToRepositoryWithParticipants(COURSE_ID_1, COURSE_NAME_1, COURSE_CFU_1, participants);
+		//Exercise
 		courseRepository.addCourseParticipant(COURSE_ID_1, new Student(STUDENT_ID_2, STUDENT_NAME_2));
+		//Verify
 		assertThat(getCourseParticipants(COURSE_ID_1)).containsExactly(STUDENT_ID_1, STUDENT_ID_2);
 	}
 
