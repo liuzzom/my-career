@@ -27,7 +27,7 @@ The whole application is created following TDD principles and using Maven as bui
 
 This application supports either a GUI (created using Swing) and a CLI. User can choose the UI to use at boot.
 
-You can find a development report [here](https://docs.google.com/document/d/1JtvU8L2xXLt3hWXY-ZBq_veaoEJjIQotWnJSn3FnMT4/edit?usp=sharing) (The report is written in Italian)
+You can find a development report [here](https://github.com/liuzzom/my-career/blob/master/readme-resources/Relazione%20Elaborato%20APT.pdf) (The report is written in Italian)
 
  ### UIs Screenshots
 
@@ -52,6 +52,8 @@ You can find a ready to go jar file [here](https://github.com/liuzzom/my-career/
 1. Install Maven `sudo apt install maven`
 2. Install Docker `sudo apt install docker.io`
 3. Install Java `sudo apt install openjdk-8-jdk`
+
+#### Jar file creation
 
 If you want to build by yourself the application, you have to do the following steps:
 
