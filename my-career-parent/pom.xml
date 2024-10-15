@@ -20,7 +20,7 @@
 
 		<mockito.version>3.2.4</mockito.version>
 
-		<mongo.driver.version>3.12.1</mongo.driver.version>
+		<mongo.driver.version>3.12.8</mongo.driver.version>
 		<mongo.java.server.version>1.24.0</mongo.java.server.version>
 
 		<testcontainers.version>1.12.5</testcontainers.version>
