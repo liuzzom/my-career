@@ -15,7 +15,7 @@
 
 		<junit.version>4.12</junit.version>
 
-		<assertj.version>3.11.1</assertj.version>
+		<assertj.version>3.27.7</assertj.version>
 		<assertjswing.version>3.9.2</assertjswing.version>
 
 		<mockito.version>3.2.4</mockito.version>
